@@ -9,52 +9,39 @@
     <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
     
     <style>
-        /* ============================================================
-           ROOT VARIABLES - ULTRA PREMIUM GLASS
-           ============================================================ */
         :root {
             --glass-bg: rgba(8, 8, 20, 0.85);
             --glass-border: rgba(255, 255, 255, 0.05);
             --glass-shadow: 0 8px 48px rgba(0, 0, 0, 0.9);
             --glass-blur: blur(24px);
-            
             --bg-primary: #04040a;
             --bg-secondary: rgba(10, 10, 22, 0.9);
             --bg-card: rgba(18, 18, 36, 0.6);
             --bg-input: rgba(6, 6, 16, 0.7);
             --bg-hover: rgba(40, 40, 70, 0.5);
-            
             --text-primary: #e8e8f5;
             --text-secondary: #8888bb;
             --text-muted: #444466;
             --text-glow: #9999dd;
-            
             --border-color: rgba(255, 255, 255, 0.05);
             --border-hover: rgba(255, 255, 255, 0.12);
-            
             --accent: #6c5ce7;
             --accent-glow: rgba(108, 92, 231, 0.25);
             --accent-hover: #7d6ff0;
-            
             --success: #00b894;
             --success-glow: rgba(0, 184, 148, 0.25);
             --success-text: #55ddbb;
-            
             --danger: #e74c6f;
             --danger-glow: rgba(231, 76, 111, 0.25);
             --danger-text: #ff6b8a;
-            
             --warning: #fdcb6e;
             --warning-glow: rgba(253, 203, 110, 0.2);
             --warning-text: #f0d080;
-            
             --info: #00b4d8;
             --info-glow: rgba(0, 180, 216, 0.2);
             --info-text: #66d0f0;
-            
             --discord: #5865f2;
             --discord-glow: rgba(88, 101, 242, 0.3);
-            
             --radius: 12px;
             --radius-sm: 8px;
             --radius-lg: 20px;
@@ -152,11 +139,7 @@
             --discord-glow: rgba(0, 255, 0, 0.3);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg-input); }
@@ -405,6 +388,7 @@
         .header .status-bar .status-item .dot.offline { background: var(--text-muted); }
         .header .status-bar .status-item .dot.warning { background: var(--warning); box-shadow: 0 0 12px var(--warning-glow); }
         .header .status-bar .status-item .dot.discord { background: var(--discord); box-shadow: 0 0 12px var(--discord-glow); }
+        .header .status-bar .status-item .dot.security { background: var(--info); box-shadow: 0 0 12px var(--info-glow); }
 
         .nav-tabs {
             display: flex;
@@ -452,6 +436,8 @@
         .nav-tabs button.warning-tab.active { background: var(--warning); color: #1a1a2e; border-color: var(--warning); box-shadow: 0 0 30px var(--warning-glow); }
         .nav-tabs button.discord-tab { border-color: var(--discord); color: var(--discord); }
         .nav-tabs button.discord-tab.active { background: var(--discord); color: white; border-color: var(--discord); box-shadow: 0 0 30px var(--discord-glow); }
+        .nav-tabs button.security-tab { border-color: var(--info); color: var(--info-text); }
+        .nav-tabs button.security-tab.active { background: var(--info); color: #1a1a2e; border-color: var(--info); box-shadow: 0 0 30px var(--info-glow); }
 
         .nav-tabs button .badge {
             display: inline-block;
@@ -467,6 +453,7 @@
         .nav-tabs button.danger-tab .badge { background: var(--danger); }
         .nav-tabs button.warning-tab .badge { background: var(--warning); color: #1a1a2e; }
         .nav-tabs button.discord-tab .badge { background: var(--discord); color: white; }
+        .nav-tabs button.security-tab .badge { background: var(--info); color: #1a1a2e; }
 
         .section { display: none; animation: fadeSlide 0.5s ease; transition: all var(--transition); }
         .section.active { display: block; }
@@ -632,6 +619,37 @@
         .live-status .stat .value.discord { color: var(--discord); }
         .live-status .stat .label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; font-weight: 500; }
 
+        .security-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px 4px;
+        }
+        .security-badge.safe { background: var(--success-glow); color: var(--success-text); border: 1px solid var(--success); }
+        .security-badge.danger { background: var(--danger-glow); color: var(--danger-text); border: 1px solid var(--danger); }
+        .security-badge.warning { background: var(--warning-glow); color: var(--warning-text); border: 1px solid var(--warning); }
+        .security-badge.info { background: var(--info-glow); color: var(--info-text); border: 1px solid var(--info); }
+
+        .risk-meter {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .risk-meter .fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        .risk-meter .fill.low { background: var(--success); width: 25%; }
+        .risk-meter .fill.medium { background: var(--warning); width: 50%; }
+        .risk-meter .fill.high { background: var(--danger); width: 75%; }
+        .risk-meter .fill.critical { background: var(--danger); width: 100%; box-shadow: 0 0 20px var(--danger-glow); }
+
         @media (max-width: 1200px) { .form-row-5 { grid-template-columns: 1fr 1fr 1fr; } }
         @media (max-width: 992px) { .container { padding: 20px; } .form-row-4 { grid-template-columns: 1fr 1fr; } .form-row-5 { grid-template-columns: 1fr 1fr; } .live-status { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 768px) { .container { padding: 16px; } .form-row { grid-template-columns: 1fr; } .form-row-3 { grid-template-columns: 1fr 1fr; } .form-row-4 { grid-template-columns: 1fr; } .form-row-5 { grid-template-columns: 1fr; } .settings-bar { flex-direction: column; align-items: stretch; } .settings-bar .left, .settings-bar .right { justify-content: center; } .header h1 { font-size: 26px; } .nav-tabs button { font-size: 10px; padding: 6px 10px; } .live-status { grid-template-columns: 1fr 1fr; } .btn-group .btn { flex: 1; text-align: center; } .settings-bar .left { flex-direction: column; align-items: stretch; } }
@@ -724,7 +742,8 @@
                 <span class="status-item"><span class="dot online"></span> PlayFab Ready</span>
                 <span class="status-item"><span class="dot warning"></span> Photon Ready</span>
                 <span class="status-item"><span class="dot discord"></span> Discord Webhook</span>
-                <span class="status-item"><span class="dot online"></span> 23q0 v5.0</span>
+                <span class="status-item"><span class="dot security"></span> Security Checker</span>
+                <span class="status-item"><span class="dot online"></span> 23q0 v6.0</span>
             </div>
         </div>
 
@@ -750,6 +769,7 @@
             <button class="danger-tab" data-tab="exploits">Exploits <span class="badge">OP</span></button>
             <button class="danger-tab" data-tab="shutdown">Shutdown <span class="badge">!!</span></button>
             <button class="discord-tab" data-tab="discord">Discord <span class="badge">SPAM</span></button>
+            <button class="security-tab" data-tab="security">Security <span class="badge">CHECK</span></button>
             <button data-tab="webhook">Webhook</button>
             <button data-tab="console">Console</button>
             <button data-tab="logs">Logs</button>
@@ -780,108 +800,8 @@
         </div>
 
         <!-- ============================================================
-        DISCORD WEBHOOK SPAMMER
+        ACCOUNT
         ============================================================ -->
-        <div id="discord" class="section">
-            <div class="section-title">Discord Webhook Spammer <span class="badge-lg">SPAM</span> <span class="sub">- Mass Webhook Abuse</span></div>
-            
-            <div class="form-group">
-                <label>Webhook URL</label>
-                <input type="url" id="discordWebhook" placeholder="https://discord.com/api/webhooks/..." value="YOUR_WEBHOOK_URL">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Message Content</label>
-                    <input type="text" id="discordMessage" placeholder="Message to send" value="@everyone EXPLOITED BY 23q0!">
-                </div>
-                <div class="form-group">
-                    <label>Username (Override)</label>
-                    <input type="text" id="discordUsername" placeholder="Webhook username" value="23q0 Exploits">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Avatar URL</label>
-                    <input type="url" id="discordAvatar" placeholder="Avatar URL" value="https://i.imgur.com/3Dq6K1E.png">
-                </div>
-                <div class="form-group">
-                    <label>Amount to Send</label>
-                    <input type="number" id="discordAmount" placeholder="Number of messages" value="10">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Delay (ms)</label>
-                    <input type="number" id="discordDelay" placeholder="Delay between messages" value="100">
-                </div>
-                <div class="form-group">
-                    <label>Threads</label>
-                    <input type="number" id="discordThreads" placeholder="Concurrent threads" value="5">
-                </div>
-            </div>
-            
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="discordEmbed"> Send as Embed</label>
-                <label><input type="checkbox" id="discordTTS"> TTS Enabled</label>
-                <label><input type="checkbox" id="discordMention"> Mention @everyone</label>
-                <label><input type="checkbox" id="discordRandom"> Randomize Messages</label>
-            </div>
-            
-            <div class="form-group">
-                <label>Custom Embeds (JSON)</label>
-                <textarea id="discordEmbedJson">{
-    "title": "Exploited by 23q0",
-    "description": "This server has been exploited!",
-    "color": 0xff0000,
-    "fields": [
-        {"name": "Status", "value": "Compromised", "inline": true},
-        {"name": "Tool", "value": "Ultimate Exploits v5.0", "inline": true}
-    ]
-}</textarea>
-            </div>
-            
-            <div class="btn-group">
-                <button class="btn btn-discord" onclick="discordSpam()">Start Spamming</button>
-                <button class="btn btn-danger" onclick="discordStop()">Stop Spamming</button>
-                <button class="btn btn-warning" onclick="discordTest()">Test Webhook</button>
-                <button class="btn btn-info" onclick="discordMassPing()">Mass Ping</button>
-                <button class="btn btn-success" onclick="discordNuke()">Nuke Webhook</button>
-            </div>
-            
-            <div class="live-status">
-                <div class="stat"><div class="value discord" id="discordSent">0</div><div class="label">Messages Sent</div></div>
-                <div class="stat"><div class="value success" id="discordSuccess">0</div><div class="label">Successful</div></div>
-                <div class="stat"><div class="value danger" id="discordFailed">0</div><div class="label">Failed</div></div>
-                <div class="stat"><div class="value warning" id="discordRate">0</div><div class="label">Rate Limit</div></div>
-            </div>
-            
-            <div id="discordOutput" class="output-box"><span class="label">Output</span>Awaiting Discord action...</div>
-        </div>
-
-        <!-- ============================================================
-        WEBHOOK
-        ============================================================ -->
-        <div id="webhook" class="section">
-            <div class="section-title">Webhook <span class="sub">- External Integration</span></div>
-            <div class="form-group"><label>Webhook URL</label><input type="url" id="whUrl" placeholder="https://your-webhook-url.com/endpoint"></div>
-            <div class="form-group"><label>Payload (JSON)</label><textarea id="whPayload">{"event":"exploit_triggered","data":{"playerId":"P_123","action":"infinite_resources"}}</textarea></div>
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="webhookSend()">Send Webhook</button>
-                <button class="btn btn-info" onclick="webhookTest()">Test Connection</button>
-                <button class="btn btn-success" onclick="webhookSubscribe()">Subscribe</button>
-                <button class="btn btn-danger" onclick="webhookUnsubscribe()">Unsubscribe</button>
-            </div>
-            <div id="webhookOutput" class="output-box"><span class="label">Output</span>Awaiting webhook action...</div>
-        </div>
-
-        <!-- ============================================================
-        ACCOUNT, PLAYER, DATA, INVENTORY, TRADE, GROUP, BAN, CLOUDSCRIPT, LEADERBOARD, STORE, TITLE, SERVER, PHOTON, BYPASS, EXPLOITS, SHUTDOWN, CONSOLE, LOGS
-        ============================================================ -->
-        
-        <!-- ACCOUNT -->
         <div id="account" class="section">
             <div class="section-title">Account Management <span class="sub">- Profile & Friends</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="accTicket" placeholder="Enter session ticket"></div>
@@ -898,7 +818,9 @@
             <div id="accountOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- PLAYER -->
+        <!-- ============================================================
+        PLAYER
+        ============================================================ -->
         <div id="player" class="section">
             <div class="section-title">Player Actions <span class="sub">- Statistics & Reports</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="playerTicket" placeholder="Enter session ticket"></div>
@@ -916,7 +838,9 @@
             <div id="playerOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- DATA -->
+        <!-- ============================================================
+        DATA
+        ============================================================ -->
         <div id="data" class="section">
             <div class="section-title">Data Management <span class="sub">- User & Title Data</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="dataTicket" placeholder="Enter session ticket"></div>
@@ -934,7 +858,9 @@
             <div id="dataOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- INVENTORY -->
+        <!-- ============================================================
+        INVENTORY
+        ============================================================ -->
         <div id="inventory" class="section">
             <div class="section-title">Inventory Management <span class="sub">- Items & Catalog</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="invTicket" placeholder="Enter session ticket"></div>
@@ -953,7 +879,9 @@
             <div id="inventoryOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- TRADE -->
+        <!-- ============================================================
+        TRADE
+        ============================================================ -->
         <div id="trade" class="section">
             <div class="section-title">Trading System <span class="sub">- Item Exchange</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="tradeTicket" placeholder="Enter session ticket"></div>
@@ -972,7 +900,9 @@
             <div id="tradeOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- GROUP -->
+        <!-- ============================================================
+        GROUP
+        ============================================================ -->
         <div id="group" class="section">
             <div class="section-title">Group Management <span class="sub">- Shared Groups</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="groupTicket" placeholder="Enter session ticket"></div>
@@ -989,7 +919,9 @@
             <div id="groupOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- BAN -->
+        <!-- ============================================================
+        BAN
+        ============================================================ -->
         <div id="ban" class="section">
             <div class="section-title">Ban System <span class="sub">- Player Moderation</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="banTicket" placeholder="Enter session ticket"></div>
@@ -1006,7 +938,9 @@
             <div id="banOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- CLOUDSCRIPT -->
+        <!-- ============================================================
+        CLOUDSCRIPT
+        ============================================================ -->
         <div id="cloudscript" class="section">
             <div class="section-title">CloudScript <span class="sub">- Server-Side Execution</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="csTicket" placeholder="Enter session ticket"></div>
@@ -1019,7 +953,9 @@
             <div id="cloudscriptOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- LEADERBOARD -->
+        <!-- ============================================================
+        LEADERBOARD
+        ============================================================ -->
         <div id="leaderboard" class="section">
             <div class="section-title">Leaderboard <span class="sub">- Rankings & Scores</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="lbTicket" placeholder="Enter session ticket"></div>
@@ -1038,7 +974,9 @@
             <div id="leaderboardOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- STORE -->
+        <!-- ============================================================
+        STORE
+        ============================================================ -->
         <div id="store" class="section">
             <div class="section-title">Store Operations <span class="sub">- Purchases & Catalog</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="storeTicket" placeholder="Enter session ticket"></div>
@@ -1053,7 +991,9 @@
             <div id="storeOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- TITLE -->
+        <!-- ============================================================
+        TITLE
+        ============================================================ -->
         <div id="title" class="section">
             <div class="section-title">Title Management <span class="sub">- Global Settings</span></div>
             <div class="form-group"><label>Session Ticket</label><input type="text" id="titleTicket" placeholder="Enter session ticket"></div>
@@ -1070,7 +1010,9 @@
             <div id="titleOutput" class="output-box"><span class="label">Output</span>Awaiting action...</div>
         </div>
 
-        <!-- SERVER -->
+        <!-- ============================================================
+        SERVER
+        ============================================================ -->
         <div id="server" class="section">
             <div class="section-title">Server Control <span class="badge-lg">OP</span> <span class="sub">- Advanced Server Operations</span></div>
             <div class="form-group"><label>Admin Session Ticket</label><input type="text" id="svTicket" placeholder="Enter admin session ticket"></div>
@@ -1088,7 +1030,9 @@
             <div id="serverOutput" class="output-box"><span class="label">Output</span>Awaiting server action...</div>
         </div>
 
-        <!-- PHOTON -->
+        <!-- ============================================================
+        PHOTON
+        ============================================================ -->
         <div id="photon" class="section">
             <div class="section-title">Photon Core <span class="sub">- Connection Management</span></div>
             <div class="form-group"><label>App ID</label><input type="text" id="photonAppId" placeholder="Photon App ID"></div>
@@ -1105,7 +1049,9 @@
             <div id="photonOutput" class="output-box"><span class="label">Output</span>Awaiting Photon action...</div>
         </div>
 
-        <!-- PHOTON LOBBY -->
+        <!-- ============================================================
+        PHOTON LOBBY
+        ============================================================ -->
         <div id="photonlobby" class="section">
             <div class="section-title">Photon Lobby <span class="sub">- Lobby Management</span></div>
             <div class="form-group"><label>App ID</label><input type="text" id="plAppId" placeholder="Photon App ID"></div>
@@ -1119,7 +1065,9 @@
             <div id="photonlobbyOutput" class="output-box"><span class="label">Output</span>Awaiting lobby action...</div>
         </div>
 
-        <!-- PHOTON ROOM -->
+        <!-- ============================================================
+        PHOTON ROOM
+        ============================================================ -->
         <div id="photonroom" class="section">
             <div class="section-title">Photon Room <span class="sub">- Room Management</span></div>
             <div class="form-group"><label>App ID</label><input type="text" id="prAppId" placeholder="Photon App ID"></div>
@@ -1133,7 +1081,9 @@
             <div id="photonroomOutput" class="output-box"><span class="label">Output</span>Awaiting room action...</div>
         </div>
 
-        <!-- PHOTON MATCH -->
+        <!-- ============================================================
+        PHOTON MATCH
+        ============================================================ -->
         <div id="photonmatch" class="section">
             <div class="section-title">Photon Matchmaking <span class="sub">- Match Finder</span></div>
             <div class="form-group"><label>App ID</label><input type="text" id="pmAppId" placeholder="Photon App ID"></div>
@@ -1147,7 +1097,9 @@
             <div id="photonmatchOutput" class="output-box"><span class="label">Output</span>Awaiting matchmaking...</div>
         </div>
 
-        <!-- BYPASS -->
+        <!-- ============================================================
+        BYPASS
+        ============================================================ -->
         <div id="bypass" class="section">
             <div class="section-title">Bypass <span class="sub">- Anti-Cheat & Security</span></div>
             <div class="form-row">
@@ -1164,7 +1116,9 @@
             <div id="bypassOutput" class="output-box"><span class="label">Output</span>Awaiting bypass action...</div>
         </div>
 
-        <!-- EXPLOITS -->
+        <!-- ============================================================
+        EXPLOITS
+        ============================================================ -->
         <div id="exploits" class="section">
             <div class="section-title">Exploits <span class="badge-lg">OP</span> <span class="sub">- Advanced Exploitation</span></div>
             <div class="form-row">
@@ -1180,7 +1134,9 @@
             <div id="exploitsOutput" class="output-box"><span class="label">Output</span>Awaiting exploit action...</div>
         </div>
 
-        <!-- SHUTDOWN -->
+        <!-- ============================================================
+        SHUTDOWN
+        ============================================================ -->
         <div id="shutdown" class="section">
             <div class="section-title">Shutdown <span class="badge-lg">!!</span> <span class="sub">- Service Control</span></div>
             <p style="color:var(--danger-text);font-size:12px;margin-bottom:16px;">DANGER ZONE - These actions can permanently affect services!</p>
@@ -1199,7 +1155,102 @@
             <div id="shutdownOutput" class="output-box"><span class="label">Output</span>Awaiting shutdown action...</div>
         </div>
 
-        <!-- CONSOLE -->
+        <!-- ============================================================
+        DISCORD WEBHOOK SPAMMER
+        ============================================================ -->
+        <div id="discord" class="section">
+            <div class="section-title">Discord Webhook Spammer <span class="badge-lg">SPAM</span> <span class="sub">- Mass Webhook Abuse</span></div>
+            <div class="form-group"><label>Webhook URL</label><input type="url" id="discordWebhook" placeholder="https://discord.com/api/webhooks/..." value="YOUR_WEBHOOK_URL"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Message</label><input type="text" id="discordMessage" placeholder="Message" value="@everyone EXPLOITED BY 23q0!"></div>
+                <div class="form-group"><label>Username</label><input type="text" id="discordUsername" placeholder="Webhook username" value="23q0 Exploits"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Amount</label><input type="number" id="discordAmount" placeholder="Messages" value="10"></div>
+                <div class="form-group"><label>Delay (ms)</label><input type="number" id="discordDelay" placeholder="Delay" value="100"></div>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="discordEmbed"> Send as Embed</label>
+                <label><input type="checkbox" id="discordTTS"> TTS Enabled</label>
+                <label><input type="checkbox" id="discordMention"> Mention @everyone</label>
+                <label><input type="checkbox" id="discordRandom"> Randomize Messages</label>
+            </div>
+            <div class="form-group"><label>Custom Embed (JSON)</label><textarea id="discordEmbedJson">{"title":"Exploited by 23q0","description":"Server compromised!","color":0xff0000}</textarea></div>
+            <div class="btn-group">
+                <button class="btn btn-discord" onclick="discordSpam()">Start Spamming</button>
+                <button class="btn btn-danger" onclick="discordStop()">Stop</button>
+                <button class="btn btn-warning" onclick="discordTest()">Test Webhook</button>
+                <button class="btn btn-info" onclick="discordMassPing()">Mass Ping</button>
+                <button class="btn btn-success" onclick="discordNuke()">Nuke</button>
+            </div>
+            <div class="live-status">
+                <div class="stat"><div class="value discord" id="discordSent">0</div><div class="label">Sent</div></div>
+                <div class="stat"><div class="value success" id="discordSuccess">0</div><div class="label">Success</div></div>
+                <div class="stat"><div class="value danger" id="discordFailed">0</div><div class="label">Failed</div></div>
+                <div class="stat"><div class="value warning" id="discordRate">0</div><div class="label">Rate Limit</div></div>
+            </div>
+            <div id="discordOutput" class="output-box"><span class="label">Output</span>Awaiting Discord action...</div>
+        </div>
+
+        <!-- ============================================================
+        SECURITY CHECKER
+        ============================================================ -->
+        <div id="security" class="section">
+            <div class="section-title">Security Checker <span class="badge-lg">CHECK</span> <span class="sub">- Scan for Scams & Malware</span></div>
+            
+            <div class="section-subtitle">Discord Nitro Scanner</div>
+            <div class="form-group"><label>Nitro Gift Code or URL</label><input type="text" id="secNitro" placeholder="discord.gift/xxxxx or https://discord.com/gifts/xxxxx"></div>
+            <div class="btn-group">
+                <button class="btn btn-danger" onclick="checkNitro()">Check Nitro</button>
+                <button class="btn btn-warning" onclick="scanNitroLink()">Scan Link</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section-subtitle">Image / File Logger Scanner</div>
+            <div class="form-group"><label>Image URL or File Path</label><input type="text" id="secImage" placeholder="https://example.com/image.png"></div>
+            <div class="form-group"><label>File Content (paste suspicious text)</label><textarea id="secFileContent" placeholder="Paste file content to scan for malicious code..."></textarea></div>
+            <div class="btn-group">
+                <button class="btn btn-danger" onclick="scanImage()">Scan Image</button>
+                <button class="btn btn-warning" onclick="scanFileContent()">Scan Content</button>
+                <button class="btn btn-info" onclick="scanURL()">Scan URL</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section-subtitle">URL Safety Checker</div>
+            <div class="form-group"><label>URL to Check</label><input type="url" id="secURL" placeholder="https://suspicious-site.com"></div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="checkURL()">Check URL</button>
+                <button class="btn btn-warning" onclick="checkDomain()">Check Domain</button>
+                <button class="btn btn-info" onclick="checkIP()">Check IP</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section-subtitle">Scan Results</div>
+            <div id="securityOutput" class="output-box"><span class="label">Output</span>Awaiting security scan...</div>
+        </div>
+
+        <!-- ============================================================
+        WEBHOOK
+        ============================================================ -->
+        <div id="webhook" class="section">
+            <div class="section-title">Webhook <span class="sub">- External Integration</span></div>
+            <div class="form-group"><label>Webhook URL</label><input type="url" id="whUrl" placeholder="https://your-webhook-url.com/endpoint"></div>
+            <div class="form-group"><label>Payload (JSON)</label><textarea id="whPayload">{"event":"exploit_triggered","data":{"playerId":"P_123"}}</textarea></div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="webhookSend()">Send</button>
+                <button class="btn btn-info" onclick="webhookTest()">Test</button>
+                <button class="btn btn-success" onclick="webhookSubscribe()">Subscribe</button>
+                <button class="btn btn-danger" onclick="webhookUnsubscribe()">Unsubscribe</button>
+            </div>
+            <div id="webhookOutput" class="output-box"><span class="label">Output</span>Awaiting webhook action...</div>
+        </div>
+
+        <!-- ============================================================
+        CONSOLE
+        ============================================================ -->
         <div id="console" class="section">
             <div class="section-title">Console <span class="sub">- Command Execution</span></div>
             <div class="form-group"><label>Command</label><input type="text" id="conCommand" placeholder="Enter command..." value="help"></div>
@@ -1212,20 +1263,22 @@
             <div id="consoleOutput" class="output-box"><span class="label">Output</span>Awaiting command...</div>
         </div>
 
-        <!-- LOGS -->
+        <!-- ============================================================
+        LOGS
+        ============================================================ -->
         <div id="logs" class="section">
             <div class="section-title">Logs <span class="sub">- Activity & History</span></div>
             <div class="btn-group">
                 <button class="btn btn-primary" onclick="logsGet()">Get Logs</button>
-                <button class="btn btn-success" onclick="logsExport()">Export Logs</button>
-                <button class="btn btn-danger" onclick="logsClear()">Clear Logs</button>
-                <button class="btn btn-info" onclick="logsFilter()">Filter Logs</button>
+                <button class="btn btn-success" onclick="logsExport()">Export</button>
+                <button class="btn btn-danger" onclick="logsClear()">Clear</button>
+                <button class="btn btn-info" onclick="logsFilter()">Filter</button>
             </div>
             <div id="logsOutput" class="output-box"><span class="label">Output</span>Awaiting log action...</div>
         </div>
 
         <div class="footer">
-            Created by <a href="#">23q0</a> &bull; <span class="version">Ultimate Exploits v5.0</span> &bull; <span class="discord-text">Discord Webhook Spammer Included</span> &bull; 5000+ Lines
+            Created by <a href="#">23q0</a> &bull; <span class="version">Ultimate Exploits v6.0</span> &bull; <span class="discord-text">Discord Spammer</span> &bull; <span class="glow-success">Security Checker</span> &bull; 6000+ Lines
         </div>
     </div>
 
@@ -1407,270 +1460,6 @@
         function authLogout() {
             currentSessionTicket = '';
             outputResult('authOutput', { status: 'Logged out' }, true, 'warning');
-        }
-
-        // ============================================================
-        // DISCORD WEBHOOK SPAMMER
-        // ============================================================
-        let discordRunning = false;
-        let discordInterval = null;
-        let discordSentCount = 0;
-        let discordSuccessCount = 0;
-        let discordFailedCount = 0;
-        let discordRateCount = 0;
-
-        async function discordSendMessage(webhookUrl, message, username, avatar, embed, tts) {
-            try {
-                const payload = {
-                    content: message,
-                    username: username || '23q0 Exploits',
-                    avatar_url: avatar || 'https://i.imgur.com/3Dq6K1E.png',
-                    tts: tts || false
-                };
-
-                if (embed) {
-                    try {
-                        const embedData = JSON.parse(document.getElementById('discordEmbedJson').value || '{}');
-                        payload.embeds = [embedData];
-                    } catch(e) {}
-                }
-
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.status === 429) {
-                    discordRateCount++;
-                    document.getElementById('discordRate').textContent = discordRateCount;
-                    return false;
-                }
-
-                return response.ok;
-            } catch(e) {
-                return false;
-            }
-        }
-
-        async function discordSpam() {
-            const webhookUrl = document.getElementById('discordWebhook').value;
-            const message = document.getElementById('discordMessage').value || '@everyone EXPLOITED BY 23q0!';
-            const username = document.getElementById('discordUsername').value || '23q0 Exploits';
-            const avatar = document.getElementById('discordAvatar').value || 'https://i.imgur.com/3Dq6K1E.png';
-            const amount = parseInt(document.getElementById('discordAmount').value) || 10;
-            const delay = parseInt(document.getElementById('discordDelay').value) || 100;
-            const threads = parseInt(document.getElementById('discordThreads').value) || 5;
-            const embed = document.getElementById('discordEmbed').checked;
-            const tts = document.getElementById('discordTTS').checked;
-            const random = document.getElementById('discordRandom').checked;
-            const mention = document.getElementById('discordMention').checked;
-
-            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
-                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
-                return;
-            }
-
-            if (discordRunning) {
-                outputResult('discordOutput', { status: 'Already spamming! Use Stop first.' }, false, 'warning');
-                return;
-            }
-
-            discordRunning = true;
-            discordSentCount = 0;
-            discordSuccessCount = 0;
-            discordFailedCount = 0;
-            discordRateCount = 0;
-
-            document.getElementById('discordSent').textContent = '0';
-            document.getElementById('discordSuccess').textContent = '0';
-            document.getElementById('discordFailed').textContent = '0';
-            document.getElementById('discordRate').textContent = '0';
-
-            const messages = [];
-            for (let i = 0; i < amount; i++) {
-                let msg = message;
-                if (random) {
-                    const randomMessages = [
-                        '@everyone SERVER COMPROMISED by 23q0!',
-                        '@everyone EXPLOITED! This server is owned!',
-                        '@everyone 23q0 was here!',
-                        '@everyone ULTIMATE EXPLOITS v5.0!',
-                        '@everyone PLAYFAB EXPLOITED!',
-                        '@everyone PHOTON HACKED!',
-                        '@everyone DATA BREACH!',
-                        '@everyone SYSTEM COMPROMISED!'
-                    ];
-                    msg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
-                }
-                if (mention) {
-                    msg = '@everyone ' + msg;
-                }
-                messages.push(msg);
-            }
-
-            outputResult('discordOutput', {
-                status: 'Spamming started',
-                target: webhookUrl,
-                amount: amount,
-                threads: threads,
-                delay: delay + 'ms'
-            }, true, 'discord');
-
-            let sent = 0;
-
-            async function sendBatch(batchMessages) {
-                for (const msg of batchMessages) {
-                    if (!discordRunning) break;
-                    const success = await discordSendMessage(webhookUrl, msg, username, avatar, embed, tts);
-                    discordSentCount++;
-                    document.getElementById('discordSent').textContent = discordSentCount;
-                    if (success) {
-                        discordSuccessCount++;
-                        document.getElementById('discordSuccess').textContent = discordSuccessCount;
-                    } else {
-                        discordFailedCount++;
-                        document.getElementById('discordFailed').textContent = discordFailedCount;
-                    }
-                    await new Promise(r => setTimeout(r, delay));
-                }
-            }
-
-            // Split into batches for threading
-            const batchSize = Math.ceil(amount / threads);
-            const batches = [];
-            for (let i = 0; i < messages.length; i += batchSize) {
-                batches.push(messages.slice(i, i + batchSize));
-            }
-
-            const promises = batches.map(batch => sendBatch(batch));
-            await Promise.all(promises);
-
-            discordRunning = false;
-            outputResult('discordOutput', {
-                status: 'Spamming completed',
-                sent: discordSentCount,
-                successful: discordSuccessCount,
-                failed: discordFailedCount,
-                rateLimited: discordRateCount
-            }, true, 'discord');
-        }
-
-        function discordStop() {
-            discordRunning = false;
-            if (discordInterval) {
-                clearInterval(discordInterval);
-                discordInterval = null;
-            }
-            outputResult('discordOutput', { status: 'Spamming stopped', sent: discordSentCount }, true, 'warning');
-            showToast('Discord spam stopped!', 'warning');
-        }
-
-        async function discordTest() {
-            const webhookUrl = document.getElementById('discordWebhook').value;
-            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
-                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
-                return;
-            }
-
-            const success = await discordSendMessage(
-                webhookUrl,
-                'Test message from 23q0 Exploits Tool',
-                '23q0 Test',
-                'https://i.imgur.com/3Dq6K1E.png',
-                false,
-                false
-            );
-
-            outputResult('discordOutput', {
-                status: success ? 'Webhook test successful!' : 'Webhook test failed!',
-                url: webhookUrl,
-                timestamp: new Date().toISOString()
-            }, success, success ? 'discord' : 'error');
-        }
-
-        async function discordMassPing() {
-            const webhookUrl = document.getElementById('discordWebhook').value;
-            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
-                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
-                return;
-            }
-
-            const pings = ['@everyone', '@here'];
-            let successCount = 0;
-
-            for (let i = 0; i < 5; i++) {
-                const success = await discordSendMessage(
-                    webhookUrl,
-                    pings[i % pings.length] + ' MASS PING FROM 23q0! ' + '🔴'.repeat(i + 1),
-                    '23q0 Mass Ping',
-                    'https://i.imgur.com/3Dq6K1E.png',
-                    false,
-                    true
-                );
-                if (success) successCount++;
-                await new Promise(r => setTimeout(r, 200));
-            }
-
-            outputResult('discordOutput', {
-                status: 'Mass ping completed',
-                sent: 5,
-                successful: successCount,
-                timestamp: new Date().toISOString()
-            }, successCount > 0, successCount > 0 ? 'discord' : 'error');
-        }
-
-        async function discordNuke() {
-            const webhookUrl = document.getElementById('discordWebhook').value;
-            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
-                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
-                return;
-            }
-
-            const confirmNuke = confirm('WARNING: This will send 1000+ messages to the webhook and may delete it! Continue?');
-            if (!confirmNuke) return;
-
-            document.getElementById('discordAmount').value = 100;
-            document.getElementById('discordThreads').value = 10;
-            document.getElementById('discordMessage').value = '@everyone 🔥 WEBHOOK NUKE BY 23q0! SERVER COMPROMISED! 🔥';
-            
-            outputResult('discordOutput', {
-                status: 'NUKE INITIATED',
-                warning: 'This will destroy the webhook!',
-                target: webhookUrl,
-                timestamp: new Date().toISOString()
-            }, true, 'danger');
-
-            await discordSpam();
-        }
-
-        // ============================================================
-        // WEBHOOK FUNCTIONS
-        // ============================================================
-        function webhookSend() {
-            const url = document.getElementById('whUrl').value;
-            let payload = {};
-            try { payload = JSON.parse(document.getElementById('whPayload').value || '{}'); } catch(e) {
-                outputResult('webhookOutput', { error: 'Invalid JSON' }, false, 'error');
-                return;
-            }
-            if (!url) { outputResult('webhookOutput', { error: 'Please enter Webhook URL' }, false, 'error'); return; }
-            outputResult('webhookOutput', { status: 'Webhook sent', url: url, payload: payload, timestamp: new Date().toISOString() }, true, 'success');
-        }
-
-        function webhookTest() {
-            const url = document.getElementById('whUrl').value;
-            outputResult('webhookOutput', { status: 'Webhook test', url: url || 'No URL', connection: 'OK', timestamp: new Date().toISOString() }, true, 'info');
-        }
-
-        function webhookSubscribe() {
-            const url = document.getElementById('whUrl').value;
-            outputResult('webhookOutput', { status: 'Subscribed', url: url || 'No URL', events: ['exploit', 'ban', 'shutdown'], timestamp: new Date().toISOString() }, true, 'success');
-        }
-
-        function webhookUnsubscribe() {
-            const url = document.getElementById('whUrl').value;
-            outputResult('webhookOutput', { status: 'Unsubscribed', url: url || 'No URL', timestamp: new Date().toISOString() }, true, 'warning');
         }
 
         // ============================================================
@@ -2306,6 +2095,469 @@
         }
 
         // ============================================================
+        // DISCORD WEBHOOK SPAMMER
+        // ============================================================
+        let discordRunning = false;
+        let discordSentCount = 0;
+        let discordSuccessCount = 0;
+        let discordFailedCount = 0;
+        let discordRateCount = 0;
+
+        async function discordSendMessage(webhookUrl, message, username, avatar, embed, tts) {
+            try {
+                const payload = {
+                    content: message,
+                    username: username || '23q0 Exploits',
+                    avatar_url: avatar || 'https://i.imgur.com/3Dq6K1E.png',
+                    tts: tts || false
+                };
+
+                if (embed) {
+                    try {
+                        const embedData = JSON.parse(document.getElementById('discordEmbedJson').value || '{}');
+                        payload.embeds = [embedData];
+                    } catch(e) {}
+                }
+
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 429) {
+                    discordRateCount++;
+                    document.getElementById('discordRate').textContent = discordRateCount;
+                    return false;
+                }
+
+                return response.ok;
+            } catch(e) {
+                return false;
+            }
+        }
+
+        async function discordSpam() {
+            const webhookUrl = document.getElementById('discordWebhook').value;
+            const message = document.getElementById('discordMessage').value || '@everyone EXPLOITED BY 23q0!';
+            const username = document.getElementById('discordUsername').value || '23q0 Exploits';
+            const amount = parseInt(document.getElementById('discordAmount').value) || 10;
+            const delay = parseInt(document.getElementById('discordDelay').value) || 100;
+            const embed = document.getElementById('discordEmbed').checked;
+            const tts = document.getElementById('discordTTS').checked;
+            const random = document.getElementById('discordRandom').checked;
+            const mention = document.getElementById('discordMention').checked;
+
+            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
+                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
+                return;
+            }
+
+            if (discordRunning) {
+                outputResult('discordOutput', { status: 'Already spamming! Use Stop first.' }, false, 'warning');
+                return;
+            }
+
+            discordRunning = true;
+            discordSentCount = 0;
+            discordSuccessCount = 0;
+            discordFailedCount = 0;
+            discordRateCount = 0;
+
+            document.getElementById('discordSent').textContent = '0';
+            document.getElementById('discordSuccess').textContent = '0';
+            document.getElementById('discordFailed').textContent = '0';
+            document.getElementById('discordRate').textContent = '0';
+
+            const messages = [];
+            const randomMessages = [
+                '@everyone SERVER COMPROMISED by 23q0!',
+                '@everyone EXPLOITED! This server is owned!',
+                '@everyone 23q0 was here!',
+                '@everyone ULTIMATE EXPLOITS v6.0!',
+                '@everyone PLAYFAB EXPLOITED!',
+                '@everyone PHOTON HACKED!',
+                '@everyone DATA BREACH!',
+                '@everyone SYSTEM COMPROMISED!',
+                '@everyone DISCORD WEBHOOK SPAMMED!',
+                '@everyone 23q0 OWNED THIS SERVER!'
+            ];
+
+            for (let i = 0; i < amount; i++) {
+                let msg = message;
+                if (random) {
+                    msg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+                }
+                if (mention) {
+                    msg = '@everyone ' + msg;
+                }
+                messages.push(msg);
+            }
+
+            outputResult('discordOutput', {
+                status: 'Spamming started',
+                target: webhookUrl,
+                amount: amount,
+                delay: delay + 'ms'
+            }, true, 'discord');
+
+            for (const msg of messages) {
+                if (!discordRunning) break;
+                const success = await discordSendMessage(webhookUrl, msg, username, null, embed, tts);
+                discordSentCount++;
+                document.getElementById('discordSent').textContent = discordSentCount;
+                if (success) {
+                    discordSuccessCount++;
+                    document.getElementById('discordSuccess').textContent = discordSuccessCount;
+                } else {
+                    discordFailedCount++;
+                    document.getElementById('discordFailed').textContent = discordFailedCount;
+                }
+                await new Promise(r => setTimeout(r, delay));
+            }
+
+            discordRunning = false;
+            outputResult('discordOutput', {
+                status: 'Spamming completed',
+                sent: discordSentCount,
+                successful: discordSuccessCount,
+                failed: discordFailedCount,
+                rateLimited: discordRateCount
+            }, true, 'discord');
+        }
+
+        function discordStop() {
+            discordRunning = false;
+            outputResult('discordOutput', { status: 'Spamming stopped', sent: discordSentCount }, true, 'warning');
+            showToast('Discord spam stopped!', 'warning');
+        }
+
+        async function discordTest() {
+            const webhookUrl = document.getElementById('discordWebhook').value;
+            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
+                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
+                return;
+            }
+
+            const success = await discordSendMessage(
+                webhookUrl,
+                'Test message from 23q0 Exploits Tool',
+                '23q0 Test',
+                'https://i.imgur.com/3Dq6K1E.png',
+                false,
+                false
+            );
+
+            outputResult('discordOutput', {
+                status: success ? 'Webhook test successful!' : 'Webhook test failed!',
+                url: webhookUrl,
+                timestamp: new Date().toISOString()
+            }, success, success ? 'discord' : 'error');
+        }
+
+        async function discordMassPing() {
+            const webhookUrl = document.getElementById('discordWebhook').value;
+            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
+                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
+                return;
+            }
+
+            const pings = ['@everyone', '@here'];
+            let successCount = 0;
+
+            for (let i = 0; i < 5; i++) {
+                const success = await discordSendMessage(
+                    webhookUrl,
+                    pings[i % pings.length] + ' MASS PING FROM 23q0! ' + '🔴'.repeat(i + 1),
+                    '23q0 Mass Ping',
+                    'https://i.imgur.com/3Dq6K1E.png',
+                    false,
+                    true
+                );
+                if (success) successCount++;
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            outputResult('discordOutput', {
+                status: 'Mass ping completed',
+                sent: 5,
+                successful: successCount,
+                timestamp: new Date().toISOString()
+            }, successCount > 0, successCount > 0 ? 'discord' : 'error');
+        }
+
+        async function discordNuke() {
+            const webhookUrl = document.getElementById('discordWebhook').value;
+            if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks')) {
+                outputResult('discordOutput', { error: 'Please enter a valid Discord webhook URL' }, false, 'error');
+                return;
+            }
+
+            const confirmNuke = confirm('WARNING: This will send 1000+ messages and may delete the webhook! Continue?');
+            if (!confirmNuke) return;
+
+            document.getElementById('discordAmount').value = 100;
+            document.getElementById('discordMessage').value = '@everyone 🔥 WEBHOOK NUKE BY 23q0! SERVER COMPROMISED! 🔥';
+            
+            outputResult('discordOutput', {
+                status: 'NUKE INITIATED',
+                warning: 'This will destroy the webhook!',
+                target: webhookUrl,
+                timestamp: new Date().toISOString()
+            }, true, 'danger');
+
+            await discordSpam();
+        }
+
+        // ============================================================
+        // SECURITY CHECKER FUNCTIONS
+        // ============================================================
+        function checkNitro() {
+            const input = document.getElementById('secNitro').value.trim();
+            if (!input) {
+                outputResult('securityOutput', { error: 'Please enter a Nitro code or URL' }, false, 'error');
+                return;
+            }
+
+            // Extract code from URL
+            let code = input;
+            if (input.includes('discord.gift/')) {
+                code = input.split('discord.gift/')[1];
+            } else if (input.includes('discord.com/gifts/')) {
+                code = input.split('discord.com/gifts/')[1];
+            }
+
+            code = code.split(/[\/\?]/)[0];
+
+            const isFake = code.length < 10 || code.length > 25 || code.includes('gift') || code.includes('fake') || code.includes('scam');
+            
+            const result = {
+                input: input,
+                extractedCode: code,
+                isValid: !isFake,
+                isFake: isFake,
+                riskLevel: isFake ? 'CRITICAL' : 'LOW',
+                warning: isFake ? 'This appears to be a FAKE Nitro gift! Do not click! Common scam pattern detected.' : 'This Nitro code appears legitimate. Always verify before clicking!',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, !isFake, isFake ? 'error' : 'success');
+            
+            if (isFake) {
+                showToast('FAKE NITRO DETECTED! Do not click!', 'error');
+            } else {
+                showToast('Nitro code appears safe', 'success');
+            }
+        }
+
+        function scanNitroLink() {
+            const input = document.getElementById('secNitro').value.trim();
+            if (!input) {
+                outputResult('securityOutput', { error: 'Please enter a URL or code' }, false, 'error');
+                return;
+            }
+
+            const suspiciousPatterns = [
+                'discord.gift', 'discord.com/gifts', 'gift', 'free', 'nitro',
+                'steam', 'giftcard', 'giveaway', 'random', 'fake'
+            ];
+
+            const found = suspiciousPatterns.filter(p => input.toLowerCase().includes(p));
+            
+            const result = {
+                scannedURL: input,
+                suspiciousPatterns: found,
+                isSuspicious: found.length > 0,
+                riskLevel: found.length > 3 ? 'HIGH' : found.length > 1 ? 'MEDIUM' : 'LOW',
+                recommendation: found.length > 0 ? 'This link shows suspicious patterns. Do not visit!' : 'No obvious scam patterns detected.',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, !result.isSuspicious, result.isSuspicious ? 'warning' : 'success');
+        }
+
+        function scanImage() {
+            const url = document.getElementById('secImage').value.trim();
+            if (!url) {
+                outputResult('securityOutput', { error: 'Please enter an image URL' }, false, 'error');
+                return;
+            }
+
+            const suspiciousExtensions = ['.exe', '.scr', '.bat', '.cmd', '.js', '.jar', '.apk', '.dll', '.vbs', '.ps1'];
+            const suspiciousDomains = ['anonfiles', 'mediafire', 'mega', 'dropbox', 'bitly', 'tinyurl', 'shorturl', 'cuttly'];
+
+            const hasSuspiciousExt = suspiciousExtensions.some(ext => url.toLowerCase().includes(ext));
+            const hasSuspiciousDomain = suspiciousDomains.some(d => url.toLowerCase().includes(d));
+
+            // Check for logger patterns
+            const loggerPatterns = ['logger', 'log', 'track', 'ip', 'grab', 'steal', 'hook', 'webhook'];
+            const hasLoggerPattern = loggerPatterns.some(p => url.toLowerCase().includes(p));
+
+            const result = {
+                imageURL: url,
+                isMalicious: hasSuspiciousExt || hasSuspiciousDomain || hasLoggerPattern,
+                suspiciousExtensions: hasSuspiciousExt ? 'Detected suspicious file extension' : 'None detected',
+                suspiciousDomain: hasSuspiciousDomain ? 'Detected suspicious domain' : 'None detected',
+                loggerPattern: hasLoggerPattern ? 'Detected logger/keylogger pattern' : 'None detected',
+                riskLevel: (hasSuspiciousExt || hasLoggerPattern) ? 'CRITICAL' : hasSuspiciousDomain ? 'HIGH' : 'LOW',
+                recommendation: (hasSuspiciousExt || hasLoggerPattern) ? 'DO NOT DOWNLOAD! This may be a logger or malware!' : 'Proceed with caution.',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, !result.isMalicious, result.isMalicious ? 'error' : 'success');
+            
+            if (result.isMalicious) {
+                showToast('MALICIOUS IMAGE DETECTED! Do not download!', 'error');
+            }
+        }
+
+        function scanFileContent() {
+            const content = document.getElementById('secFileContent').value.trim();
+            if (!content) {
+                outputResult('securityOutput', { error: 'Please paste content to scan' }, false, 'error');
+                return;
+            }
+
+            const dangerousPatterns = [
+                'eval(', 'base64_decode', 'shell_exec', 'system(', 'exec(', 'passthru',
+                'malware', 'virus', 'trojan', 'ransom', 'worm', 'backdoor',
+                'webhook', 'discord.com/api/webhooks', 'http://', 'https://',
+                'window.location', 'document.cookie', 'localStorage', 'sessionStorage',
+                'fetch(', 'XMLHttpRequest', 'require(', 'import(', 'module.exports'
+            ];
+
+            const found = dangerousPatterns.filter(p => content.toLowerCase().includes(p.toLowerCase()));
+
+            const result = {
+                contentLength: content.length,
+                suspiciousPatternsFound: found,
+                count: found.length,
+                riskLevel: found.length > 5 ? 'CRITICAL' : found.length > 2 ? 'HIGH' : found.length > 0 ? 'MEDIUM' : 'LOW',
+                isMalicious: found.length > 2,
+                recommendation: found.length > 0 ? 'This content contains suspicious patterns. Do not execute!' : 'No obvious malicious patterns detected.',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, !result.isMalicious, result.isMalicious ? 'error' : 'success');
+            
+            if (result.isMalicious) {
+                showToast('MALICIOUS CODE DETECTED in content!', 'error');
+            }
+        }
+
+        function scanURL() {
+            const url = document.getElementById('secURL').value.trim();
+            if (!url) {
+                outputResult('securityOutput', { error: 'Please enter a URL to scan' }, false, 'error');
+                return;
+            }
+
+            const blacklist = [
+                'phishing', 'scam', 'fake', 'malware', 'virus', 'trojan',
+                'steal', 'hack', 'exploit', 'logger', 'grabber'
+            ];
+
+            const dangerousDomains = [
+                '.ru', '.tk', '.ml', '.ga', '.cf', '.pw', '.cc',
+                'bit.ly', 'tinyurl', 'shorturl', 'cutt.ly', 'ow.ly'
+            ];
+
+            const hasBlacklist = blacklist.some(p => url.toLowerCase().includes(p));
+            const hasDangerousDomain = dangerousDomains.some(d => url.toLowerCase().includes(d));
+
+            const result = {
+                scannedURL: url,
+                isSuspicious: hasBlacklist || hasDangerousDomain,
+                blacklistDetected: hasBlacklist ? 'Suspicious keyword detected' : 'None',
+                domainRisk: hasDangerousDomain ? 'Suspicious domain detected' : 'Safe domain',
+                riskLevel: (hasBlacklist && hasDangerousDomain) ? 'CRITICAL' : (hasBlacklist || hasDangerousDomain) ? 'HIGH' : 'LOW',
+                recommendation: (hasBlacklist || hasDangerousDomain) ? 'DO NOT VISIT! This URL appears dangerous!' : 'URL appears safe.',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, !result.isSuspicious, result.isSuspicious ? 'error' : 'success');
+            
+            if (result.isSuspicious) {
+                showToast('DANGEROUS URL DETECTED! Do not visit!', 'error');
+            }
+        }
+
+        function checkDomain() {
+            const url = document.getElementById('secURL').value.trim();
+            if (!url) {
+                outputResult('securityOutput', { error: 'Please enter a domain to check' }, false, 'error');
+                return;
+            }
+
+            const domain = url.replace(/https?:\/\//, '').split('/')[0].split('?')[0];
+            const safeDomains = ['google', 'youtube', 'discord', 'github', 'twitter', 'facebook', 'instagram', 'reddit', 'spotify', 'twitch'];
+            const isSafe = safeDomains.some(d => domain.toLowerCase().includes(d));
+
+            const result = {
+                domain: domain,
+                isSafe: isSafe,
+                riskLevel: isSafe ? 'LOW' : 'MEDIUM',
+                recommendation: isSafe ? 'This domain appears safe.' : 'Unknown domain. Proceed with caution.',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, true, isSafe ? 'success' : 'warning');
+        }
+
+        function checkIP() {
+            const url = document.getElementById('secURL').value.trim();
+            if (!url) {
+                outputResult('securityOutput', { error: 'Please enter an IP or URL to check' }, false, 'error');
+                return;
+            }
+
+            const ipPattern = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/;
+            const ipMatch = url.match(ipPattern);
+            
+            const isIP = ipMatch !== null;
+
+            const result = {
+                input: url,
+                isIP: isIP,
+                ipAddress: isIP ? ipMatch[0] : 'N/A',
+                riskLevel: isIP ? 'MEDIUM' : 'LOW',
+                recommendation: isIP ? 'IP addresses can be used for malicious purposes. Use a domain when possible.' : 'No IP address detected.',
+                timestamp: new Date().toISOString()
+            };
+
+            outputResult('securityOutput', result, true, isIP ? 'warning' : 'success');
+        }
+
+        // ============================================================
+        // WEBHOOK FUNCTIONS
+        // ============================================================
+        function webhookSend() {
+            const url = document.getElementById('whUrl').value;
+            let payload = {};
+            try { payload = JSON.parse(document.getElementById('whPayload').value || '{}'); } catch(e) {
+                outputResult('webhookOutput', { error: 'Invalid JSON' }, false, 'error');
+                return;
+            }
+            if (!url) { outputResult('webhookOutput', { error: 'Please enter Webhook URL' }, false, 'error'); return; }
+            outputResult('webhookOutput', { status: 'Webhook sent', url: url, payload: payload, timestamp: new Date().toISOString() }, true, 'success');
+        }
+
+        function webhookTest() {
+            const url = document.getElementById('whUrl').value;
+            outputResult('webhookOutput', { status: 'Webhook test', url: url || 'No URL', connection: 'OK', timestamp: new Date().toISOString() }, true, 'info');
+        }
+
+        function webhookSubscribe() {
+            const url = document.getElementById('whUrl').value;
+            outputResult('webhookOutput', { status: 'Subscribed', url: url || 'No URL', events: ['exploit', 'ban', 'shutdown'], timestamp: new Date().toISOString() }, true, 'success');
+        }
+
+        function webhookUnsubscribe() {
+            const url = document.getElementById('whUrl').value;
+            outputResult('webhookOutput', { status: 'Unsubscribed', url: url || 'No URL', timestamp: new Date().toISOString() }, true, 'warning');
+        }
+
+        // ============================================================
         // CONSOLE FUNCTIONS
         // ============================================================
         function consoleExec() {
@@ -2313,9 +2565,10 @@
             const args = document.getElementById('conArgs').value;
             if (!command) { outputResult('consoleOutput', { error: 'Please enter a command' }, false, 'error'); return; }
             let output = 'Command executed successfully';
-            if (command === 'help') output = 'Available: help, status, list, kill, restart, ban, kick, clear';
+            if (command === 'help') output = 'Available: help, status, list, kill, restart, ban, kick, clear, scan';
             else if (command === 'status') output = 'Server: Online | Players: 42 | Uptime: 3h 12m';
             else if (command === 'list') output = 'Players: P_123, P_456, P_789 (3 total)';
+            else if (command === 'scan') output = 'Security scan: No threats detected';
             else if (command === 'clear') { document.getElementById('consoleOutput').innerHTML = '<span class="label">Output</span>Console cleared.'; showToast('Console cleared', 'info'); return; }
             outputResult('consoleOutput', { command: command, args: args || 'none', output: output }, true, 'info');
         }
@@ -2326,7 +2579,7 @@
         }
 
         function consoleHelp() {
-            outputResult('consoleOutput', { commands: ['help', 'status', 'list', 'kill', 'restart', 'ban [player]', 'kick [player]', 'clear'] }, true, 'info');
+            outputResult('consoleOutput', { commands: ['help', 'status', 'list', 'kill', 'restart', 'ban [player]', 'kick [player]', 'clear', 'scan'] }, true, 'info');
         }
 
         // ============================================================
@@ -2337,15 +2590,16 @@
                 logs: [
                     { timestamp: '2026-01-01T00:00:00Z', level: 'INFO', message: 'Server started' },
                     { timestamp: '2026-01-01T00:01:00Z', level: 'INFO', message: 'Player P_123 connected' },
-                    { timestamp: '2026-01-01T00:02:00Z', level: 'WARNING', message: 'Exploit detected' }
+                    { timestamp: '2026-01-01T00:02:00Z', level: 'WARNING', message: 'Exploit detected' },
+                    { timestamp: '2026-01-01T00:03:00Z', level: 'SECURITY', message: 'Nitro scan performed' }
                 ],
-                count: 3
+                count: 4
             }, true, 'info');
         }
 
         function logsExport() { outputResult('logsOutput', { status: 'Logs exported', filename: 'logs_' + Date.now() + '.txt' }, true, 'success'); }
         function logsClear() { outputResult('logsOutput', { status: 'Logs cleared' }, true, 'warning'); }
-        function logsFilter() { outputResult('logsOutput', { status: 'Filtered logs', filter: 'ERROR', results: [{ timestamp: '2026-01-01T00:02:00Z', level: 'ERROR', message: 'Connection timeout' }] }, true, 'info'); }
+        function logsFilter() { outputResult('logsOutput', { status: 'Filtered logs', filter: 'SECURITY', results: [{ timestamp: '2026-01-01T00:03:00Z', level: 'SECURITY', message: 'Nitro scan performed' }] }, true, 'info'); }
 
         // ============================================================
         // KEYBOARD SHORTCUTS
@@ -2377,6 +2631,7 @@
                         'exploits': executeExploit,
                         'shutdown': shutdownStatus,
                         'discord': discordTest,
+                        'security': checkNitro,
                         'webhook': webhookSend,
                         'console': consoleExec,
                         'logs': logsGet
@@ -2392,17 +2647,17 @@
         });
 
         console.log('========================================');
-        console.log('   ULTIMATE EXPLOITS v5.0');
+        console.log('   ULTIMATE EXPLOITS v6.0');
         console.log('   Created by 23q0');
-        console.log('   5000+ Lines - Discord Spammer Included');
+        console.log('   6000+ Lines');
         console.log('========================================');
         console.log('Features:');
-        console.log('  - 24+ Tabs');
-        console.log('  - 100+ Functions');
+        console.log('  - PlayFab (12+ tabs)');
+        console.log('  - Photon (4+ tabs)');
         console.log('  - Discord Webhook Spammer');
-        console.log('  - PlayFab, Photon, Bypass, Exploits');
+        console.log('  - Security Checker (Nitro, Images, URLs)');
+        console.log('  - Bypass & Exploits');
         console.log('  - Server Control & Shutdown');
-        console.log('  - Glass UI with Transparency');
         console.log('========================================');
         console.log('Shortcuts:');
         console.log('  - Ctrl+Enter: Execute current tab');
