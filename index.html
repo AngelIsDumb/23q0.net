@@ -3,8 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayFab Thingy</title>
+    <title>PlayFab Thingy idfk</title>
     <style>
+        /* ============================================================
+           CSS VARIABLES / THEMES
+           ============================================================ */
+        :root {
+            --bg-primary: #0d0d0d;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #1e1e1e;
+            --bg-input: #121212;
+            --bg-hover: #2a2a2a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #888;
+            --text-muted: #444;
+            --border-color: #2a2a2a;
+            --border-hover: #444;
+            --accent: #3a3a3a;
+            --accent-hover: #4a4a4a;
+            --success: #2a5a3a;
+            --success-text: #8fcaa0;
+            --danger: #5a2a2a;
+            --danger-text: #ca8f8f;
+            --shadow: 0 20px 60px rgba(0,0,0,0.8);
+            --radius: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --cursor: default;
+        }
+
+        /* Theme: Light */
+        [data-theme="light"] {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-card: #f0f0f0;
+            --bg-input: #e8e8e8;
+            --bg-hover: #e0e0e0;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555;
+            --text-muted: #999;
+            --border-color: #d0d0d0;
+            --border-hover: #aaa;
+            --accent: #d0d0d0;
+            --accent-hover: #c0c0c0;
+            --shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        /* Theme: Blue */
+        [data-theme="blue"] {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2236;
+            --bg-input: #0d1520;
+            --bg-hover: #243050;
+            --text-primary: #d0e0ff;
+            --text-secondary: #8899cc;
+            --text-muted: #445577;
+            --border-color: #1a2a44;
+            --border-hover: #3355aa;
+            --accent: #1a2a55;
+            --accent-hover: #2a3a66;
+            --success: #1a4a3a;
+            --success-text: #88ddbb;
+            --danger: #5a2a3a;
+            --danger-text: #dd88aa;
+        }
+
+        /* Theme: Green */
+        [data-theme="green"] {
+            --bg-primary: #0a120a;
+            --bg-secondary: #111f11;
+            --bg-card: #1a2a1a;
+            --bg-input: #0d180d;
+            --bg-hover: #2a402a;
+            --text-primary: #d0ffd0;
+            --text-secondary: #88bb88;
+            --text-muted: #336633;
+            --border-color: #1a3a1a;
+            --border-hover: #33aa33;
+            --accent: #1a3a1a;
+            --accent-hover: #2a4a2a;
+        }
+
+        /* Theme: Purple */
+        [data-theme="purple"] {
+            --bg-primary: #0e0a16;
+            --bg-secondary: #1a1127;
+            --bg-card: #261a36;
+            --bg-input: #120d20;
+            --bg-hover: #362a50;
+            --text-primary: #e0d0ff;
+            --text-secondary: #9988cc;
+            --text-muted: #554477;
+            --border-color: #2a1a44;
+            --border-hover: #5533aa;
+            --accent: #2a1a55;
+            --accent-hover: #3a2a66;
+        }
+
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -12,87 +110,350 @@
         }
 
         body {
-            background: #0d0d0d;
-            color: #c0c0c0;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
+            padding: 20px;
+            transition: background var(--transition), color var(--transition);
+            cursor: var(--cursor);
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 900px;
+        /* ============================================================
+           CUSTOM CURSOR
+           ============================================================ */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease;
+            transform: translate(-50%, -50%);
+            opacity: 0.7;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot.hover {
+            width: 20px;
+            height: 20px;
+            background: var(--text-primary);
+            opacity: 0.9;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--text-muted);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+            transform: translate(-50%, -50%);
+            opacity: 0.3;
+        }
+
+        .cursor-ring.hover {
+            width: 50px;
+            height: 50px;
+            border-color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* ============================================================
+           ANIMATED BACKGROUND
+           ============================================================ */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 40px;
-            border: 1px solid #2a2a2a;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        /* Header */
+        .bg-animation .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.05;
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+
+        .bg-animation .orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: var(--text-secondary);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        .bg-animation .orb:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -7s;
+        }
+        .bg-animation .orb:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: var(--success-text);
+            top: 50%;
+            left: 50%;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -100px) scale(1.2); }
+            50% { transform: translate(-50px, 100px) scale(0.8); }
+            75% { transform: translate(150px, 50px) scale(1.1); }
+        }
+
+        /* ============================================================
+           CONTAINER
+           ============================================================ */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================
+           SETTINGS BAR
+           ============================================================ */
+        .settings-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 12px 18px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            transition: all var(--transition);
+        }
+
+        .settings-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .settings-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-bar label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .settings-bar select,
+        .settings-bar input[type="color"] {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+
+        .settings-bar select:focus,
+        .settings-bar input:focus {
+            outline: none;
+            border-color: var(--border-hover);
+        }
+
+        .settings-bar input[type="color"] {
+            width: 35px;
+            height: 35px;
+            padding: 2px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .settings-bar .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .settings-bar .toggle-label input[type="checkbox"] {
+            width: 36px;
+            height: 20px;
+            appearance: none;
+            background: var(--bg-input);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all var(--transition);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .settings-bar .toggle-label input[type="checkbox"]::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all var(--transition);
+        }
+
+        .settings-bar .toggle-label input[type="checkbox"]:checked {
+            background: var(--accent);
+            border-color: var(--border-hover);
+        }
+
+        .settings-bar .toggle-label input[type="checkbox"]:checked::after {
+            left: 18px;
+            background: var(--text-primary);
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
         .header {
-            border-bottom: 1px solid #2a2a2a;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+            transition: all var(--transition);
         }
 
         .header h1 {
             font-size: 28px;
             font-weight: 700;
-            color: #e0e0e0;
+            color: var(--text-primary);
             letter-spacing: -0.5px;
         }
 
         .header h1 span {
-            color: #666;
+            color: var(--text-secondary);
             font-weight: 300;
         }
 
         .header p {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 14px;
-            margin-top: 5px;
+            margin-top: 4px;
         }
 
-        /* Navigation Tabs */
+        /* ============================================================
+           NAVIGATION TABS
+           ============================================================ */
         .nav-tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 30px;
+            gap: 6px;
+            margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid var(--border-color);
+            transition: all var(--transition);
         }
 
         .nav-tabs button {
             background: transparent;
-            border: 1px solid #2a2a2a;
-            color: #888;
-            padding: 8px 18px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
             border-radius: 6px;
-            cursor: pointer;
+            cursor: var(--cursor);
             font-size: 13px;
-            transition: all 0.3s;
+            transition: all var(--transition);
             font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tabs button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--bg-hover), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-tabs button:hover::before {
+            left: 100%;
         }
 
         .nav-tabs button:hover {
-            border-color: #555;
-            color: #ccc;
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            transform: translateY(-1px);
         }
 
         .nav-tabs button.active {
-            background: #2a2a2a;
-            color: #fff;
-            border-color: #444;
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            box-shadow: 0 0 20px rgba(255,255,255,0.03);
         }
 
-        /* Cards / Sections */
+        .nav-tabs button .badge {
+            display: inline-block;
+            font-size: 9px;
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+        }
+
+        /* ============================================================
+           SECTIONS
+           ============================================================ */
         .section {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.4s ease;
+            transition: all var(--transition);
         }
 
         .section.active {
@@ -100,849 +461,1195 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title {
             font-size: 18px;
             font-weight: 600;
-            color: #e0e0e0;
+            color: var(--text-primary);
             margin-bottom: 20px;
         }
 
         .section-title span {
-            color: #555;
+            color: var(--text-secondary);
             font-weight: 300;
             font-size: 14px;
         }
 
-        /* Form Groups */
+        /* ============================================================
+           FORM ELEMENTS
+           ============================================================ */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            color: #888;
-            font-size: 12px;
+            color: var(--text-secondary);
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 12px 14px;
-            background: #121212;
-            border: 1px solid #2a2a2a;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            color: #e0e0e0;
+            color: var(--text-primary);
             font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.3s;
+            font-family: 'Courier New', monospace;
+            transition: all var(--transition);
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
-            border-color: #555;
+            border-color: var(--border-hover);
+            box-shadow: 0 0 20px rgba(255,255,255,0.02);
         }
 
-        .form-group input::placeholder {
-            color: #444;
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group textarea {
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            min-height: 80px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 18px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
         }
 
         /* Checkboxes */
         .checkbox-group {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 15px 0 20px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0 18px 0;
         }
 
         .checkbox-group label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #aaa;
-            font-size: 14px;
-            cursor: pointer;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: var(--cursor);
+            transition: color var(--transition);
+        }
+
+        .checkbox-group label:hover {
+            color: var(--text-primary);
         }
 
         .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #555;
-            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+            cursor: var(--cursor);
         }
 
         /* Buttons */
         .btn {
-            padding: 12px 30px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: #e0e0e0;
+            padding: 10px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
+            cursor: var(--cursor);
+            font-size: 13px;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all var(--transition);
             font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            transition: width 0.6s ease, height 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
         }
 
         .btn:hover {
-            background: #3a3a3a;
-            border-color: #555;
+            background: var(--bg-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
         }
 
         .btn-primary {
-            background: #3a3a3a;
-            border-color: #555;
+            background: var(--accent);
+            border-color: var(--border-hover);
         }
 
         .btn-primary:hover {
-            background: #4a4a4a;
-            border-color: #777;
+            background: var(--accent-hover);
         }
 
         .btn-success {
-            background: #1a3a2a;
-            border-color: #2a5a3a;
-            color: #8fcaa0;
+            background: var(--success);
+            border-color: var(--success);
+            color: var(--success-text);
         }
 
         .btn-success:hover {
-            background: #2a4a3a;
-            border-color: #3a6a4a;
+            background: var(--success);
+            border-color: var(--success-text);
+            filter: brightness(1.2);
         }
 
         .btn-danger {
-            background: #3a1a1a;
-            border-color: #5a2a2a;
-            color: #ca8f8f;
+            background: var(--danger);
+            border-color: var(--danger);
+            color: var(--danger-text);
         }
 
         .btn-danger:hover {
-            background: #4a2a2a;
-            border-color: #6a3a3a;
+            background: var(--danger);
+            border-color: var(--danger-text);
+            filter: brightness(1.2);
         }
 
         .btn-group {
             display: flex;
-            gap: 12px;
-            margin-top: 10px;
             flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0 8px 0;
         }
 
-        /* Output / Results */
+        .btn-group .btn {
+            flex: 0 1 auto;
+        }
+
+        /* ============================================================
+           OUTPUT BOX
+           ============================================================ */
         .output-box {
-            margin-top: 25px;
-            padding: 20px;
-            background: #121212;
+            margin-top: 20px;
+            padding: 18px;
+            background: var(--bg-input);
             border-radius: 6px;
-            border: 1px solid #1a1a1a;
-            min-height: 80px;
+            border: 1px solid var(--border-color);
+            min-height: 70px;
             font-family: 'Courier New', monospace;
             font-size: 13px;
-            color: #888;
+            color: var(--text-secondary);
             white-space: pre-wrap;
             word-break: break-all;
+            transition: all var(--transition);
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .output-box.success {
-            border-color: #2a5a3a;
-            color: #8fcaa0;
+            border-color: var(--success);
+            color: var(--success-text);
         }
 
         .output-box.error {
-            border-color: #5a2a2a;
-            color: #ca8f8f;
+            border-color: var(--danger);
+            color: var(--danger-text);
         }
 
         .output-box .label {
-            color: #555;
-            font-size: 11px;
+            color: var(--text-muted);
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: block;
         }
 
-        /* Footer */
+        .output-box pre {
+            margin: 0;
+            font-family: inherit;
+            white-space: pre-wrap;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
         .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #1a1a1a;
+            margin-top: 35px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-color);
             text-align: center;
-            color: #444;
+            color: var(--text-muted);
             font-size: 13px;
+            transition: all var(--transition);
         }
 
         .footer a {
-            color: #666;
+            color: var(--text-secondary);
             text-decoration: none;
+            transition: color var(--transition);
         }
 
         .footer a:hover {
-            color: #999;
+            color: var(--text-primary);
         }
 
-        /* Responsive */
-        @media (max-width: 700px) {
-            .container {
-                padding: 20px;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            .header h1 {
-                font-size: 22px;
-            }
-            .nav-tabs button {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
+        /* ============================================================
+           LIVE STATUS (Photon)
+           ============================================================ */
+        .live-status {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        @media (max-width: 500px) {
-            .container {
-                padding: 15px;
-            }
-            .btn-group {
-                flex-direction: column;
-            }
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
+        .live-status .stat {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            text-align: center;
         }
 
-        /* Scrollbar */
+        .live-status .stat .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .live-status .stat .label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
         ::-webkit-scrollbar {
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #121212;
+            background: var(--bg-input);
         }
         ::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+            background: var(--border-color);
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #3a3a3a;
+            background: var(--border-hover);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 900px) {
+            .container { padding: 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-row-3 { grid-template-columns: 1fr 1fr; }
+            .settings-bar { flex-direction: column; align-items: stretch; }
+            .settings-bar .left,
+            .settings-bar .right { justify-content: center; }
+            .live-status { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .header h1 { font-size: 22px; }
+            .nav-tabs button { font-size: 11px; padding: 6px 10px; }
+            .form-row-3 { grid-template-columns: 1fr; }
+            .btn-group .btn { flex: 1; text-align: center; }
+            .settings-bar .left { flex-direction: column; align-items: stretch; }
+            .settings-bar .right { flex-wrap: wrap; justify-content: center; }
+        }
+
+        /* ============================================================
+           TOAST NOTIFICATION
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            z-index: 10000;
+            animation: slideIn 0.4s ease;
+            box-shadow: var(--shadow);
+            max-width: 350px;
+        }
+
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.4s ease forwards;
+        }
+
+        @keyframes slideOut {
+            to { opacity: 0; transform: translateX(50px); }
+        }
+
+        /* ============================================================
+           SPINNER
+           ============================================================ */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Header -->
-    <div class="header">
-        <h1>PlayFab <span>Thingy idfk</span></h1>
-        <p>Goofy Lil PlayFab Tool Ig.</p>
+    <!-- ============================================================
+    CUSTOM CURSOR
+    ============================================================ -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ============================================================
+    ANIMATED BACKGROUND
+    ============================================================ -->
+    <div class="bg-animation">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
     </div>
 
-    <!-- Navigation -->
-    <div class="nav-tabs">
-        <button class="active" data-tab="generate">Generate</button>
-        <button data-tab="lookup">Lookup</button>
-        <button data-tab="shared">Shared Group</button>
-        <button data-tab="ban">Ban</button>
-        <button data-tab="cosmetics">Cosmetics</button>
-        <button data-tab="custom">Custom</button>
-        <button data-tab="meta">Meta</button>
-        <button data-tab="photon">Photon</button>
-    </div>
+    <!-- ============================================================
+    CONTAINER
+    ============================================================ -->
+    <div class="container">
 
-    <!-- ============================================================ -->
-    <!-- GENERATE SECTION -->
-    <!-- ============================================================ -->
-    <div id="generate" class="section active">
-        <div class="section-title">Generate Account</div>
-
-        <div class="form-group">
-            <label>TITLE ID</label>
-            <input type="text" id="genTitleId" placeholder="Enter PlayFab Title ID" value="YOUR_TITLE_ID">
+        <!-- SETTINGS BAR -->
+        <div class="settings-bar">
+            <div class="left">
+                <label>🎨 Theme
+                    <select id="themeSelect">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="purple">Purple</option>
+                    </select>
+                </label>
+                <label>🔵 Accent
+                    <input type="color" id="accentColor" value="#3a3a3a">
+                </label>
+            </div>
+            <div class="right">
+                <label class="toggle-label">
+                    <input type="checkbox" id="animationsToggle" checked> Animations
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="cursorToggle" checked> Custom Cursor
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="bgToggle" checked> Background
+                </label>
+            </div>
         </div>
 
-        <div class="checkbox-group">
-            <label>
-                <input type="checkbox" id="genCustomId">
-                Use existing custom ID
-            </label>
-            <label>
-                <input type="checkbox" id="genBackend">
-                Use backend authentication
-            </label>
+        <!-- HEADER -->
+        <div class="header">
+            <h1>PlayFab <span>Thingy idfk</span></h1>
+            <p>Goofy Lil PlayFab Tool Ig.</p>
         </div>
 
-        <button class="btn btn-primary" onclick="generateAccount()">Generate</button>
-
-        <div id="genOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- LOOKUP SECTION -->
-    <!-- ============================================================ -->
-    <div id="lookup" class="section">
-        <div class="section-title">Session Ticket Lookup</div>
-
-        <div class="form-group">
-            <label>TITLE ID</label>
-            <input type="text" id="lookupTitleId" placeholder="Enter PlayFab Title ID" value="YOUR_TITLE_ID">
+        <!-- NAVIGATION -->
+        <div class="nav-tabs">
+            <button class="active" data-tab="generate">Generate</button>
+            <button data-tab="lookup">Lookup</button>
+            <button data-tab="shared">Shared Group</button>
+            <button data-tab="ban">Ban</button>
+            <button data-tab="cosmetics">Cosmetics</button>
+            <button data-tab="custom">Custom</button>
+            <button data-tab="meta">Meta</button>
+            <button data-tab="photon">Photon</button>
         </div>
 
-        <div class="form-group">
-            <label>SESSION TICKET</label>
-            <input type="text" id="lookupTicket" placeholder="Enter session ticket">
-        </div>
-
-        <button class="btn btn-primary" onclick="lookupTicket()">Lookup</button>
-
-        <div id="lookupOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- SHARED GROUP SECTION -->
-    <!-- ============================================================ -->
-    <div id="shared" class="section">
-        <div class="section-title">Shared Group</div>
-
-        <div class="form-group">
-            <label>GROUP ID</label>
-            <input type="text" id="sharedGroupId" placeholder="Enter group ID">
-        </div>
-
-        <div class="btn-group">
-            <button class="btn" onclick="sharedAction('create')">Create Group</button>
-            <button class="btn" onclick="sharedAction('info')">Get Info</button>
-            <button class="btn btn-danger" onclick="sharedAction('delete')">Delete Group</button>
-        </div>
-
-        <div id="sharedOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- BAN SECTION -->
-    <!-- ============================================================ -->
-    <div id="ban" class="section">
-        <div class="section-title">Ban Management</div>
-
-        <div class="form-group">
-            <label>PLAYER ID</label>
-            <input type="text" id="banPlayerId" placeholder="Enter player ID to ban">
-        </div>
-
-        <div class="form-group">
-            <label>REASON</label>
-            <input type="text" id="banReason" placeholder="Ban reason (optional)">
-        </div>
-
-        <div class="form-row">
+        <!-- ============================================================
+        GENERATE
+        ============================================================ -->
+        <div id="generate" class="section active">
+            <div class="section-title">Generate Account</div>
             <div class="form-group">
-                <label>DURATION (HOURS)</label>
-                <input type="number" id="banDuration" placeholder="0 = permanent" value="0">
+                <label>TITLE ID</label>
+                <input type="text" id="genTitleId" placeholder="Enter PlayFab Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="genCustomId"> Use existing custom ID</label>
+                <label><input type="checkbox" id="genBackend"> Use backend authentication</label>
+            </div>
+            <button class="btn btn-primary" onclick="generateAccount()">Generate</button>
+            <div id="genOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        LOOKUP
+        ============================================================ -->
+        <div id="lookup" class="section">
+            <div class="section-title">Lookup</div>
+
+            <div class="section-title" style="font-size:15px;margin-top:15px;">Lookup by Display Name</div>
+            <div class="form-group">
+                <label>TITLE ID</label>
+                <input type="text" id="lookupTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
             <div class="form-group">
-                <label>ACTION</label>
-                <select id="banAction">
-                    <option value="ban">Ban</option>
-                    <option value="unban">Unban</option>
-                    <option value="check">Check Status</option>
+                <label>DISPLAY NAME</label>
+                <input type="text" id="lookupDisplayName" placeholder="Enter display name">
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="lookupSession"> Use session ticket</label>
+                <label><input type="checkbox" id="lookupBackend"> Use backend authentication</label>
+            </div>
+            <button class="btn btn-primary" onclick="lookupByName()">Lookup</button>
+
+            <hr style="border-color:var(--border-color);margin:25px 0;">
+
+            <div class="section-title" style="font-size:15px;">Lookup by PlayFab ID</div>
+            <div class="form-group">
+                <label>TITLE ID</label>
+                <input type="text" id="lookupTitleId2" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="form-group">
+                <label>PLAYFAB ID</label>
+                <input type="text" id="lookupPlayFabId" placeholder="Enter PlayFab ID">
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="lookupSession2"> Use session ticket</label>
+                <label><input type="checkbox" id="lookupBackend2"> Use backend authentication</label>
+            </div>
+            <button class="btn btn-primary" onclick="lookupById()">Lookup</button>
+
+            <div id="lookupOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        SHARED GROUP
+        ============================================================ -->
+        <div id="shared" class="section">
+            <div class="section-title">Shared Group Data</div>
+            <div class="form-group">
+                <label>TITLE ID</label>
+                <input type="text" id="sharedTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="sharedHardcoded"> Use hardcoded session ticket</label>
+                <label><input type="checkbox" id="sharedBackend"> Use backend authentication</label>
+            </div>
+            <div class="form-group">
+                <label>OPERATION</label>
+                <select id="sharedOperation">
+                    <option value="get">Get Shared Group</option>
+                    <option value="ban">Ban (EvCode 8)</option>
+                    <option value="report">Report (EvCode 50)</option>
+                    <option value="cloudscript">Execute CloudScript</option>
+                    <option value="add">Add Members</option>
                 </select>
             </div>
-        </div>
-
-        <button class="btn btn-danger" onclick="handleBan()">Execute</button>
-
-        <div id="banOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- COSMETICS SECTION -->
-    <!-- ============================================================ -->
-    <div id="cosmetics" class="section">
-        <div class="section-title">Cosmetics</div>
-
-        <div class="form-group">
-            <label>PLAYER ID</label>
-            <input type="text" id="cosmeticPlayerId" placeholder="Enter player ID">
-        </div>
-
-        <div class="form-group">
-            <label>ITEM ID</label>
-            <input type="text" id="cosmeticItemId" placeholder="Enter cosmetic item ID">
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-success" onclick="cosmeticAction('grant')">Grant Item</button>
-            <button class="btn" onclick="cosmeticAction('list')">List Items</button>
-            <button class="btn btn-danger" onclick="cosmeticAction('remove')">Remove Item</button>
-        </div>
-
-        <div id="cosmeticOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- CUSTOM SECTION -->
-    <!-- ============================================================ -->
-    <div id="custom" class="section">
-        <div class="section-title">Custom API Call</div>
-
-        <div class="form-group">
-            <label>API ENDPOINT</label>
-            <input type="text" id="customEndpoint" placeholder="/Client/LoginWithCustomID" value="/Client/LoginWithCustomID">
-        </div>
-
-        <div class="form-group">
-            <label>JSON REQUEST BODY</label>
-            <textarea id="customBody" rows="4" style="width:100%;padding:12px;background:#121212;border:1px solid #2a2a2a;border-radius:6px;color:#e0e0e0;font-family:'Courier New',monospace;font-size:13px;resize:vertical;">{
-    "CustomId": "test_user",
-    "TitleId": "YOUR_TITLE_ID"
+            <div class="form-group">
+                <label>UPDATE DATA / PAYLOAD</label>
+                <textarea id="sharedPayload">{
+    "roomCode": "ROOMCODE",
+    "region": "EU"
 }</textarea>
+            </div>
+            <button class="btn btn-primary" onclick="sharedAction()">Run</button>
+            <div id="sharedOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
-        <button class="btn btn-primary" onclick="customCall()">Send Request</button>
+        <!-- ============================================================
+        BAN
+        ============================================================ -->
+        <div id="ban" class="section">
+            <div class="section-title">Ban Player</div>
+            <div class="form-group">
+                <label>TITLE ID</label>
+                <input type="text" id="banTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="form-group">
+                <label>PLAYER IDS</label>
+                <textarea id="banPlayerIds" placeholder="One per line, comma separated, or JSON array">player123
+player456
+player789</textarea>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="banSession"> Use session ticket</label>
+                <label><input type="checkbox" id="banBackend"> Use backend authentication</label>
+            </div>
+            <div class="form-group">
+                <label>METHOD</label>
+                <select id="banMethod">
+                    <option value="message">Through Message</option>
+                    <option value="evcode8">EvCode 8</option>
+                    <option value="evcode50">EvCode 50</option>
+                    <option value="room">Room Property</option>
+                </select>
+            </div>
+            <button class="btn btn-danger" onclick="handleBan()">Execute Ban</button>
+            <div id="banOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
 
-        <div id="customOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
+        <!-- ============================================================
+        COSMETICS
+        ============================================================ -->
+        <div id="cosmetics" class="section">
+            <div class="section-title">Purchase Cosmetic</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>TITLE ID</label>
+                    <input type="text" id="cosmeticTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+                </div>
+                <div class="form-group">
+                    <label>ITEM ID</label>
+                    <input type="text" id="cosmeticItemId" placeholder="Item ID">
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="cosmeticSession"> Use session ticket</label>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>PLAYER ID</label>
+                    <input type="text" id="cosmeticPlayerId" placeholder="Player ID">
+                </div>
+                <div class="form-group">
+                    <label>CUSTOM ID</label>
+                    <input type="text" id="cosmeticCustomId" placeholder="Custom ID">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>PRICE</label>
+                    <input type="number" id="cosmeticPrice" placeholder="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label>CURRENCY</label>
+                    <select id="cosmeticCurrency">
+                        <option value="SR">SR</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-success" onclick="purchaseCosmetic()">Purchase</button>
+
+            <hr style="border-color:var(--border-color);margin:25px 0;">
+
+            <div class="section-title">Grant All Cosmetics</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>TITLE ID</label>
+                    <input type="text" id="grantTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+                </div>
+                <div class="form-group">
+                    <label>CATALOG VERSION</label>
+                    <input type="text" id="grantCatalogVersion" placeholder="optional">
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="grantSession"> Use session ticket</label>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>PLAYER ID</label>
+                    <input type="text" id="grantPlayerId" placeholder="Player ID">
+                </div>
+                <div class="form-group">
+                    <label>CUSTOM ID</label>
+                    <input type="text" id="grantCustomId" placeholder="Custom ID">
+                </div>
+            </div>
+            <button class="btn btn-success" onclick="grantAllCosmetics()">Grant All</button>
+
+            <hr style="border-color:var(--border-color);margin:25px 0;">
+
+            <div class="section-title">Pull DLC and Catalog</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>TITLE ID</label>
+                    <input type="text" id="pullTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+                </div>
+                <div class="form-group">
+                    <label>CATALOG VERSION</label>
+                    <input type="text" id="pullCatalogVersion" placeholder="optional">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>STORE ID</label>
+                    <input type="text" id="pullStoreId" placeholder="for store items">
+                </div>
+                <div class="form-group">
+                    <label>FILTER</label>
+                    <input type="text" id="pullFilter" placeholder="optional">
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="pullSession"> Use session ticket</label>
+                <label><input type="checkbox" id="pullBackend"> Use backend authentication</label>
+            </div>
+            <div class="btn-group">
+                <button class="btn" onclick="pullDLC('catalog')">Catalog</button>
+                <button class="btn" onclick="pullDLC('store')">Store</button>
+                <button class="btn" onclick="pullDLC('titledata')">Title Data</button>
+            </div>
+
+            <hr style="border-color:var(--border-color);margin:25px 0;">
+
+            <div class="section-title">Get User Inventory</div>
+            <div class="form-group">
+                <label>TITLE ID</label>
+                <input type="text" id="inventoryTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="inventoryTicket" placeholder="Session ticket">
+            </div>
+            <button class="btn btn-primary" onclick="getInventory()">Get Inventory</button>
+
+            <div id="cosmeticOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        CUSTOM
+        ============================================================ -->
+        <div id="custom" class="section">
+            <div class="section-title">Execute Custom Request</div>
+            <div class="form-group">
+                <label>TITLE ID</label>
+                <input type="text" id="customTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="customCloudScript"> CloudScript mode</label>
+            </div>
+            <div class="form-group">
+                <label>API ENDPOINT</label>
+                <input type="text" id="customEndpoint" value="/Client/GetAccountInfo">
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="customAuth"> Authenticate request</label>
+                <label><input type="checkbox" id="customSession"> Use existing session ticket</label>
+                <label><input type="checkbox" id="customBackend"> Use backend authentication</label>
+            </div>
+            <div class="form-group">
+                <label>PAYLOAD</label>
+                <textarea id="customPayload">{ }</textarea>
+            </div>
+            <button class="btn btn-primary" onclick="customCall()">Execute</button>
+            <div id="customOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        META
+        ============================================================ -->
+        <div id="meta" class="section">
+            <div class="section-title">Pull Org Scope</div>
+            <div class="form-group">
+                <label>APP ID</label>
+                <input type="text" id="metaAppId" placeholder="Meta App ID">
+            </div>
+            <div class="form-group">
+                <label>USER ID</label>
+                <input type="text" id="metaUserId" placeholder="User ID">
+            </div>
+            <button class="btn btn-primary" onclick="pullOrg()">Pull</button>
+            <div id="metaOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        PHOTON
+        ============================================================ -->
+        <div id="photon" class="section">
+            <div class="section-title">Photon Spammer</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>APP ID</label>
+                    <input type="text" id="photonAppId" placeholder="App ID">
+                </div>
+                <div class="form-group">
+                    <label>REGION</label>
+                    <select id="photonRegion">
+                        <option value="US">US</option>
+                        <option value="EU">EU</option>
+                        <option value="AS">AS</option>
+                        <option value="AU">AU</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>COUNT</label>
+                    <input type="number" id="photonCount" placeholder="100" value="100">
+                </div>
+                <div class="form-group">
+                    <label>THREADS</label>
+                    <input type="number" id="photonThreads" placeholder="50" value="50">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="photonStart()">Start</button>
+                <button class="btn btn-danger" onclick="photonStop()">Stop</button>
+                <button class="btn btn-primary" onclick="photonStatus()">Check Status</button>
+            </div>
+
+            <div class="section-title" style="margin-top:20px;">Live Status</div>
+            <div class="live-status">
+                <div class="stat">
+                    <div class="value" id="photonServer">-</div>
+                    <div class="label">SERVER</div>
+                </div>
+                <div class="stat">
+                    <div class="value" id="photonActivity">-</div>
+                    <div class="label">ACTIVITY</div>
+                </div>
+                <div class="stat">
+                    <div class="value" id="photonSent">0</div>
+                    <div class="label">SENT</div>
+                </div>
+                <div class="stat">
+                    <div class="value" id="photonSuccessful">0</div>
+                    <div class="label">SUCCESSFUL</div>
+                </div>
+            </div>
+
+            <div id="photonOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            By <a href="#">L1rson108</a> &bull; PlayFab Thingy v2.0
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- META SECTION -->
-    <!-- ============================================================ -->
-    <div id="meta" class="section">
-        <div class="section-title">Meta / Player Data</div>
+    <script>
+        // ============================================================
+        // CUSTOM CURSOR
+        // ============================================================
+        const dot = document.getElementById('cursorDot');
+        const ring = document.getElementById('cursorRing');
+        let cursorEnabled = true;
 
-        <div class="form-group">
-            <label>PLAYER ID</label>
-            <input type="text" id="metaPlayerId" placeholder="Enter player ID">
-        </div>
-
-        <div class="form-group">
-            <label>DATA KEY</label>
-            <input type="text" id="metaKey" placeholder="Enter data key">
-        </div>
-
-        <div class="form-group">
-            <label>DATA VALUE</label>
-            <input type="text" id="metaValue" placeholder="Enter data value (for set)">
-        </div>
-
-        <div class="btn-group">
-            <button class="btn" onclick="metaAction('get')">Get Data</button>
-            <button class="btn btn-success" onclick="metaAction('set')">Set Data</button>
-            <button class="btn btn-danger" onclick="metaAction('delete')">Delete Data</button>
-        </div>
-
-        <div id="metaOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- PHOTON SECTION -->
-    <!-- ============================================================ -->
-    <div id="photon" class="section">
-        <div class="section-title">Photon</div>
-
-        <div class="form-group">
-            <label>APP ID</label>
-            <input type="text" id="photonAppId" placeholder="Enter Photon App ID">
-        </div>
-
-        <div class="form-group">
-            <label>ROOM NAME</label>
-            <input type="text" id="photonRoom" placeholder="Enter room name">
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-success" onclick="photonAction('create')">Create Room</button>
-            <button class="btn" onclick="photonAction('join')">Join Room</button>
-            <button class="btn" onclick="photonAction('list')">List Rooms</button>
-        </div>
-
-        <div id="photonOutput" class="output-box">
-            <span class="label">Output</span>
-            Waiting for action...
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        By <a href="#">L1rson108</a> &bull; PlayFab Thingy v1.0
-    </div>
-</div>
-
-<script>
-    // ============================================================
-    // TAB SWITCHING
-    // ============================================================
-    document.querySelectorAll('.nav-tabs button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active from all buttons
-            document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-
-            // Show selected section
-            const tabId = this.getAttribute('data-tab');
-            document.getElementById(tabId).classList.add('active');
+        document.addEventListener('mousemove', (e) => {
+            if (!cursorEnabled) return;
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            ring.style.left = e.clientX + 'px';
+            ring.style.top = e.clientY + 'px';
         });
-    });
 
-    // ============================================================
-    // HELPER: Simulated API Response
-    // ============================================================
-    function simulateResponse(data, success = true) {
-        const timestamp = new Date().toISOString();
-        return {
-            success: success,
-            timestamp: timestamp,
-            data: data,
-            message: success ? 'Operation completed successfully' : 'Operation failed'
-        };
-    }
-
-    function outputResult(elementId, data, isSuccess = true) {
-        const el = document.getElementById(elementId);
-        const json = JSON.stringify(data, null, 2);
-        el.className = 'output-box ' + (isSuccess ? 'success' : 'error');
-        el.innerHTML = `<span class="label">${isSuccess ? '✓ Success' : '✗ Error'}</span><pre style="margin:0;font-family:inherit;">${json}</pre>`;
-    }
-
-    function getTitleId() {
-        return document.getElementById('genTitleId').value || 'YOUR_TITLE_ID';
-    }
-
-    // ============================================================
-    // GENERATE ACCOUNT
-    // ============================================================
-    function generateAccount() {
-        const titleId = document.getElementById('genTitleId').value || 'YOUR_TITLE_ID';
-        const useCustom = document.getElementById('genCustomId').checked;
-        const useBackend = document.getElementById('genBackend').checked;
-
-        const result = simulateResponse({
-            titleId: titleId,
-            sessionTicket: 'PF_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now().toString(36),
-            playerId: 'P_' + Math.random().toString(36).substring(2, 12),
-            customId: useCustom ? 'CUSTOM_' + Math.random().toString(36).substring(2, 10) : null,
-            backendAuth: useBackend,
-            generatedAt: new Date().toISOString(),
-            status: 'Account ready'
+        document.querySelectorAll('button, input, select, label, .btn, .nav-tabs button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                dot.classList.add('hover');
+                ring.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                dot.classList.remove('hover');
+                ring.classList.remove('hover');
+            });
         });
 
-        outputResult('genOutput', result, true);
-    }
-
-    // ============================================================
-    // LOOKUP TICKET
-    // ============================================================
-    function lookupTicket() {
-        const titleId = document.getElementById('lookupTitleId').value || 'YOUR_TITLE_ID';
-        const ticket = document.getElementById('lookupTicket').value || 'PF_abc123';
-
-        if (!ticket || ticket === '') {
-            outputResult('lookupOutput', { error: 'Please enter a session ticket' }, false);
-            return;
-        }
-
-        const result = simulateResponse({
-            titleId: titleId,
-            sessionTicket: ticket,
-            playerId: 'P_' + Math.random().toString(36).substring(2, 12),
-            isValid: true,
-            expiresAt: new Date(Date.now() + 3600000).toISOString(),
-            issuedAt: new Date().toISOString(),
-            status: 'Valid session'
+        document.getElementById('cursorToggle').addEventListener('change', function() {
+            cursorEnabled = this.checked;
+            dot.style.display = cursorEnabled ? 'block' : 'none';
+            ring.style.display = cursorEnabled ? 'block' : 'none';
+            document.body.style.cursor = cursorEnabled ? 'none' : 'default';
         });
 
-        outputResult('lookupOutput', result, true);
-    }
+        // ============================================================
+        // THEME SWITCHER
+        // ============================================================
+        document.getElementById('themeSelect').addEventListener('change', function() {
+            document.documentElement.setAttribute('data-theme', this.value);
+            localStorage.setItem('theme', this.value);
+        });
 
-    // ============================================================
-    // SHARED GROUP
-    // ============================================================
-    function sharedAction(action) {
-        const groupId = document.getElementById('sharedGroupId').value || 'G_' + Math.random().toString(36).substring(2, 10);
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.getElementById('themeSelect').value = savedTheme;
+        document.documentElement.setAttribute('data-theme', savedTheme);
 
-        let result;
-        switch(action) {
-            case 'create':
-                result = simulateResponse({
-                    groupId: groupId,
-                    groupName: 'SharedGroup_' + Math.random().toString(36).substring(2, 6),
-                    memberCount: 0,
-                    createdAt: new Date().toISOString(),
-                    status: 'Group created'
-                });
-                break;
-            case 'info':
-                result = simulateResponse({
-                    groupId: groupId,
-                    members: ['Player_1', 'Player_2', 'Player_3'],
-                    memberCount: 3,
-                    createdAt: '2026-01-01T00:00:00Z',
-                    status: 'Active'
-                });
-                break;
-            case 'delete':
-                result = simulateResponse({
-                    groupId: groupId,
-                    deletedAt: new Date().toISOString(),
-                    status: 'Group deleted'
-                });
-                break;
-            default:
-                result = simulateResponse({ error: 'Unknown action' }, false);
+        // Accent color
+        document.getElementById('accentColor').addEventListener('input', function() {
+            document.documentElement.style.setProperty('--accent', this.value);
+            document.documentElement.style.setProperty('--accent-hover', this.value);
+        });
+
+        // Animations toggle
+        document.getElementById('animationsToggle').addEventListener('change', function() {
+            const style = document.createElement('style');
+            style.id = 'animStyle';
+            if (!this.checked) {
+                const existing = document.getElementById('animStyle');
+                if (existing) existing.remove();
+                const s = document.createElement('style');
+                s.id = 'animStyle';
+                s.textContent = '.section { animation: none !important; } .container { animation: none !important; } .btn::after { display: none !important; } .nav-tabs button::before { display: none !important; } .bg-animation .orb { animation: none !important; }';
+                document.head.appendChild(s);
+            } else {
+                const existing = document.getElementById('animStyle');
+                if (existing) existing.remove();
+            }
+        });
+
+        // Background toggle
+        document.getElementById('bgToggle').addEventListener('change', function() {
+            document.querySelector('.bg-animation').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // ============================================================
+        // TAB SWITCHING
+        // ============================================================
+        document.querySelectorAll('.nav-tabs button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message, type = 'success') {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
         }
 
-        outputResult('sharedOutput', result, true);
-    }
-
-    // ============================================================
-    // BAN
-    // ============================================================
-    function handleBan() {
-        const playerId = document.getElementById('banPlayerId').value || 'P_' + Math.random().toString(36).substring(2, 10);
-        const reason = document.getElementById('banReason').value || 'Violation of terms';
-        const duration = parseInt(document.getElementById('banDuration').value) || 0;
-        const action = document.getElementById('banAction').value;
-
-        let result;
-        switch(action) {
-            case 'ban':
-                result = simulateResponse({
-                    playerId: playerId,
-                    reason: reason,
-                    duration: duration === 0 ? 'Permanent' : duration + ' hours',
-                    bannedAt: new Date().toISOString(),
-                    expiresAt: duration === 0 ? 'Never' : new Date(Date.now() + duration * 3600000).toISOString(),
-                    status: 'Banned'
-                });
-                break;
-            case 'unban':
-                result = simulateResponse({
-                    playerId: playerId,
-                    unbannedAt: new Date().toISOString(),
-                    status: 'Unbanned'
-                });
-                break;
-            case 'check':
-                result = simulateResponse({
-                    playerId: playerId,
-                    isBanned: Math.random() > 0.5,
-                    reason: reason,
-                    status: 'Checked'
-                });
-                break;
-            default:
-                result = simulateResponse({ error: 'Unknown action' }, false);
+        // ============================================================
+        // HELPER: Simulated API Response
+        // ============================================================
+        function simulateResponse(data, success = true) {
+            return {
+                success: success,
+                timestamp: new Date().toISOString(),
+                data: data,
+                message: success ? '✓ Operation completed' : '✗ Operation failed'
+            };
         }
 
-        outputResult('banOutput', result, true);
-    }
-
-    // ============================================================
-    // COSMETICS
-    // ============================================================
-    function cosmeticAction(action) {
-        const playerId = document.getElementById('cosmeticPlayerId').value || 'P_' + Math.random().toString(36).substring(2, 10);
-        const itemId = document.getElementById('cosmeticItemId').value || 'C_' + Math.random().toString(36).substring(2, 8);
-
-        let result;
-        switch(action) {
-            case 'grant':
-                result = simulateResponse({
-                    playerId: playerId,
-                    itemId: itemId,
-                    grantedAt: new Date().toISOString(),
-                    status: 'Item granted'
-                });
-                break;
-            case 'list':
-                result = simulateResponse({
-                    playerId: playerId,
-                    items: ['Cosmetic_Sword', 'Cosmetic_Shield', 'Cosmetic_Aura'],
-                    count: 3,
-                    status: 'Items listed'
-                });
-                break;
-            case 'remove':
-                result = simulateResponse({
-                    playerId: playerId,
-                    itemId: itemId,
-                    removedAt: new Date().toISOString(),
-                    status: 'Item removed'
-                });
-                break;
-            default:
-                result = simulateResponse({ error: 'Unknown action' }, false);
+        function outputResult(elementId, data, isSuccess = true) {
+            const el = document.getElementById(elementId);
+            const json = JSON.stringify(data, null, 2);
+            el.className = 'output-box ' + (isSuccess ? 'success' : 'error');
+            el.innerHTML = `<span class="label">${isSuccess ? '✓ Success' : '✗ Error'}</span><pre>${json}</pre>`;
+            showToast(isSuccess ? 'Operation successful!' : 'Operation failed!', isSuccess ? 'success' : 'error');
         }
 
-        outputResult('cosmeticOutput', result, true);
-    }
+        function getTitleId() {
+            return document.getElementById('genTitleId').value || 'YOUR_TITLE_ID';
+        }
 
-    // ============================================================
-    // CUSTOM API CALL
-    // ============================================================
-    function customCall() {
-        const endpoint = document.getElementById('customEndpoint').value || '/Client/LoginWithCustomID';
-        let body = document.getElementById('customBody').value || '{}';
+        // ============================================================
+        // GENERATE
+        // ============================================================
+        function generateAccount() {
+            const titleId = document.getElementById('genTitleId').value || 'YOUR_TITLE_ID';
+            const useCustom = document.getElementById('genCustomId').checked;
+            const useBackend = document.getElementById('genBackend').checked;
 
-        try {
-            const parsedBody = JSON.parse(body);
             const result = simulateResponse({
-                endpoint: endpoint,
-                request: parsedBody,
-                response: {
-                    sessionTicket: 'PF_' + Math.random().toString(36).substring(2, 15),
-                    playerId: 'P_' + Math.random().toString(36).substring(2, 12),
-                    status: 'OK',
-                    apiVersion: '2026-07-01'
-                },
+                titleId: titleId,
+                sessionTicket: 'PF_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now().toString(36),
+                playerId: 'P_' + Math.random().toString(36).substring(2, 12),
+                customId: useCustom ? 'CUSTOM_' + Math.random().toString(36).substring(2, 10) : null,
+                backendAuth: useBackend,
+                generatedAt: new Date().toISOString(),
+                status: 'Account ready'
+            });
+            outputResult('genOutput', result, true);
+        }
+
+        // ============================================================
+        // LOOKUP
+        // ============================================================
+        function lookupByName() {
+            const name = document.getElementById('lookupDisplayName').value || 'UnknownUser';
+            const result = simulateResponse({
+                displayName: name,
+                playerId: 'P_' + Math.random().toString(36).substring(2, 12),
+                titleId: document.getElementById('lookupTitleId').value,
+                accountCreated: new Date(Date.now() - 86400000 * 30).toISOString(),
+                lastLogin: new Date().toISOString(),
+                status: 'Found'
+            });
+            outputResult('lookupOutput', result, true);
+        }
+
+        function lookupById() {
+            const id = document.getElementById('lookupPlayFabId').value || 'P_' + Math.random().toString(36).substring(2, 12);
+            const result = simulateResponse({
+                playFabId: id,
+                displayName: 'Player_' + Math.random().toString(36).substring(2, 6),
+                titleId: document.getElementById('lookupTitleId2').value,
+                accountCreated: new Date(Date.now() - 86400000 * 60).toISOString(),
+                lastLogin: new Date().toISOString(),
+                status: 'Found'
+            });
+            outputResult('lookupOutput', result, true);
+        }
+
+        // ============================================================
+        // SHARED GROUP
+        // ============================================================
+        function sharedAction() {
+            const op = document.getElementById('sharedOperation').value;
+            const payload = document.getElementById('sharedPayload').value;
+            let parsedPayload = {};
+            try { parsedPayload = JSON.parse(payload); } catch(e) {}
+
+            const result = simulateResponse({
+                operation: op,
+                payload: parsedPayload,
+                groupId: 'G_' + Math.random().toString(36).substring(2, 10),
+                result: 'Operation executed',
                 timestamp: new Date().toISOString()
             });
+            outputResult('sharedOutput', result, true);
+        }
+
+        // ============================================================
+        // BAN
+        // ============================================================
+        function handleBan() {
+            const ids = document.getElementById('banPlayerIds').value.split(/[\n,]+/).map(s => s.trim()).filter(s => s);
+            const method = document.getElementById('banMethod').value;
+
+            const result = simulateResponse({
+                playersBanned: ids,
+                count: ids.length,
+                method: method,
+                timestamp: new Date().toISOString(),
+                status: 'Bans processed'
+            });
+            outputResult('banOutput', result, true);
+        }
+
+        // ============================================================
+        // COSMETICS
+        // ============================================================
+        function purchaseCosmetic() {
+            const result = simulateResponse({
+                itemId: document.getElementById('cosmeticItemId').value || 'COSMETIC_001',
+                playerId: document.getElementById('cosmeticPlayerId').value || 'P_unknown',
+                price: document.getElementById('cosmeticPrice').value,
+                currency: document.getElementById('cosmeticCurrency').value,
+                purchaseId: 'TXN_' + Math.random().toString(36).substring(2, 10),
+                status: 'Purchased'
+            });
+            outputResult('cosmeticOutput', result, true);
+        }
+
+        function grantAllCosmetics() {
+            const result = simulateResponse({
+                playerId: document.getElementById('grantPlayerId').value || 'P_unknown',
+                itemsGranted: ['Cosmetic_A', 'Cosmetic_B', 'Cosmetic_C', 'Cosmetic_D'],
+                count: 4,
+                catalogVersion: document.getElementById('grantCatalogVersion').value || 'default',
+                status: 'All cosmetics granted'
+            });
+            outputResult('cosmeticOutput', result, true);
+        }
+
+        function pullDLC(type) {
+            const result = simulateResponse({
+                type: type,
+                catalogVersion: document.getElementById('pullCatalogVersion').value || 'default',
+                storeId: document.getElementById('pullStoreId').value || null,
+                items: ['DLC_Pack_1', 'DLC_Pack_2', 'DLC_Pack_3'],
+                count: 3,
+                status: 'Pull successful'
+            });
+            outputResult('cosmeticOutput', result, true);
+        }
+
+        function getInventory() {
+            const result = simulateResponse({
+                playerId: 'P_' + Math.random().toString(36).substring(2, 12),
+                items: [
+                    { id: 'ITEM_001', name: 'Sword', count: 1 },
+                    { id: 'ITEM_002', name: 'Shield', count: 1 },
+                    { id: 'ITEM_003', name: 'Potion', count: 5 }
+                ],
+                total: 3,
+                status: 'Inventory retrieved'
+            });
+            outputResult('cosmeticOutput', result, true);
+        }
+
+        // ============================================================
+        // CUSTOM
+        // ============================================================
+        function customCall() {
+            const endpoint = document.getElementById('customEndpoint').value || '/Client/GetAccountInfo';
+            let payload = {};
+            try { payload = JSON.parse(document.getElementById('customPayload').value || '{}'); } catch(e) {}
+
+            const result = simulateResponse({
+                endpoint: endpoint,
+                request: payload,
+                response: {
+                    status: 'OK',
+                    data: { playerId: 'P_' + Math.random().toString(36).substring(2, 12) },
+                    timestamp: new Date().toISOString()
+                }
+            });
             outputResult('customOutput', result, true);
-        } catch (e) {
-            outputResult('customOutput', { error: 'Invalid JSON: ' + e.message }, false);
-        }
-    }
-
-    // ============================================================
-    // META DATA
-    // ============================================================
-    function metaAction(action) {
-        const playerId = document.getElementById('metaPlayerId').value || 'P_' + Math.random().toString(36).substring(2, 10);
-        const key = document.getElementById('metaKey').value || 'test_key';
-        const value = document.getElementById('metaValue').value || 'test_value';
-
-        let result;
-        switch(action) {
-            case 'get':
-                result = simulateResponse({
-                    playerId: playerId,
-                    key: key,
-                    value: 'Meta_' + Math.random().toString(36).substring(2, 10),
-                    status: 'Data retrieved'
-                });
-                break;
-            case 'set':
-                result = simulateResponse({
-                    playerId: playerId,
-                    key: key,
-                    value: value,
-                    updatedAt: new Date().toISOString(),
-                    status: 'Data saved'
-                });
-                break;
-            case 'delete':
-                result = simulateResponse({
-                    playerId: playerId,
-                    key: key,
-                    deletedAt: new Date().toISOString(),
-                    status: 'Data deleted'
-                });
-                break;
-            default:
-                result = simulateResponse({ error: 'Unknown action' }, false);
         }
 
-        outputResult('metaOutput', result, true);
-    }
-
-    // ============================================================
-    // PHOTON
-    // ============================================================
-    function photonAction(action) {
-        const appId = document.getElementById('photonAppId').value || 'APP_' + Math.random().toString(36).substring(2, 10);
-        const room = document.getElementById('photonRoom').value || 'Room_' + Math.random().toString(36).substring(2, 6);
-
-        let result;
-        switch(action) {
-            case 'create':
-                result = simulateResponse({
-                    appId: appId,
-                    roomName: room,
-                    roomId: 'R_' + Math.random().toString(36).substring(2, 10),
-                    playerCount: 1,
-                    maxPlayers: 8,
-                    createdAt: new Date().toISOString(),
-                    status: 'Room created'
-                });
-                break;
-            case 'join':
-                result = simulateResponse({
-                    appId: appId,
-                    roomName: room,
-                    playerId: 'P_' + Math.random().toString(36).substring(2, 10),
-                    joinedAt: new Date().toISOString(),
-                    status: 'Joined room'
-                });
-                break;
-            case 'list':
-                result = simulateResponse({
-                    appId: appId,
-                    rooms: ['Lobby_1', 'Lobby_2', 'Game_Alpha', 'Game_Beta'],
-                    count: 4,
-                    status: 'Rooms listed'
-                });
-                break;
-            default:
-                result = simulateResponse({ error: 'Unknown action' }, false);
+        // ============================================================
+        // META
+        // ============================================================
+        function pullOrg() {
+            const result = simulateResponse({
+                appId: document.getElementById('metaAppId').value || 'APP_unknown',
+                userId: document.getElementById('metaUserId').value || 'USER_unknown',
+                orgData: {
+                    name: 'Organization_' + Math.random().toString(36).substring(2, 6),
+                    members: ['User1', 'User2', 'User3'],
+                    settings: { theme: 'dark', region: 'US' }
+                },
+                status: 'Org scope pulled'
+            });
+            outputResult('metaOutput', result, true);
         }
 
-        outputResult('photonOutput', result, true);
-    }
+        // ============================================================
+        // PHOTON
+        // ============================================================
+        let photonRunning = false;
+        let photonCounter = 0;
 
-    // ============================================================
-    // KEYBOARD SHORTCUT: Enter to submit
-    // ============================================================
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const active = document.querySelector('.section.active');
-            if (active) {
-                const id = active.id;
-                switch(id) {
-                    case 'generate': generateAccount(); break;
-                    case 'lookup': lookupTicket(); break;
-                    case 'ban': handleBan(); break;
-                    case 'custom': customCall(); break;
+        function photonStart() {
+            photonRunning = true;
+            photonCounter = 0;
+            document.getElementById('photonServer').textContent = 'Online';
+            document.getElementById('photonActivity').textContent = 'Running';
+            document.getElementById('photonOutput').className = 'output-box success';
+            document.getElementById('photonOutput').innerHTML = `<span class="label">✓ Started</span><pre>Photon spammer started with ${document.getElementById('photonCount').value} requests, ${document.getElementById('photonThreads').value} threads</pre>`;
+            showToast('Photon spammer started!', 'success');
+
+            // Simulate counter increment
+            const interval = setInterval(() => {
+                if (!photonRunning) { clearInterval(interval); return; }
+                photonCounter += Math.floor(Math.random() * 5) + 1;
+                document.getElementById('photonSent').textContent = photonCounter;
+                document.getElementById('photonSuccessful').textContent = Math.floor(photonCounter * (0.7 + Math.random() * 0.25));
+            }, 500);
+
+            window._photonInterval = interval;
+        }
+
+        function photonStop() {
+            photonRunning = false;
+            if (window._photonInterval) clearInterval(window._photonInterval);
+            document.getElementById('photonActivity').textContent = 'Stopped';
+            document.getElementById('photonOutput').className = 'output-box';
+            document.getElementById('photonOutput').innerHTML = `<span class="label">⏹ Stopped</span><pre>Photon spammer stopped. Total sent: ${document.getElementById('photonSent').textContent}</pre>`;
+            showToast('Photon spammer stopped', 'error');
+        }
+
+        function photonStatus() {
+            document.getElementById('photonServer').textContent = photonRunning ? 'Online' : 'Offline';
+            document.getElementById('photonActivity').textContent = photonRunning ? 'Running' : 'Idle';
+            document.getElementById('photonOutput').className = 'output-box success';
+            document.getElementById('photonOutput').innerHTML = `<span class="label">📊 Status</span><pre>Server: ${photonRunning ? 'Online' : 'Offline'}\nActivity: ${photonRunning ? 'Running' : 'Idle'}\nSent: ${document.getElementById('photonSent').textContent}\nSuccessful: ${document.getElementById('photonSuccessful').textContent}</pre>`;
+        }
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                const active = document.querySelector('.section.active');
+                if (active) {
+                    const id = active.id;
+                    switch(id) {
+                        case 'generate': generateAccount(); break;
+                        case 'lookup': lookupByName(); break;
+                        case 'shared': sharedAction(); break;
+                        case 'ban': handleBan(); break;
+                        case 'cosmetics': purchaseCosmetic(); break;
+                        case 'custom': customCall(); break;
+                        case 'meta': pullOrg(); break;
+                        case 'photon': photonStart(); break;
+                    }
                 }
             }
-        }
-    });
+            if (e.key === 'Escape') {
+                photonStop();
+            }
+        });
 
-    console.log('PlayFab Thingy loaded! 🎮');
-</script>
-
+        console.log('🎮 PlayFab Thingy v2.0 loaded!');
+        console.log('🔄 Press Ctrl+Enter to execute current tab');
+        console.log('⏹ Press Escape to stop Photon spammer');
+    </script>
 </body>
 </html>
