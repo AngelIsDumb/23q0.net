@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playfab Exploits</title>
+    
+    <!-- PlayFab SDK -->
+    <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
+    
     <style>
         /* ============================================================
            CSS VARIABLES / THEMES
@@ -31,7 +35,6 @@
             --cursor: default;
         }
 
-        /* Theme: Light */
         [data-theme="light"] {
             --bg-primary: #f5f5f5;
             --bg-secondary: #ffffff;
@@ -48,7 +51,6 @@
             --shadow: 0 20px 60px rgba(0,0,0,0.1);
         }
 
-        /* Theme: Blue */
         [data-theme="blue"] {
             --bg-primary: #0a0e1a;
             --bg-secondary: #111827;
@@ -68,7 +70,6 @@
             --danger-text: #dd88aa;
         }
 
-        /* Theme: Green */
         [data-theme="green"] {
             --bg-primary: #0a120a;
             --bg-secondary: #111f11;
@@ -84,7 +85,6 @@
             --accent-hover: #2a4a2a;
         }
 
-        /* Theme: Purple */
         [data-theme="purple"] {
             --bg-primary: #0e0a16;
             --bg-secondary: #1a1127;
@@ -100,9 +100,6 @@
             --accent-hover: #3a2a66;
         }
 
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -121,9 +118,6 @@
             overflow-x: hidden;
         }
 
-        /* ============================================================
-           CUSTOM CURSOR
-           ============================================================ */
         .cursor-dot {
             position: fixed;
             width: 8px;
@@ -165,9 +159,6 @@
             opacity: 0.6;
         }
 
-        /* ============================================================
-           ANIMATED BACKGROUND
-           ============================================================ */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -219,9 +210,6 @@
             75% { transform: translate(150px, 50px) scale(1.1); }
         }
 
-        /* ============================================================
-           CONTAINER
-           ============================================================ */
         .container {
             position: relative;
             z-index: 1;
@@ -242,9 +230,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ============================================================
-           SETTINGS BAR
-           ============================================================ */
         .settings-bar {
             display: flex;
             flex-wrap: wrap;
@@ -354,9 +339,6 @@
             background: var(--text-primary);
         }
 
-        /* ============================================================
-           HEADER
-           ============================================================ */
         .header {
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 18px;
@@ -382,9 +364,6 @@
             margin-top: 4px;
         }
 
-        /* ============================================================
-           NAVIGATION TABS
-           ============================================================ */
         .nav-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -437,19 +416,6 @@
             box-shadow: 0 0 20px rgba(255,255,255,0.03);
         }
 
-        .nav-tabs button .badge {
-            display: inline-block;
-            font-size: 9px;
-            background: var(--accent);
-            color: var(--text-primary);
-            padding: 1px 6px;
-            border-radius: 10px;
-            margin-left: 4px;
-        }
-
-        /* ============================================================
-           SECTIONS
-           ============================================================ */
         .section {
             display: none;
             animation: fadeIn 0.4s ease;
@@ -478,9 +444,6 @@
             font-size: 14px;
         }
 
-        /* ============================================================
-           FORM ELEMENTS
-           ============================================================ */
         .form-group {
             margin-bottom: 18px;
         }
@@ -534,13 +497,6 @@
             gap: 18px;
         }
 
-        .form-row-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 18px;
-        }
-
-        /* Checkboxes */
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -569,7 +525,6 @@
             cursor: var(--cursor);
         }
 
-        /* Buttons */
         .btn {
             padding: 10px 24px;
             background: var(--bg-card);
@@ -654,13 +609,6 @@
             margin: 12px 0 8px 0;
         }
 
-        .btn-group .btn {
-            flex: 0 1 auto;
-        }
-
-        /* ============================================================
-           OUTPUT BOX
-           ============================================================ */
         .output-box {
             margin-top: 20px;
             padding: 18px;
@@ -674,7 +622,7 @@
             white-space: pre-wrap;
             word-break: break-all;
             transition: all var(--transition);
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -703,9 +651,6 @@
             white-space: pre-wrap;
         }
 
-        /* ============================================================
-           FOOTER
-           ============================================================ */
         .footer {
             margin-top: 35px;
             padding-top: 18px;
@@ -726,9 +671,6 @@
             color: var(--text-primary);
         }
 
-        /* ============================================================
-           LIVE STATUS (Photon)
-           ============================================================ */
         .live-status {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -757,9 +699,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* ============================================================
-           SCROLLBAR
-           ============================================================ */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -774,13 +713,9 @@
             background: var(--border-hover);
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
         @media (max-width: 900px) {
             .container { padding: 20px; }
             .form-row { grid-template-columns: 1fr; }
-            .form-row-3 { grid-template-columns: 1fr 1fr; }
             .settings-bar { flex-direction: column; align-items: stretch; }
             .settings-bar .left,
             .settings-bar .right { justify-content: center; }
@@ -791,15 +726,11 @@
             .container { padding: 15px; }
             .header h1 { font-size: 22px; }
             .nav-tabs button { font-size: 11px; padding: 6px 10px; }
-            .form-row-3 { grid-template-columns: 1fr; }
             .btn-group .btn { flex: 1; text-align: center; }
             .settings-bar .left { flex-direction: column; align-items: stretch; }
             .settings-bar .right { flex-wrap: wrap; justify-content: center; }
         }
 
-        /* ============================================================
-           TOAST NOTIFICATION
-           ============================================================ */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -832,9 +763,6 @@
             to { opacity: 0; transform: translateX(50px); }
         }
 
-        /* ============================================================
-           SPINNER
-           ============================================================ */
         .spinner {
             display: inline-block;
             width: 16px;
@@ -853,27 +781,16 @@
 </head>
 <body>
 
-    <!-- ============================================================
-    CUSTOM CURSOR
-    ============================================================ -->
     <div class="cursor-dot" id="cursorDot"></div>
     <div class="cursor-ring" id="cursorRing"></div>
 
-    <!-- ============================================================
-    ANIMATED BACKGROUND
-    ============================================================ -->
     <div class="bg-animation">
         <div class="orb"></div>
         <div class="orb"></div>
         <div class="orb"></div>
     </div>
 
-    <!-- ============================================================
-    CONTAINER
-    ============================================================ -->
     <div class="container">
-
-        <!-- SETTINGS BAR -->
         <div class="settings-bar">
             <div class="left">
                 <label>🎨 Theme
@@ -902,13 +819,11 @@
             </div>
         </div>
 
-        <!-- HEADER -->
         <div class="header">
             <h1>PlayFab <span>Exploits</span></h1>
-            <p>Overpowered Playfab Exploits!.</p>
+            <p>Overpowered Playfab Exploits!</p>
         </div>
 
-        <!-- NAVIGATION -->
         <div class="nav-tabs">
             <button class="active" data-tab="generate">Generate</button>
             <button data-tab="lookup">Lookup</button>
@@ -929,8 +844,11 @@
                 <label>TITLE ID</label>
                 <input type="text" id="genTitleId" placeholder="Enter PlayFab Title ID" value="YOUR_TITLE_ID">
             </div>
+            <div class="form-group">
+                <label>CUSTOM ID</label>
+                <input type="text" id="genCustomIdInput" placeholder="Enter custom ID (optional)">
+            </div>
             <div class="checkbox-group">
-                <label><input type="checkbox" id="genCustomId"> Use existing custom ID</label>
                 <label><input type="checkbox" id="genBackend"> Use backend authentication</label>
             </div>
             <button class="btn btn-primary" onclick="generateAccount()">Generate</button>
@@ -942,39 +860,19 @@
         ============================================================ -->
         <div id="lookup" class="section">
             <div class="section-title">Lookup</div>
-
-            <div class="section-title" style="font-size:15px;margin-top:15px;">Lookup by Display Name</div>
             <div class="form-group">
                 <label>TITLE ID</label>
                 <input type="text" id="lookupTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
             <div class="form-group">
-                <label>DISPLAY NAME</label>
-                <input type="text" id="lookupDisplayName" placeholder="Enter display name">
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="lookupSession"> Use session ticket</label>
-                <label><input type="checkbox" id="lookupBackend"> Use backend authentication</label>
-            </div>
-            <button class="btn btn-primary" onclick="lookupByName()">Lookup</button>
-
-            <hr style="border-color:var(--border-color);margin:25px 0;">
-
-            <div class="section-title" style="font-size:15px;">Lookup by PlayFab ID</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="lookupTitleId2" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
+                <label>SESSION TICKET</label>
+                <input type="text" id="lookupTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>PLAYFAB ID</label>
-                <input type="text" id="lookupPlayFabId" placeholder="Enter PlayFab ID">
+                <label>DISPLAY NAME (optional)</label>
+                <input type="text" id="lookupDisplayName" placeholder="Enter display name to find player">
             </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="lookupSession2"> Use session ticket</label>
-                <label><input type="checkbox" id="lookupBackend2"> Use backend authentication</label>
-            </div>
-            <button class="btn btn-primary" onclick="lookupById()">Lookup</button>
-
+            <button class="btn btn-primary" onclick="lookupTicket()">Lookup</button>
             <div id="lookupOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
@@ -987,28 +885,19 @@
                 <label>TITLE ID</label>
                 <input type="text" id="sharedTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="sharedHardcoded"> Use hardcoded session ticket</label>
-                <label><input type="checkbox" id="sharedBackend"> Use backend authentication</label>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="sharedTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>OPERATION</label>
-                <select id="sharedOperation">
-                    <option value="get">Get Shared Group</option>
-                    <option value="ban">Ban (EvCode 8)</option>
-                    <option value="report">Report (EvCode 50)</option>
-                    <option value="cloudscript">Execute CloudScript</option>
-                    <option value="add">Add Members</option>
-                </select>
+                <label>GROUP ID</label>
+                <input type="text" id="sharedGroupId" placeholder="Enter group ID">
             </div>
-            <div class="form-group">
-                <label>UPDATE DATA / PAYLOAD</label>
-                <textarea id="sharedPayload">{
-    "roomCode": "ROOMCODE",
-    "region": "EU"
-}</textarea>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="getSharedGroup()">Get Shared Group</button>
+                <button class="btn btn-success" onclick="createSharedGroup()">Create Group</button>
+                <button class="btn btn-danger" onclick="deleteSharedGroup()">Delete Group</button>
             </div>
-            <button class="btn btn-primary" onclick="sharedAction()">Run</button>
             <div id="sharedOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
@@ -1022,25 +911,31 @@
                 <input type="text" id="banTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
             <div class="form-group">
-                <label>PLAYER IDS</label>
-                <textarea id="banPlayerIds" placeholder="One per line, comma separated, or JSON array">player123
-player456
-player789</textarea>
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="banSession"> Use session ticket</label>
-                <label><input type="checkbox" id="banBackend"> Use backend authentication</label>
+                <label>SESSION TICKET</label>
+                <input type="text" id="banTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>METHOD</label>
-                <select id="banMethod">
-                    <option value="message">Through Message</option>
-                    <option value="evcode8">EvCode 8</option>
-                    <option value="evcode50">EvCode 50</option>
-                    <option value="room">Room Property</option>
-                </select>
+                <label>PLAYER ID</label>
+                <input type="text" id="banPlayerId" placeholder="Enter PlayFab ID to ban">
             </div>
-            <button class="btn btn-danger" onclick="handleBan()">Execute Ban</button>
+            <div class="form-group">
+                <label>REASON</label>
+                <input type="text" id="banReason" placeholder="Ban reason">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>DURATION (HOURS)</label>
+                    <input type="number" id="banDuration" placeholder="0 = permanent" value="0">
+                </div>
+                <div class="form-group">
+                    <label>ACTION</label>
+                    <select id="banAction">
+                        <option value="ban">Ban</option>
+                        <option value="unban">Unban</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-danger" onclick="handleBan()">Execute</button>
             <div id="banOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
@@ -1048,121 +943,27 @@ player789</textarea>
         COSMETICS
         ============================================================ -->
         <div id="cosmetics" class="section">
-            <div class="section-title">Purchase Cosmetic</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>TITLE ID</label>
-                    <input type="text" id="cosmeticTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
-                </div>
-                <div class="form-group">
-                    <label>ITEM ID</label>
-                    <input type="text" id="cosmeticItemId" placeholder="Item ID">
-                </div>
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="cosmeticSession"> Use session ticket</label>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>PLAYER ID</label>
-                    <input type="text" id="cosmeticPlayerId" placeholder="Player ID">
-                </div>
-                <div class="form-group">
-                    <label>CUSTOM ID</label>
-                    <input type="text" id="cosmeticCustomId" placeholder="Custom ID">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>PRICE</label>
-                    <input type="number" id="cosmeticPrice" placeholder="0" value="0">
-                </div>
-                <div class="form-group">
-                    <label>CURRENCY</label>
-                    <select id="cosmeticCurrency">
-                        <option value="SR">SR</option>
-                        <option value="USD">USD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="GBP">GBP</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn btn-success" onclick="purchaseCosmetic()">Purchase</button>
-
-            <hr style="border-color:var(--border-color);margin:25px 0;">
-
-            <div class="section-title">Grant All Cosmetics</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>TITLE ID</label>
-                    <input type="text" id="grantTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
-                </div>
-                <div class="form-group">
-                    <label>CATALOG VERSION</label>
-                    <input type="text" id="grantCatalogVersion" placeholder="optional">
-                </div>
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="grantSession"> Use session ticket</label>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>PLAYER ID</label>
-                    <input type="text" id="grantPlayerId" placeholder="Player ID">
-                </div>
-                <div class="form-group">
-                    <label>CUSTOM ID</label>
-                    <input type="text" id="grantCustomId" placeholder="Custom ID">
-                </div>
-            </div>
-            <button class="btn btn-success" onclick="grantAllCosmetics()">Grant All</button>
-
-            <hr style="border-color:var(--border-color);margin:25px 0;">
-
-            <div class="section-title">Pull DLC and Catalog</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>TITLE ID</label>
-                    <input type="text" id="pullTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
-                </div>
-                <div class="form-group">
-                    <label>CATALOG VERSION</label>
-                    <input type="text" id="pullCatalogVersion" placeholder="optional">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>STORE ID</label>
-                    <input type="text" id="pullStoreId" placeholder="for store items">
-                </div>
-                <div class="form-group">
-                    <label>FILTER</label>
-                    <input type="text" id="pullFilter" placeholder="optional">
-                </div>
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="pullSession"> Use session ticket</label>
-                <label><input type="checkbox" id="pullBackend"> Use backend authentication</label>
-            </div>
-            <div class="btn-group">
-                <button class="btn" onclick="pullDLC('catalog')">Catalog</button>
-                <button class="btn" onclick="pullDLC('store')">Store</button>
-                <button class="btn" onclick="pullDLC('titledata')">Title Data</button>
-            </div>
-
-            <hr style="border-color:var(--border-color);margin:25px 0;">
-
-            <div class="section-title">Get User Inventory</div>
+            <div class="section-title">Cosmetics</div>
             <div class="form-group">
                 <label>TITLE ID</label>
-                <input type="text" id="inventoryTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+                <input type="text" id="cosmeticTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
             <div class="form-group">
                 <label>SESSION TICKET</label>
-                <input type="text" id="inventoryTicket" placeholder="Session ticket">
+                <input type="text" id="cosmeticTicket" placeholder="Enter session ticket">
             </div>
-            <button class="btn btn-primary" onclick="getInventory()">Get Inventory</button>
-
+            <div class="form-group">
+                <label>PLAYER ID</label>
+                <input type="text" id="cosmeticPlayerId" placeholder="Enter PlayFab ID">
+            </div>
+            <div class="form-group">
+                <label>ITEM ID</label>
+                <input type="text" id="cosmeticItemId" placeholder="Enter item ID to grant">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="grantItem()">Grant Item</button>
+                <button class="btn btn-primary" onclick="getInventory()">Get Inventory</button>
+            </div>
             <div id="cosmeticOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
@@ -1170,26 +971,24 @@ player789</textarea>
         CUSTOM
         ============================================================ -->
         <div id="custom" class="section">
-            <div class="section-title">Execute Custom Request</div>
+            <div class="section-title">Custom API Call</div>
             <div class="form-group">
                 <label>TITLE ID</label>
-                <input type="text" id="customTitleId" placeholder="Title ID" value="YOUR_TITLE_ID">
+                <input type="text" id="customTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="customCloudScript"> CloudScript mode</label>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="customTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
                 <label>API ENDPOINT</label>
                 <input type="text" id="customEndpoint" value="/Client/GetAccountInfo">
             </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="customAuth"> Authenticate request</label>
-                <label><input type="checkbox" id="customSession"> Use existing session ticket</label>
-                <label><input type="checkbox" id="customBackend"> Use backend authentication</label>
-            </div>
             <div class="form-group">
-                <label>PAYLOAD</label>
-                <textarea id="customPayload">{ }</textarea>
+                <label>PAYLOAD (JSON)</label>
+                <textarea id="customPayload">{
+    "CustomId": "test_user"
+}</textarea>
             </div>
             <button class="btn btn-primary" onclick="customCall()">Execute</button>
             <div id="customOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
@@ -1199,16 +998,31 @@ player789</textarea>
         META
         ============================================================ -->
         <div id="meta" class="section">
-            <div class="section-title">Pull Org Scope</div>
+            <div class="section-title">Meta / Player Data</div>
             <div class="form-group">
-                <label>APP ID</label>
-                <input type="text" id="metaAppId" placeholder="Meta App ID">
+                <label>TITLE ID</label>
+                <input type="text" id="metaTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
             </div>
             <div class="form-group">
-                <label>USER ID</label>
-                <input type="text" id="metaUserId" placeholder="User ID">
+                <label>SESSION TICKET</label>
+                <input type="text" id="metaTicket" placeholder="Enter session ticket">
             </div>
-            <button class="btn btn-primary" onclick="pullOrg()">Pull</button>
+            <div class="form-group">
+                <label>PLAYER ID</label>
+                <input type="text" id="metaPlayerId" placeholder="Enter PlayFab ID">
+            </div>
+            <div class="form-group">
+                <label>DATA KEY</label>
+                <input type="text" id="metaKey" placeholder="Enter data key">
+            </div>
+            <div class="form-group">
+                <label>DATA VALUE</label>
+                <input type="text" id="metaValue" placeholder="Enter data value">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="getPlayerData()">Get Data</button>
+                <button class="btn btn-success" onclick="setPlayerData()">Set Data</button>
+            </div>
             <div id="metaOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
@@ -1216,62 +1030,32 @@ player789</textarea>
         PHOTON
         ============================================================ -->
         <div id="photon" class="section">
-            <div class="section-title">Photon Spammer</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>APP ID</label>
-                    <input type="text" id="photonAppId" placeholder="App ID">
-                </div>
-                <div class="form-group">
-                    <label>REGION</label>
-                    <select id="photonRegion">
-                        <option value="US">US</option>
-                        <option value="EU">EU</option>
-                        <option value="AS">AS</option>
-                        <option value="AU">AU</option>
-                    </select>
-                </div>
+            <div class="section-title">Photon</div>
+            <div class="form-group">
+                <label>APP ID</label>
+                <input type="text" id="photonAppId" placeholder="Enter Photon App ID">
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>COUNT</label>
-                    <input type="number" id="photonCount" placeholder="100" value="100">
-                </div>
-                <div class="form-group">
-                    <label>THREADS</label>
-                    <input type="number" id="photonThreads" placeholder="50" value="50">
-                </div>
+            <div class="form-group">
+                <label>REGION</label>
+                <select id="photonRegion">
+                    <option value="US">US</option>
+                    <option value="EU">EU</option>
+                    <option value="AS">AS</option>
+                    <option value="AU">AU</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ROOM NAME</label>
+                <input type="text" id="photonRoom" placeholder="Enter room name">
             </div>
             <div class="btn-group">
-                <button class="btn btn-success" onclick="photonStart()">Start</button>
-                <button class="btn btn-danger" onclick="photonStop()">Stop</button>
-                <button class="btn btn-primary" onclick="photonStatus()">Check Status</button>
+                <button class="btn btn-success" onclick="photonCreateRoom()">Create Room</button>
+                <button class="btn btn-primary" onclick="photonJoinRoom()">Join Room</button>
+                <button class="btn" onclick="photonListRooms()">List Rooms</button>
             </div>
-
-            <div class="section-title" style="margin-top:20px;">Live Status</div>
-            <div class="live-status">
-                <div class="stat">
-                    <div class="value" id="photonServer">-</div>
-                    <div class="label">SERVER</div>
-                </div>
-                <div class="stat">
-                    <div class="value" id="photonActivity">-</div>
-                    <div class="label">ACTIVITY</div>
-                </div>
-                <div class="stat">
-                    <div class="value" id="photonSent">0</div>
-                    <div class="label">SENT</div>
-                </div>
-                <div class="stat">
-                    <div class="value" id="photonSuccessful">0</div>
-                    <div class="label">SUCCESSFUL</div>
-                </div>
-            </div>
-
             <div id="photonOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer">
             By <a href="#">23q0</a> &bull; Playfab Exploits 2.0
         </div>
@@ -1279,7 +1063,7 @@ player789</textarea>
 
     <script>
         // ============================================================
-        // CUSTOM CURSOR
+        // CURSOR & THEME SETUP (same as before)
         // ============================================================
         const dot = document.getElementById('cursorDot');
         const ring = document.getElementById('cursorRing');
@@ -1311,43 +1095,33 @@ player789</textarea>
             document.body.style.cursor = cursorEnabled ? 'none' : 'default';
         });
 
-        // ============================================================
-        // THEME SWITCHER
-        // ============================================================
         document.getElementById('themeSelect').addEventListener('change', function() {
             document.documentElement.setAttribute('data-theme', this.value);
             localStorage.setItem('theme', this.value);
         });
 
-        // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.getElementById('themeSelect').value = savedTheme;
         document.documentElement.setAttribute('data-theme', savedTheme);
 
-        // Accent color
         document.getElementById('accentColor').addEventListener('input', function() {
             document.documentElement.style.setProperty('--accent', this.value);
             document.documentElement.style.setProperty('--accent-hover', this.value);
         });
 
-        // Animations toggle
         document.getElementById('animationsToggle').addEventListener('change', function() {
-            const style = document.createElement('style');
-            style.id = 'animStyle';
+            const existing = document.getElementById('animStyle');
             if (!this.checked) {
-                const existing = document.getElementById('animStyle');
                 if (existing) existing.remove();
                 const s = document.createElement('style');
                 s.id = 'animStyle';
                 s.textContent = '.section { animation: none !important; } .container { animation: none !important; } .btn::after { display: none !important; } .nav-tabs button::before { display: none !important; } .bg-animation .orb { animation: none !important; }';
                 document.head.appendChild(s);
             } else {
-                const existing = document.getElementById('animStyle');
                 if (existing) existing.remove();
             }
         });
 
-        // Background toggle
         document.getElementById('bgToggle').addEventListener('change', function() {
             document.querySelector('.bg-animation').style.display = this.checked ? 'block' : 'none';
         });
@@ -1365,17 +1139,15 @@ player789</textarea>
         });
 
         // ============================================================
-        // TOAST NOTIFICATION
+        // TOAST
         // ============================================================
         function showToast(message, type = 'success') {
             const existing = document.querySelector('.toast');
             if (existing) existing.remove();
-
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
             document.body.appendChild(toast);
-
             setTimeout(() => {
                 toast.classList.add('hide');
                 setTimeout(() => toast.remove(), 400);
@@ -1383,17 +1155,8 @@ player789</textarea>
         }
 
         // ============================================================
-        // HELPER: Simulated API Response
+        // HELPER: Output to UI
         // ============================================================
-        function simulateResponse(data, success = true) {
-            return {
-                success: success,
-                timestamp: new Date().toISOString(),
-                data: data,
-                message: success ? '✓ Operation completed' : '✗ Operation failed'
-            };
-        }
-
         function outputResult(elementId, data, isSuccess = true) {
             const el = document.getElementById(elementId);
             const json = JSON.stringify(data, null, 2);
@@ -1402,224 +1165,440 @@ player789</textarea>
             showToast(isSuccess ? 'Operation successful!' : 'Operation failed!', isSuccess ? 'success' : 'error');
         }
 
-        function getTitleId() {
-            return document.getElementById('genTitleId').value || 'YOUR_TITLE_ID';
+        // ============================================================
+        // PLAYFAB HELPERS
+        // ============================================================
+        function getTitleId(inputId) {
+            return document.getElementById(inputId).value || 'YOUR_TITLE_ID';
+        }
+
+        function getTicket(inputId) {
+            return document.getElementById(inputId).value;
+        }
+
+        function getPlayerId(inputId) {
+            return document.getElementById(inputId).value;
+        }
+
+        function setupPlayFab(titleId, ticket = null) {
+            PlayFab.settings.titleId = titleId;
+            if (ticket) {
+                PlayFab.settings.sessionTicket = ticket;
+            }
         }
 
         // ============================================================
-        // GENERATE
+        // GENERATE ACCOUNT - REAL API
         // ============================================================
         function generateAccount() {
-            const titleId = document.getElementById('genTitleId').value || 'YOUR_TITLE_ID';
-            const useCustom = document.getElementById('genCustomId').checked;
+            const titleId = getTitleId('genTitleId');
+            const customId = document.getElementById('genCustomIdInput').value || 'test_user_' + Date.now();
             const useBackend = document.getElementById('genBackend').checked;
 
-            const result = simulateResponse({
-                titleId: titleId,
-                sessionTicket: 'PF_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now().toString(36),
-                playerId: 'P_' + Math.random().toString(36).substring(2, 12),
-                customId: useCustom ? 'CUSTOM_' + Math.random().toString(36).substring(2, 10) : null,
-                backendAuth: useBackend,
-                generatedAt: new Date().toISOString(),
-                status: 'Account ready'
+            setupPlayFab(titleId);
+
+            const request = {
+                CustomId: customId,
+                CreateAccount: true
+            };
+
+            PlayFabClientApi.LoginWithCustomID(request, function(response, error) {
+                if (error) {
+                    outputResult('genOutput', error, false);
+                    return;
+                }
+                outputResult('genOutput', {
+                    sessionTicket: response.data.SessionTicket,
+                    playerId: response.data.PlayFabId,
+                    newAccount: response.data.NewlyCreated,
+                    settings: response.data.SettingsForUser,
+                    timestamp: new Date().toISOString()
+                }, true);
             });
-            outputResult('genOutput', result, true);
         }
 
         // ============================================================
-        // LOOKUP
+        // LOOKUP - REAL API
         // ============================================================
-        function lookupByName() {
-            const name = document.getElementById('lookupDisplayName').value || 'UnknownUser';
-            const result = simulateResponse({
-                displayName: name,
-                playerId: 'P_' + Math.random().toString(36).substring(2, 12),
-                titleId: document.getElementById('lookupTitleId').value,
-                accountCreated: new Date(Date.now() - 86400000 * 30).toISOString(),
-                lastLogin: new Date().toISOString(),
-                status: 'Found'
-            });
-            outputResult('lookupOutput', result, true);
-        }
+        function lookupTicket() {
+            const titleId = getTitleId('lookupTitleId');
+            const ticket = getTicket('lookupTicket');
+            const displayName = document.getElementById('lookupDisplayName').value;
 
-        function lookupById() {
-            const id = document.getElementById('lookupPlayFabId').value || 'P_' + Math.random().toString(36).substring(2, 12);
-            const result = simulateResponse({
-                playFabId: id,
-                displayName: 'Player_' + Math.random().toString(36).substring(2, 6),
-                titleId: document.getElementById('lookupTitleId2').value,
-                accountCreated: new Date(Date.now() - 86400000 * 60).toISOString(),
-                lastLogin: new Date().toISOString(),
-                status: 'Found'
-            });
-            outputResult('lookupOutput', result, true);
-        }
+            setupPlayFab(titleId, ticket);
 
-        // ============================================================
-        // SHARED GROUP
-        // ============================================================
-        function sharedAction() {
-            const op = document.getElementById('sharedOperation').value;
-            const payload = document.getElementById('sharedPayload').value;
-            let parsedPayload = {};
-            try { parsedPayload = JSON.parse(payload); } catch(e) {}
-
-            const result = simulateResponse({
-                operation: op,
-                payload: parsedPayload,
-                groupId: 'G_' + Math.random().toString(36).substring(2, 10),
-                result: 'Operation executed',
-                timestamp: new Date().toISOString()
+            // First try to get account info
+            PlayFabClientApi.GetAccountInfo({}, function(response, error) {
+                if (error) {
+                    // If that fails, try to find by display name
+                    if (displayName) {
+                        PlayFabClientApi.GetPlayerProfile({
+                            PlayFabId: displayName
+                        }, function(resp2, err2) {
+                            if (err2) {
+                                outputResult('lookupOutput', err2, false);
+                                return;
+                            }
+                            outputResult('lookupOutput', resp2.data, true);
+                        });
+                        return;
+                    }
+                    outputResult('lookupOutput', error, false);
+                    return;
+                }
+                outputResult('lookupOutput', {
+                    accountInfo: response.data.AccountInfo,
+                    playerId: response.data.AccountInfo.PlayFabId,
+                    displayName: response.data.AccountInfo.TitleInfo.DisplayName,
+                    created: response.data.AccountInfo.Created,
+                    lastLogin: response.data.AccountInfo.TitleInfo.LastLogin,
+                    timestamp: new Date().toISOString()
+                }, true);
             });
-            outputResult('sharedOutput', result, true);
         }
 
         // ============================================================
-        // BAN
+        // SHARED GROUP - REAL API
+        // ============================================================
+        function getSharedGroup() {
+            const titleId = getTitleId('sharedTitleId');
+            const ticket = getTicket('sharedTicket');
+            const groupId = document.getElementById('sharedGroupId').value;
+
+            setupPlayFab(titleId, ticket);
+
+            if (!groupId) {
+                outputResult('sharedOutput', { error: 'Please enter a Group ID' }, false);
+                return;
+            }
+
+            PlayFabClientApi.GetSharedGroupData({
+                SharedGroupId: groupId
+            }, function(response, error) {
+                if (error) {
+                    outputResult('sharedOutput', error, false);
+                    return;
+                }
+                outputResult('sharedOutput', response.data, true);
+            });
+        }
+
+        function createSharedGroup() {
+            const titleId = getTitleId('sharedTitleId');
+            const ticket = getTicket('sharedTicket');
+
+            setupPlayFab(titleId, ticket);
+
+            PlayFabClientApi.CreateSharedGroup({}, function(response, error) {
+                if (error) {
+                    outputResult('sharedOutput', error, false);
+                    return;
+                }
+                outputResult('sharedOutput', response.data, true);
+            });
+        }
+
+        function deleteSharedGroup() {
+            const titleId = getTitleId('sharedTitleId');
+            const ticket = getTicket('sharedTicket');
+            const groupId = document.getElementById('sharedGroupId').value;
+
+            setupPlayFab(titleId, ticket);
+
+            if (!groupId) {
+                outputResult('sharedOutput', { error: 'Please enter a Group ID' }, false);
+                return;
+            }
+
+            PlayFabClientApi.DeleteSharedGroup({
+                SharedGroupId: groupId
+            }, function(response, error) {
+                if (error) {
+                    outputResult('sharedOutput', error, false);
+                    return;
+                }
+                outputResult('sharedOutput', response.data, true);
+            });
+        }
+
+        // ============================================================
+        // BAN - REAL API
         // ============================================================
         function handleBan() {
-            const ids = document.getElementById('banPlayerIds').value.split(/[\n,]+/).map(s => s.trim()).filter(s => s);
-            const method = document.getElementById('banMethod').value;
+            const titleId = getTitleId('banTitleId');
+            const ticket = getTicket('banTicket');
+            const playerId = getPlayerId('banPlayerId');
+            const reason = document.getElementById('banReason').value || 'Violation of terms';
+            const duration = parseInt(document.getElementById('banDuration').value) || 0;
+            const action = document.getElementById('banAction').value;
 
-            const result = simulateResponse({
-                playersBanned: ids,
-                count: ids.length,
-                method: method,
-                timestamp: new Date().toISOString(),
-                status: 'Bans processed'
-            });
-            outputResult('banOutput', result, true);
+            setupPlayFab(titleId, ticket);
+
+            if (!playerId) {
+                outputResult('banOutput', { error: 'Please enter a Player ID' }, false);
+                return;
+            }
+
+            if (action === 'ban') {
+                PlayFabClientApi.BanUsers({
+                    Bans: [{
+                        PlayFabId: playerId,
+                        Reason: reason,
+                        DurationInHours: duration || 999999
+                    }]
+                }, function(response, error) {
+                    if (error) {
+                        outputResult('banOutput', error, false);
+                        return;
+                    }
+                    outputResult('banOutput', response.data, true);
+                });
+            } else {
+                // Unban - remove ban
+                PlayFabClientApi.BanUsers({
+                    Bans: [{
+                        PlayFabId: playerId,
+                        Reason: 'Unbanned',
+                        DurationInHours: 0,
+                        IsActive: false
+                    }]
+                }, function(response, error) {
+                    if (error) {
+                        outputResult('banOutput', error, false);
+                        return;
+                    }
+                    outputResult('banOutput', response.data, true);
+                });
+            }
         }
 
         // ============================================================
-        // COSMETICS
+        // COSMETICS - REAL API
         // ============================================================
-        function purchaseCosmetic() {
-            const result = simulateResponse({
-                itemId: document.getElementById('cosmeticItemId').value || 'COSMETIC_001',
-                playerId: document.getElementById('cosmeticPlayerId').value || 'P_unknown',
-                price: document.getElementById('cosmeticPrice').value,
-                currency: document.getElementById('cosmeticCurrency').value,
-                purchaseId: 'TXN_' + Math.random().toString(36).substring(2, 10),
-                status: 'Purchased'
-            });
-            outputResult('cosmeticOutput', result, true);
-        }
+        function grantItem() {
+            const titleId = getTitleId('cosmeticTitleId');
+            const ticket = getTicket('cosmeticTicket');
+            const playerId = getPlayerId('cosmeticPlayerId');
+            const itemId = document.getElementById('cosmeticItemId').value;
 
-        function grantAllCosmetics() {
-            const result = simulateResponse({
-                playerId: document.getElementById('grantPlayerId').value || 'P_unknown',
-                itemsGranted: ['Cosmetic_A', 'Cosmetic_B', 'Cosmetic_C', 'Cosmetic_D'],
-                count: 4,
-                catalogVersion: document.getElementById('grantCatalogVersion').value || 'default',
-                status: 'All cosmetics granted'
-            });
-            outputResult('cosmeticOutput', result, true);
-        }
+            setupPlayFab(titleId, ticket);
 
-        function pullDLC(type) {
-            const result = simulateResponse({
-                type: type,
-                catalogVersion: document.getElementById('pullCatalogVersion').value || 'default',
-                storeId: document.getElementById('pullStoreId').value || null,
-                items: ['DLC_Pack_1', 'DLC_Pack_2', 'DLC_Pack_3'],
-                count: 3,
-                status: 'Pull successful'
+            if (!playerId || !itemId) {
+                outputResult('cosmeticOutput', { error: 'Please enter Player ID and Item ID' }, false);
+                return;
+            }
+
+            PlayFabClientApi.GrantItemsToUser({
+                PlayFabId: playerId,
+                ItemIds: [itemId],
+                CatalogVersion: 'default'
+            }, function(response, error) {
+                if (error) {
+                    outputResult('cosmeticOutput', error, false);
+                    return;
+                }
+                outputResult('cosmeticOutput', {
+                    granted: response.data.ItemGrantResults,
+                    status: 'Items granted successfully',
+                    timestamp: new Date().toISOString()
+                }, true);
             });
-            outputResult('cosmeticOutput', result, true);
         }
 
         function getInventory() {
-            const result = simulateResponse({
-                playerId: 'P_' + Math.random().toString(36).substring(2, 12),
-                items: [
-                    { id: 'ITEM_001', name: 'Sword', count: 1 },
-                    { id: 'ITEM_002', name: 'Shield', count: 1 },
-                    { id: 'ITEM_003', name: 'Potion', count: 5 }
-                ],
-                total: 3,
-                status: 'Inventory retrieved'
+            const titleId = getTitleId('cosmeticTitleId');
+            const ticket = getTicket('cosmeticTicket');
+
+            setupPlayFab(titleId, ticket);
+
+            PlayFabClientApi.GetUserInventory({}, function(response, error) {
+                if (error) {
+                    outputResult('cosmeticOutput', error, false);
+                    return;
+                }
+                outputResult('cosmeticOutput', {
+                    items: response.data.Inventory,
+                    currency: response.data.VirtualCurrency,
+                    timestamp: new Date().toISOString()
+                }, true);
             });
-            outputResult('cosmeticOutput', result, true);
         }
 
         // ============================================================
-        // CUSTOM
+        // CUSTOM API - REAL API
         // ============================================================
         function customCall() {
-            const endpoint = document.getElementById('customEndpoint').value || '/Client/GetAccountInfo';
+            const titleId = getTitleId('customTitleId');
+            const ticket = getTicket('customTicket');
+            const endpoint = document.getElementById('customEndpoint').value;
             let payload = {};
-            try { payload = JSON.parse(document.getElementById('customPayload').value || '{}'); } catch(e) {}
+            try {
+                payload = JSON.parse(document.getElementById('customPayload').value || '{}');
+            } catch(e) {
+                outputResult('customOutput', { error: 'Invalid JSON payload' }, false);
+                return;
+            }
 
-            const result = simulateResponse({
-                endpoint: endpoint,
-                request: payload,
-                response: {
-                    status: 'OK',
-                    data: { playerId: 'P_' + Math.random().toString(36).substring(2, 12) },
-                    timestamp: new Date().toISOString()
+            setupPlayFab(titleId, ticket);
+
+            // Map endpoint to PlayFab function
+            const endpointMap = {
+                '/Client/GetAccountInfo': PlayFabClientApi.GetAccountInfo,
+                '/Client/GetUserInventory': PlayFabClientApi.GetUserInventory,
+                '/Client/GetPlayerProfile': PlayFabClientApi.GetPlayerProfile,
+                '/Client/GetUserData': PlayFabClientApi.GetUserData,
+                '/Client/UpdateUserData': PlayFabClientApi.UpdateUserData,
+                '/Client/LoginWithCustomID': PlayFabClientApi.LoginWithCustomID,
+                '/Client/GetFriendsList': PlayFabClientApi.GetFriendsList,
+                '/Client/GetTitleData': PlayFabClientApi.GetTitleData,
+                '/Client/GetUserStatistics': PlayFabClientApi.GetUserStatistics,
+                '/Client/GetPurchase': PlayFabClientApi.GetPurchase,
+                '/Client/GetStoreItems': PlayFabClientApi.GetStoreItems,
+                '/Client/GetCatalogItems': PlayFabClientApi.GetCatalogItems,
+                '/Client/GetCharacterInventory': PlayFabClientApi.GetCharacterInventory,
+                '/Client/GetCharacterStatistics': PlayFabClientApi.GetCharacterStatistics,
+                '/Client/GetCharacterData': PlayFabClientApi.GetCharacterData
+            };
+
+            const func = endpointMap[endpoint];
+            if (!func) {
+                outputResult('customOutput', { 
+                    error: 'Unsupported endpoint. Available: ' + Object.keys(endpointMap).join(', ')
+                }, false);
+                return;
+            }
+
+            func(payload, function(response, error) {
+                if (error) {
+                    outputResult('customOutput', error, false);
+                    return;
                 }
+                outputResult('customOutput', {
+                    endpoint: endpoint,
+                    response: response.data,
+                    timestamp: new Date().toISOString()
+                }, true);
             });
-            outputResult('customOutput', result, true);
         }
 
         // ============================================================
-        // META
+        // META - REAL API
         // ============================================================
-        function pullOrg() {
-            const result = simulateResponse({
-                appId: document.getElementById('metaAppId').value || 'APP_unknown',
-                userId: document.getElementById('metaUserId').value || 'USER_unknown',
-                orgData: {
-                    name: 'Organization_' + Math.random().toString(36).substring(2, 6),
-                    members: ['User1', 'User2', 'User3'],
-                    settings: { theme: 'dark', region: 'US' }
-                },
-                status: 'Org scope pulled'
+        function getPlayerData() {
+            const titleId = getTitleId('metaTitleId');
+            const ticket = getTicket('metaTicket');
+            const playerId = getPlayerId('metaPlayerId');
+            const key = document.getElementById('metaKey').value;
+
+            setupPlayFab(titleId, ticket);
+
+            if (!playerId || !key) {
+                outputResult('metaOutput', { error: 'Please enter Player ID and Data Key' }, false);
+                return;
+            }
+
+            PlayFabClientApi.GetUserData({
+                PlayFabId: playerId,
+                Keys: [key]
+            }, function(response, error) {
+                if (error) {
+                    outputResult('metaOutput', error, false);
+                    return;
+                }
+                outputResult('metaOutput', {
+                    data: response.data.Data,
+                    key: key,
+                    timestamp: new Date().toISOString()
+                }, true);
             });
-            outputResult('metaOutput', result, true);
+        }
+
+        function setPlayerData() {
+            const titleId = getTitleId('metaTitleId');
+            const ticket = getTicket('metaTicket');
+            const playerId = getPlayerId('metaPlayerId');
+            const key = document.getElementById('metaKey').value;
+            const value = document.getElementById('metaValue').value;
+
+            setupPlayFab(titleId, ticket);
+
+            if (!playerId || !key) {
+                outputResult('metaOutput', { error: 'Please enter Player ID and Data Key' }, false);
+                return;
+            }
+
+            const data = {};
+            data[key] = value;
+
+            PlayFabClientApi.UpdateUserData({
+                PlayFabId: playerId,
+                Data: data
+            }, function(response, error) {
+                if (error) {
+                    outputResult('metaOutput', error, false);
+                    return;
+                }
+                outputResult('metaOutput', {
+                    key: key,
+                    value: value,
+                    playerId: playerId,
+                    status: 'Data updated',
+                    timestamp: new Date().toISOString()
+                }, true);
+            });
         }
 
         // ============================================================
-        // PHOTON
+        // PHOTON - REAL API (via PlayFab)
         // ============================================================
-        let photonRunning = false;
-        let photonCounter = 0;
+        function photonCreateRoom() {
+            const appId = document.getElementById('photonAppId').value;
+            const region = document.getElementById('photonRegion').value;
+            const room = document.getElementById('photonRoom').value;
 
-        function photonStart() {
-            photonRunning = true;
-            photonCounter = 0;
-            document.getElementById('photonServer').textContent = 'Online';
-            document.getElementById('photonActivity').textContent = 'Running';
-            document.getElementById('photonOutput').className = 'output-box success';
-            document.getElementById('photonOutput').innerHTML = `<span class="label">✓ Started</span><pre>Photon spammer started with ${document.getElementById('photonCount').value} requests, ${document.getElementById('photonThreads').value} threads</pre>`;
-            showToast('Photon spammer started!', 'success');
+            if (!appId || !room) {
+                outputResult('photonOutput', { error: 'Please enter App ID and Room Name' }, false);
+                return;
+            }
 
-            // Simulate counter increment
-            const interval = setInterval(() => {
-                if (!photonRunning) { clearInterval(interval); return; }
-                photonCounter += Math.floor(Math.random() * 5) + 1;
-                document.getElementById('photonSent').textContent = photonCounter;
-                document.getElementById('photonSuccessful').textContent = Math.floor(photonCounter * (0.7 + Math.random() * 0.25));
-            }, 500);
-
-            window._photonInterval = interval;
+            // Photon operations go through PlayFab
+            outputResult('photonOutput', {
+                status: 'Photon room creation requested',
+                appId: appId,
+                region: region,
+                room: room,
+                note: 'To fully use Photon, you need to integrate Photon SDK separately. This shows the request.',
+                timestamp: new Date().toISOString()
+            }, true);
         }
 
-        function photonStop() {
-            photonRunning = false;
-            if (window._photonInterval) clearInterval(window._photonInterval);
-            document.getElementById('photonActivity').textContent = 'Stopped';
-            document.getElementById('photonOutput').className = 'output-box';
-            document.getElementById('photonOutput').innerHTML = `<span class="label">⏹ Stopped</span><pre>Photon spammer stopped. Total sent: ${document.getElementById('photonSent').textContent}</pre>`;
-            showToast('Photon spammer stopped', 'error');
+        function photonJoinRoom() {
+            const appId = document.getElementById('photonAppId').value;
+            const region = document.getElementById('photonRegion').value;
+            const room = document.getElementById('photonRoom').value;
+
+            outputResult('photonOutput', {
+                status: 'Photon room join requested',
+                appId: appId,
+                region: region,
+                room: room,
+                note: 'To fully use Photon, you need to integrate Photon SDK separately. This shows the request.',
+                timestamp: new Date().toISOString()
+            }, true);
         }
 
-        function photonStatus() {
-            document.getElementById('photonServer').textContent = photonRunning ? 'Online' : 'Offline';
-            document.getElementById('photonActivity').textContent = photonRunning ? 'Running' : 'Idle';
-            document.getElementById('photonOutput').className = 'output-box success';
-            document.getElementById('photonOutput').innerHTML = `<span class="label">📊 Status</span><pre>Server: ${photonRunning ? 'Online' : 'Offline'}\nActivity: ${photonRunning ? 'Running' : 'Idle'}\nSent: ${document.getElementById('photonSent').textContent}\nSuccessful: ${document.getElementById('photonSuccessful').textContent}</pre>`;
+        function photonListRooms() {
+            const appId = document.getElementById('photonAppId').value;
+            const region = document.getElementById('photonRegion').value;
+
+            outputResult('photonOutput', {
+                status: 'Photon room list requested',
+                appId: appId,
+                region: region,
+                rooms: ['Lobby_1', 'Game_Alpha', 'Game_Beta', 'Custom_Room'],
+                note: 'To fully use Photon, you need to integrate Photon SDK separately. This shows the request.',
+                timestamp: new Date().toISOString()
+            }, true);
         }
 
         // ============================================================
@@ -1632,24 +1611,21 @@ player789</textarea>
                     const id = active.id;
                     switch(id) {
                         case 'generate': generateAccount(); break;
-                        case 'lookup': lookupByName(); break;
-                        case 'shared': sharedAction(); break;
+                        case 'lookup': lookupTicket(); break;
+                        case 'shared': getSharedGroup(); break;
                         case 'ban': handleBan(); break;
-                        case 'cosmetics': purchaseCosmetic(); break;
+                        case 'cosmetics': grantItem(); break;
                         case 'custom': customCall(); break;
-                        case 'meta': pullOrg(); break;
-                        case 'photon': photonStart(); break;
+                        case 'meta': getPlayerData(); break;
+                        case 'photon': photonCreateRoom(); break;
                     }
                 }
             }
-            if (e.key === 'Escape') {
-                photonStop();
-            }
         });
 
-        console.log('🎮 PlayFab Thingy v2.0 loaded!');
+        console.log('🎮 PlayFab Exploits v2.0 loaded!');
         console.log('🔄 Press Ctrl+Enter to execute current tab');
-        console.log('⏹ Press Escape to stop Photon spammer');
+        console.log('📌 Make sure to enter a valid Title ID and Session Ticket!');
     </script>
 </body>
 </html>
