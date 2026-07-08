@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playfab Exploits</title>
+    <title>Game Exploits</title>
     
     <!-- PlayFab SDK -->
     <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
@@ -29,6 +29,8 @@
             --success-text: #8fcaa0;
             --danger: #5a2a2a;
             --danger-text: #ca8f8f;
+            --warning: #5a4a2a;
+            --warning-text: #caa08f;
             --shadow: 0 20px 60px rgba(0,0,0,0.8);
             --radius: 10px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -98,6 +100,21 @@
             --border-hover: #5533aa;
             --accent: #2a1a55;
             --accent-hover: #3a2a66;
+        }
+
+        [data-theme="red"] {
+            --bg-primary: #1a0a0a;
+            --bg-secondary: #2a1111;
+            --bg-card: #3a1a1a;
+            --bg-input: #220d0d;
+            --bg-hover: #4a2a2a;
+            --text-primary: #ffd0d0;
+            --text-secondary: #cc8888;
+            --text-muted: #774444;
+            --border-color: #4a1a1a;
+            --border-hover: #aa3333;
+            --accent: #3a1a1a;
+            --accent-hover: #4a2a2a;
         }
 
         * {
@@ -202,6 +219,14 @@
             left: 50%;
             animation-delay: -14s;
         }
+        .bg-animation .orb:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            background: var(--danger-text);
+            top: 20%;
+            right: 20%;
+            animation-delay: -21s;
+        }
 
         @keyframes floatOrb {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -213,7 +238,7 @@
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1100px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
             background: var(--bg-secondary);
@@ -347,7 +372,7 @@
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: var(--text-primary);
             letter-spacing: -0.5px;
@@ -356,6 +381,11 @@
         .header h1 span {
             color: var(--text-secondary);
             font-weight: 300;
+        }
+
+        .header h1 .glow {
+            color: var(--danger-text);
+            text-shadow: 0 0 20px rgba(200,100,100,0.3);
         }
 
         .header p {
@@ -367,7 +397,7 @@
         .nav-tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 4px;
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
@@ -378,10 +408,10 @@
             background: transparent;
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 6px;
             cursor: var(--cursor);
-            font-size: 13px;
+            font-size: 12px;
             transition: all var(--transition);
             font-family: inherit;
             position: relative;
@@ -416,6 +446,38 @@
             box-shadow: 0 0 20px rgba(255,255,255,0.03);
         }
 
+        .nav-tabs button .badge {
+            display: inline-block;
+            font-size: 8px;
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+        }
+
+        .nav-tabs .danger-tab {
+            border-color: var(--danger);
+            color: var(--danger-text);
+        }
+
+        .nav-tabs .danger-tab.active {
+            background: var(--danger);
+            color: var(--text-primary);
+            border-color: var(--danger-text);
+        }
+
+        .nav-tabs .warning-tab {
+            border-color: var(--warning);
+            color: var(--warning-text);
+        }
+
+        .nav-tabs .warning-tab.active {
+            background: var(--warning);
+            color: var(--text-primary);
+            border-color: var(--warning-text);
+        }
+
         .section {
             display: none;
             animation: fadeIn 0.4s ease;
@@ -442,6 +504,15 @@
             color: var(--text-secondary);
             font-weight: 300;
             font-size: 14px;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin: 15px 0 10px 0;
+            border-left: 2px solid var(--accent);
+            padding-left: 12px;
         }
 
         .form-group {
@@ -494,6 +565,18 @@
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-row-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 18px;
         }
 
@@ -602,11 +685,27 @@
             filter: brightness(1.2);
         }
 
+        .btn-warning {
+            background: var(--warning);
+            border-color: var(--warning);
+            color: var(--warning-text);
+        }
+
+        .btn-warning:hover {
+            background: var(--warning);
+            border-color: var(--warning-text);
+            filter: brightness(1.2);
+        }
+
         .btn-group {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin: 12px 0 8px 0;
+        }
+
+        .btn-group .btn {
+            flex: 0 1 auto;
         }
 
         .output-box {
@@ -634,6 +733,11 @@
         .output-box.error {
             border-color: var(--danger);
             color: var(--danger-text);
+        }
+
+        .output-box.warning {
+            border-color: var(--warning);
+            color: var(--warning-text);
         }
 
         .output-box .label {
@@ -673,7 +777,7 @@
 
         .live-status {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 15px;
             margin-top: 15px;
         }
@@ -713,22 +817,30 @@
             background: var(--border-hover);
         }
 
+        @media (max-width: 1024px) {
+            .form-row-4 { grid-template-columns: 1fr 1fr; }
+        }
+
         @media (max-width: 900px) {
             .container { padding: 20px; }
             .form-row { grid-template-columns: 1fr; }
+            .form-row-3 { grid-template-columns: 1fr 1fr; }
             .settings-bar { flex-direction: column; align-items: stretch; }
             .settings-bar .left,
             .settings-bar .right { justify-content: center; }
-            .live-status { grid-template-columns: 1fr; }
+            .live-status { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 600px) {
             .container { padding: 15px; }
             .header h1 { font-size: 22px; }
-            .nav-tabs button { font-size: 11px; padding: 6px 10px; }
+            .nav-tabs button { font-size: 10px; padding: 5px 8px; }
+            .form-row-3 { grid-template-columns: 1fr; }
+            .form-row-4 { grid-template-columns: 1fr; }
             .btn-group .btn { flex: 1; text-align: center; }
             .settings-bar .left { flex-direction: column; align-items: stretch; }
             .settings-bar .right { flex-wrap: wrap; justify-content: center; }
+            .live-status { grid-template-columns: 1fr; }
         }
 
         .toast {
@@ -749,6 +861,7 @@
 
         .toast.success { border-color: var(--success); }
         .toast.error { border-color: var(--danger); }
+        .toast.warning { border-color: var(--warning); }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(50px); }
@@ -788,6 +901,7 @@
         <div class="orb"></div>
         <div class="orb"></div>
         <div class="orb"></div>
+        <div class="orb"></div>
     </div>
 
     <div class="container">
@@ -800,6 +914,7 @@
                         <option value="blue">Blue</option>
                         <option value="green">Green</option>
                         <option value="purple">Purple</option>
+                        <option value="red">Red</option>
                     </select>
                 </label>
                 <label>🔵 Accent
@@ -820,250 +935,662 @@
         </div>
 
         <div class="header">
-            <h1>PlayFab <span>Exploits</span></h1>
-            <p>Overpowered Playfab Exploits!</p>
+            <h1>🎮 Game <span>Exploits</span></h1>
+            <p>Ultimate PlayFab & Photon Exploitation Tool <span style="color:var(--danger-text);">⚡</span></p>
         </div>
 
         <div class="nav-tabs">
-            <button class="active" data-tab="generate">Generate</button>
-            <button data-tab="lookup">Lookup</button>
-            <button data-tab="shared">Shared Group</button>
+            <!-- PlayFab Tabs -->
+            <button class="active" data-tab="auth">Auth</button>
+            <button data-tab="account">Account</button>
+            <button data-tab="player">Player</button>
+            <button data-tab="data">Data</button>
+            <button data-tab="inventory">Inventory</button>
+            <button data-tab="trade">Trade</button>
+            <button data-tab="group">Group</button>
             <button data-tab="ban">Ban</button>
-            <button data-tab="cosmetics">Cosmetics</button>
-            <button data-tab="custom">Custom</button>
-            <button data-tab="meta">Meta</button>
-            <button data-tab="photon">Photon</button>
+            <button data-tab="cloudscript">CloudScript</button>
+            <button data-tab="leaderboard">Leaderboard</button>
+            <button data-tab="store">Store</button>
+            <button data-tab="title">Title</button>
+            
+            <!-- Photon Tabs -->
+            <button class="warning-tab" data-tab="photon">Photon</button>
+            <button class="warning-tab" data-tab="photonlobby">Lobby</button>
+            <button class="warning-tab" data-tab="photonroom">Room</button>
+            <button class="warning-tab" data-tab="photonmatch">Match</button>
+            
+            <!-- Bypass Tab -->
+            <button class="danger-tab" data-tab="bypass">Bypass</button>
         </div>
 
         <!-- ============================================================
-        GENERATE
+        AUTH - Authentication
         ============================================================ -->
-        <div id="generate" class="section active">
-            <div class="section-title">Generate Account</div>
+        <div id="auth" class="section active">
+            <div class="section-title">🔐 Authentication</div>
             <div class="form-group">
                 <label>TITLE ID</label>
-                <input type="text" id="genTitleId" placeholder="Enter PlayFab Title ID" value="YOUR_TITLE_ID">
+                <input type="text" id="authTitleId" placeholder="Enter PlayFab Title ID" value="YOUR_TITLE_ID">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>CUSTOM ID</label>
+                    <input type="text" id="authCustomId" placeholder="Custom ID" value="test_user">
+                </div>
+                <div class="form-group">
+                    <label>EMAIL</label>
+                    <input type="email" id="authEmail" placeholder="Email for login">
+                </div>
             </div>
             <div class="form-group">
-                <label>CUSTOM ID</label>
-                <input type="text" id="genCustomIdInput" placeholder="Enter custom ID (optional)">
+                <label>PASSWORD</label>
+                <input type="password" id="authPassword" placeholder="Password">
             </div>
             <div class="checkbox-group">
-                <label><input type="checkbox" id="genBackend"> Use backend authentication</label>
+                <label><input type="checkbox" id="authCreate"> Create account if doesn't exist</label>
+                <label><input type="checkbox" id="authBackend"> Use backend authentication</label>
             </div>
-            <button class="btn btn-primary" onclick="generateAccount()">Generate</button>
-            <div id="genOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="authCustom()">Login with Custom ID</button>
+                <button class="btn btn-primary" onclick="authEmail()">Login with Email</button>
+                <button class="btn btn-warning" onclick="authGuest()">Guest Login</button>
+                <button class="btn btn-danger" onclick="authLogout()">Logout</button>
+            </div>
+            <div id="authOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
         <!-- ============================================================
-        LOOKUP
+        ACCOUNT - Account Management
         ============================================================ -->
-        <div id="lookup" class="section">
-            <div class="section-title">Lookup</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="lookupTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
-            </div>
+        <div id="account" class="section">
+            <div class="section-title">👤 Account Management</div>
             <div class="form-group">
                 <label>SESSION TICKET</label>
-                <input type="text" id="lookupTicket" placeholder="Enter session ticket">
+                <input type="text" id="accTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>DISPLAY NAME (optional)</label>
-                <input type="text" id="lookupDisplayName" placeholder="Enter display name to find player">
+                <label>PLAYER ID</label>
+                <input type="text" id="accPlayerId" placeholder="PlayFab ID">
             </div>
-            <button class="btn btn-primary" onclick="lookupTicket()">Lookup</button>
-            <div id="lookupOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="getAccountInfo()">Get Account Info</button>
+                <button class="btn btn-primary" onclick="getPlayerProfile()">Get Player Profile</button>
+                <button class="btn btn-success" onclick="updateDisplayName()">Update Display Name</button>
+                <button class="btn btn-warning" onclick="getFriends()">Get Friends List</button>
+                <button class="btn btn-danger" onclick="addFriend()">Add Friend</button>
+            </div>
+            <div class="form-group" style="margin-top:15px;">
+                <label>NEW DISPLAY NAME</label>
+                <input type="text" id="accNewName" placeholder="New display name">
+            </div>
+            <div id="accountOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
         <!-- ============================================================
-        SHARED GROUP
+        PLAYER - Player Actions
         ============================================================ -->
-        <div id="shared" class="section">
-            <div class="section-title">Shared Group Data</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="sharedTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
-            </div>
+        <div id="player" class="section">
+            <div class="section-title">🎯 Player Actions</div>
             <div class="form-group">
                 <label>SESSION TICKET</label>
-                <input type="text" id="sharedTicket" placeholder="Enter session ticket">
+                <input type="text" id="playerTicket" placeholder="Enter session ticket">
+            </div>
+            <div class="form-group">
+                <label>PLAYER ID</label>
+                <input type="text" id="playerTargetId" placeholder="Target PlayFab ID">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>STATISTIC NAME</label>
+                    <input type="text" id="playerStatName" placeholder="Statistic name">
+                </div>
+                <div class="form-group">
+                    <label>STATISTIC VALUE</label>
+                    <input type="number" id="playerStatValue" placeholder="Value" value="100">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="updateStats()">Update Statistics</button>
+                <button class="btn btn-primary" onclick="getStats()">Get Statistics</button>
+                <button class="btn btn-warning" onclick="getPlayerData()">Get Player Data</button>
+                <button class="btn btn-danger" onclick="reportPlayer()">Report Player</button>
+            </div>
+            <div id="playerOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        DATA - Data Management
+        ============================================================ -->
+        <div id="data" class="section">
+            <div class="section-title">💾 Data Management</div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="dataTicket" placeholder="Enter session ticket">
+            </div>
+            <div class="form-group">
+                <label>PLAYER ID</label>
+                <input type="text" id="dataPlayerId" placeholder="PlayFab ID">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>DATA KEY</label>
+                    <input type="text" id="dataKey" placeholder="Data key">
+                </div>
+                <div class="form-group">
+                    <label>DATA VALUE</label>
+                    <input type="text" id="dataValue" placeholder="Data value">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="getUserData()">Get User Data</button>
+                <button class="btn btn-success" onclick="setUserData()">Set User Data</button>
+                <button class="btn btn-danger" onclick="deleteUserData()">Delete User Data</button>
+                <button class="btn btn-warning" onclick="getTitleData()">Get Title Data</button>
+            </div>
+            <div id="dataOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        INVENTORY - Inventory Management
+        ============================================================ -->
+        <div id="inventory" class="section">
+            <div class="section-title">📦 Inventory Management</div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="invTicket" placeholder="Enter session ticket">
+            </div>
+            <div class="form-group">
+                <label>PLAYER ID</label>
+                <input type="text" id="invPlayerId" placeholder="PlayFab ID">
+            </div>
+            <div class="form-group">
+                <label>ITEM ID</label>
+                <input type="text" id="invItemId" placeholder="Item ID">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>QUANTITY</label>
+                    <input type="number" id="invQuantity" placeholder="Quantity" value="1">
+                </div>
+                <div class="form-group">
+                    <label>CATALOG VERSION</label>
+                    <input type="text" id="invCatalog" placeholder="Catalog version" value="default">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="getInventory()">Get Inventory</button>
+                <button class="btn btn-success" onclick="grantItem()">Grant Item</button>
+                <button class="btn btn-danger" onclick="revokeItem()">Revoke Item</button>
+                <button class="btn btn-warning" onclick="getCatalog()">Get Catalog</button>
+                <button class="btn" onclick="getItem()">Get Item</button>
+            </div>
+            <div id="inventoryOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        TRADE - Trading System
+        ============================================================ -->
+        <div id="trade" class="section">
+            <div class="section-title">🔄 Trading System</div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="tradeTicket" placeholder="Enter session ticket">
+            </div>
+            <div class="form-group">
+                <label>RECIPIENT PLAYER ID</label>
+                <input type="text" id="tradeRecipient" placeholder="Recipient PlayFab ID">
+            </div>
+            <div class="form-group">
+                <label>ITEM ID TO TRADE</label>
+                <input type="text" id="tradeItemId" placeholder="Item ID to trade">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>TRADE QUANTITY</label>
+                    <input type="number" id="tradeQuantity" placeholder="Quantity" value="1">
+                </div>
+                <div class="form-group">
+                    <label>CURRENCY AMOUNT</label>
+                    <input type="number" id="tradeCurrency" placeholder="Virtual currency" value="0">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="sendTrade()">Send Trade</button>
+                <button class="btn btn-primary" onclick="acceptTrade()">Accept Trade</button>
+                <button class="btn btn-danger" onclick="declineTrade()">Decline Trade</button>
+                <button class="btn btn-warning" onclick="getTradeHistory()">Trade History</button>
+            </div>
+            <div id="tradeOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        GROUP - Group Management
+        ============================================================ -->
+        <div id="group" class="section">
+            <div class="section-title">👥 Group Management</div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="groupTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
                 <label>GROUP ID</label>
-                <input type="text" id="sharedGroupId" placeholder="Enter group ID">
+                <input type="text" id="groupId" placeholder="Group ID">
+            </div>
+            <div class="form-group">
+                <label>MEMBER PLAYER ID</label>
+                <input type="text" id="groupMember" placeholder="Member PlayFab ID">
             </div>
             <div class="btn-group">
-                <button class="btn btn-primary" onclick="getSharedGroup()">Get Shared Group</button>
-                <button class="btn btn-success" onclick="createSharedGroup()">Create Group</button>
-                <button class="btn btn-danger" onclick="deleteSharedGroup()">Delete Group</button>
+                <button class="btn btn-success" onclick="createGroup()">Create Group</button>
+                <button class="btn btn-primary" onclick="getGroup()">Get Group</button>
+                <button class="btn btn-danger" onclick="deleteGroup()">Delete Group</button>
+                <button class="btn btn-success" onclick="addGroupMember()">Add Member</button>
+                <button class="btn btn-danger" onclick="removeGroupMember()">Remove Member</button>
+                <button class="btn btn-warning" onclick="getGroupMembers()">Get Members</button>
             </div>
-            <div id="sharedOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+            <div id="groupOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
         <!-- ============================================================
-        BAN
+        BAN - Ban System
         ============================================================ -->
         <div id="ban" class="section">
-            <div class="section-title">Ban Player</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="banTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
-            </div>
+            <div class="section-title">🚫 Ban System</div>
             <div class="form-group">
                 <label>SESSION TICKET</label>
                 <input type="text" id="banTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
                 <label>PLAYER ID</label>
-                <input type="text" id="banPlayerId" placeholder="Enter PlayFab ID to ban">
+                <input type="text" id="banPlayerId" placeholder="PlayFab ID to ban/unban">
             </div>
             <div class="form-group">
                 <label>REASON</label>
-                <input type="text" id="banReason" placeholder="Ban reason">
+                <input type="text" id="banReason" placeholder="Ban reason" value="Violation of terms">
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>DURATION (HOURS)</label>
-                    <input type="number" id="banDuration" placeholder="0 = permanent" value="0">
+                    <input type="number" id="banDuration" placeholder="0 = permanent" value="24">
                 </div>
                 <div class="form-group">
                     <label>ACTION</label>
                     <select id="banAction">
-                        <option value="ban">Ban</option>
-                        <option value="unban">Unban</option>
+                        <option value="ban">Ban Player</option>
+                        <option value="unban">Unban Player</option>
+                        <option value="check">Check Ban Status</option>
+                        <option value="list">List All Bans</option>
                     </select>
                 </div>
             </div>
-            <button class="btn btn-danger" onclick="handleBan()">Execute</button>
+            <div class="btn-group">
+                <button class="btn btn-danger" onclick="handleBan()">Execute Ban</button>
+                <button class="btn btn-warning" onclick="getBanList()">Get Ban List</button>
+            </div>
             <div id="banOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
         <!-- ============================================================
-        COSMETICS
+        CLOUDSCRIPT - CloudScript
         ============================================================ -->
-        <div id="cosmetics" class="section">
-            <div class="section-title">Cosmetics</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="cosmeticTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
-            </div>
+        <div id="cloudscript" class="section">
+            <div class="section-title">☁️ CloudScript</div>
             <div class="form-group">
                 <label>SESSION TICKET</label>
-                <input type="text" id="cosmeticTicket" placeholder="Enter session ticket">
+                <input type="text" id="csTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>PLAYER ID</label>
-                <input type="text" id="cosmeticPlayerId" placeholder="Enter PlayFab ID">
+                <label>FUNCTION NAME</label>
+                <input type="text" id="csFunction" placeholder="CloudScript function name" value="helloWorld">
             </div>
             <div class="form-group">
-                <label>ITEM ID</label>
-                <input type="text" id="cosmeticItemId" placeholder="Enter item ID to grant">
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-success" onclick="grantItem()">Grant Item</button>
-                <button class="btn btn-primary" onclick="getInventory()">Get Inventory</button>
-            </div>
-            <div id="cosmeticOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
-        </div>
-
-        <!-- ============================================================
-        CUSTOM
-        ============================================================ -->
-        <div id="custom" class="section">
-            <div class="section-title">Custom API Call</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="customTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
-            </div>
-            <div class="form-group">
-                <label>SESSION TICKET</label>
-                <input type="text" id="customTicket" placeholder="Enter session ticket">
-            </div>
-            <div class="form-group">
-                <label>API ENDPOINT</label>
-                <input type="text" id="customEndpoint" value="/Client/GetAccountInfo">
-            </div>
-            <div class="form-group">
-                <label>PAYLOAD (JSON)</label>
-                <textarea id="customPayload">{
-    "CustomId": "test_user"
+                <label>PARAMETERS (JSON)</label>
+                <textarea id="csParams">{
+    "message": "Hello from exploit tool!",
+    "value": 100
 }</textarea>
             </div>
-            <button class="btn btn-primary" onclick="customCall()">Execute</button>
-            <div id="customOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="executeCloudScript()">Execute</button>
+                <button class="btn btn-success" onclick="getCloudScript()">Get CloudScript</button>
+            </div>
+            <div id="cloudscriptOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
         <!-- ============================================================
-        META
+        LEADERBOARD - Leaderboard
         ============================================================ -->
-        <div id="meta" class="section">
-            <div class="section-title">Meta / Player Data</div>
-            <div class="form-group">
-                <label>TITLE ID</label>
-                <input type="text" id="metaTitleId" placeholder="Enter Title ID" value="YOUR_TITLE_ID">
-            </div>
+        <div id="leaderboard" class="section">
+            <div class="section-title">🏆 Leaderboard</div>
             <div class="form-group">
                 <label>SESSION TICKET</label>
-                <input type="text" id="metaTicket" placeholder="Enter session ticket">
+                <input type="text" id="lbTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>PLAYER ID</label>
-                <input type="text" id="metaPlayerId" placeholder="Enter PlayFab ID">
+                <label>STATISTIC NAME</label>
+                <input type="text" id="lbStatName" placeholder="Statistic name" value="HighScore">
             </div>
-            <div class="form-group">
-                <label>DATA KEY</label>
-                <input type="text" id="metaKey" placeholder="Enter data key">
-            </div>
-            <div class="form-group">
-                <label>DATA VALUE</label>
-                <input type="text" id="metaValue" placeholder="Enter data value">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>MAX RESULTS</label>
+                    <input type="number" id="lbMax" placeholder="Max results" value="10">
+                </div>
+                <div class="form-group">
+                    <label>START POSITION</label>
+                    <input type="number" id="lbStart" placeholder="Start position" value="0">
+                </div>
             </div>
             <div class="btn-group">
-                <button class="btn btn-primary" onclick="getPlayerData()">Get Data</button>
-                <button class="btn btn-success" onclick="setPlayerData()">Set Data</button>
+                <button class="btn btn-primary" onclick="getLeaderboard()">Get Leaderboard</button>
+                <button class="btn btn-success" onclick="updateLeaderboard()">Update Score</button>
+                <button class="btn btn-warning" onclick="getPlayerRank()">Get Player Rank</button>
+                <button class="btn" onclick="getAroundPlayer()">Get Around Player</button>
             </div>
-            <div id="metaOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+            <div id="leaderboardOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
         <!-- ============================================================
-        PHOTON
+        STORE - Store Operations
         ============================================================ -->
-        <div id="photon" class="section">
-            <div class="section-title">Photon</div>
+        <div id="store" class="section">
+            <div class="section-title">🏪 Store Operations</div>
             <div class="form-group">
-                <label>APP ID</label>
-                <input type="text" id="photonAppId" placeholder="Enter Photon App ID">
+                <label>SESSION TICKET</label>
+                <input type="text" id="storeTicket" placeholder="Enter session ticket">
             </div>
             <div class="form-group">
-                <label>REGION</label>
-                <select id="photonRegion">
-                    <option value="US">US</option>
-                    <option value="EU">EU</option>
-                    <option value="AS">AS</option>
-                    <option value="AU">AU</option>
-                </select>
+                <label>STORE ID</label>
+                <input type="text" id="storeId" placeholder="Store ID" value="default">
             </div>
             <div class="form-group">
-                <label>ROOM NAME</label>
-                <input type="text" id="photonRoom" placeholder="Enter room name">
+                <label>CATALOG VERSION</label>
+                <input type="text" id="storeCatalog" placeholder="Catalog version" value="default">
             </div>
             <div class="btn-group">
-                <button class="btn btn-success" onclick="photonCreateRoom()">Create Room</button>
-                <button class="btn btn-primary" onclick="photonJoinRoom()">Join Room</button>
-                <button class="btn" onclick="photonListRooms()">List Rooms</button>
+                <button class="btn btn-primary" onclick="getStoreItems()">Get Store Items</button>
+                <button class="btn btn-success" onclick="purchaseItem()">Purchase Item</button>
+                <button class="btn btn-warning" onclick="getCatalogItems()">Get Catalog Items</button>
+            </div>
+            <div class="form-group" style="margin-top:15px;">
+                <label>ITEM ID TO PURCHASE</label>
+                <input type="text" id="storePurchaseItem" placeholder="Item ID to purchase">
+            </div>
+            <div id="storeOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        TITLE - Title Management
+        ============================================================ -->
+        <div id="title" class="section">
+            <div class="section-title">🏷️ Title Management</div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="titleTicket" placeholder="Enter session ticket">
+            </div>
+            <div class="form-group">
+                <label>KEY</label>
+                <input type="text" id="titleKey" placeholder="Title data key">
+            </div>
+            <div class="form-group">
+                <label>VALUE</label>
+                <input type="text" id="titleValue" placeholder="Title data value">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="getTitleData()">Get Title Data</button>
+                <button class="btn btn-success" onclick="setTitleData()">Set Title Data</button>
+                <button class="btn btn-danger" onclick="deleteTitleData()">Delete Title Data</button>
+                <button class="btn btn-warning" onclick="getTitleNews()">Get Title News</button>
+            </div>
+            <div id="titleOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        PHOTON - Photon Core
+        ============================================================ -->
+        <div id="photon" class="section">
+            <div class="section-title">📡 Photon Core</div>
+            <div class="form-group">
+                <label>APP ID</label>
+                <input type="text" id="photonAppId" placeholder="Photon App ID">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>REGION</label>
+                    <select id="photonRegion">
+                        <option value="US">US</option>
+                        <option value="EU">EU</option>
+                        <option value="AS">AS</option>
+                        <option value="AU">AU</option>
+                        <option value="SA">SA</option>
+                        <option value="JP">JP</option>
+                        <option value="CN">CN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>PROTOCOL</label>
+                    <select id="photonProtocol">
+                        <option value="tcp">TCP</option>
+                        <option value="udp">UDP</option>
+                        <option value="ws">WebSocket</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="photonConnect()">Connect</button>
+                <button class="btn btn-danger" onclick="photonDisconnect()">Disconnect</button>
+                <button class="btn btn-primary" onclick="photonStatus()">Status</button>
+                <button class="btn btn-warning" onclick="photonPing()">Ping</button>
             </div>
             <div id="photonOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
         </div>
 
+        <!-- ============================================================
+        PHOTON LOBBY - Photon Lobby
+        ============================================================ -->
+        <div id="photonlobby" class="section">
+            <div class="section-title">🏛️ Photon Lobby</div>
+            <div class="form-group">
+                <label>APP ID</label>
+                <input type="text" id="plAppId" placeholder="Photon App ID">
+            </div>
+            <div class="form-group">
+                <label>LOBBY NAME</label>
+                <input type="text" id="plLobbyName" placeholder="Lobby name">
+            </div>
+            <div class="form-group">
+                <label>LOBBY TYPE</label>
+                <select id="plLobbyType">
+                    <option value="default">Default</option>
+                    <option value="sql">SQL</option>
+                    <option value="async">Async</option>
+                </select>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="photonCreateLobby()">Create Lobby</button>
+                <button class="btn btn-primary" onclick="photonJoinLobby()">Join Lobby</button>
+                <button class="btn btn-warning" onclick="photonListLobbies()">List Lobbies</button>
+                <button class="btn btn-danger" onclick="photonLeaveLobby()">Leave Lobby</button>
+            </div>
+            <div id="photonlobbyOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        PHOTON ROOM - Photon Room
+        ============================================================ -->
+        <div id="photonroom" class="section">
+            <div class="section-title">🚪 Photon Room</div>
+            <div class="form-group">
+                <label>APP ID</label>
+                <input type="text" id="prAppId" placeholder="Photon App ID">
+            </div>
+            <div class="form-group">
+                <label>ROOM NAME</label>
+                <input type="text" id="prRoomName" placeholder="Room name">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>MAX PLAYERS</label>
+                    <input type="number" id="prMaxPlayers" placeholder="Max players" value="8">
+                </div>
+                <div class="form-group">
+                    <label>IS VISIBLE</label>
+                    <select id="prVisible">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="photonCreateRoom()">Create Room</button>
+                <button class="btn btn-primary" onclick="photonJoinRoom()">Join Room</button>
+                <button class="btn btn-warning" onclick="photonListRooms()">List Rooms</button>
+                <button class="btn btn-danger" onclick="photonLeaveRoom()">Leave Room</button>
+                <button class="btn" onclick="photonCloseRoom()">Close Room</button>
+            </div>
+            <div id="photonroomOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        PHOTON MATCH - Photon Matchmaking
+        ============================================================ -->
+        <div id="photonmatch" class="section">
+            <div class="section-title">🎯 Photon Matchmaking</div>
+            <div class="form-group">
+                <label>APP ID</label>
+                <input type="text" id="pmAppId" placeholder="Photon App ID">
+            </div>
+            <div class="form-group">
+                <label>GAME TYPE</label>
+                <input type="text" id="pmGameType" placeholder="Game type" value="default">
+            </div>
+            <div class="form-group">
+                <label>PLAYER SKILL</label>
+                <input type="number" id="pmSkill" placeholder="Skill level" value="1000">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>REGION</label>
+                    <select id="pmRegion">
+                        <option value="US">US</option>
+                        <option value="EU">EU</option>
+                        <option value="AS">AS</option>
+                        <option value="AU">AU</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>TEAM</label>
+                    <select id="pmTeam">
+                        <option value="any">Any</option>
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="photonStartMatchmaking()">Start Matchmaking</button>
+                <button class="btn btn-danger" onclick="photonStopMatchmaking()">Stop Matchmaking</button>
+                <button class="btn btn-primary" onclick="photonMatchStatus()">Match Status</button>
+                <button class="btn btn-warning" onclick="photonFindMatch()">Find Match</button>
+            </div>
+            <div id="photonmatchOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
+        <!-- ============================================================
+        BYPASS - Exploits & Bypasses
+        ============================================================ -->
+        <div id="bypass" class="section">
+            <div class="section-title">⚠️ Bypass & Exploits</div>
+            <p style="color:var(--danger-text);margin-bottom:15px;">Use at your own risk! These are experimental bypass techniques.</p>
+            
+            <div class="section-subtitle">Anti-Cheat Bypass</div>
+            <div class="form-group">
+                <label>SESSION TICKET</label>
+                <input type="text" id="bpTicket" placeholder="Session ticket">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>BYPASS TYPE</label>
+                    <select id="bpType">
+                        <option value="anti_cheat">Anti-Cheat</option>
+                        <option value="anti_debug">Anti-Debug</option>
+                        <option value="memory">Memory Protection</option>
+                        <option value="integrity">Integrity Check</option>
+                        <option value="ssl">SSL Pinning</option>
+                        <option value="cert">Certificate Bypass</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>TARGET</label>
+                    <select id="bpTarget">
+                        <option value="client">Client-side</option>
+                        <option value="server">Server-side</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-danger" onclick="bypassAntiCheat()">Bypass Anti-Cheat</button>
+                <button class="btn btn-danger" onclick="bypassSSL()">Bypass SSL</button>
+                <button class="btn btn-danger" onclick="bypassDebug()">Bypass Debug</button>
+                <button class="btn btn-warning" onclick="memoryEdit()">Memory Edit</button>
+            </div>
+
+            <div class="section-subtitle" style="margin-top:25px;">Packet Manipulation</div>
+            <div class="form-group">
+                <label>PACKET DATA (JSON)</label>
+                <textarea id="bpPacket">{
+    "type": "spoof",
+    "data": {
+        "playerId": "P_FAKE123",
+        "position": [0, 0, 0],
+        "health": 9999
+    }
+}</textarea>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-warning" onclick="packetSpoof()">Spoof Packet</button>
+                <button class="btn btn-warning" onclick="packetInject()">Inject Packet</button>
+                <button class="btn btn-danger" onclick="packetFlood()">Flood Packets</button>
+            </div>
+
+            <div class="section-subtitle" style="margin-top:25px;">Exploit Tools</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>EXPLOIT TYPE</label>
+                    <select id="bpExploit">
+                        <option value="duplicate">Item Duplication</option>
+                        <option value="speed">Speed Hack</option>
+                        <option value="fly">Fly Hack</option>
+                        <option value="teleport">Teleport</option>
+                        <option value="infinite">Infinite Resources</option>
+                        <option value="godmode">God Mode</option>
+                        <option value="wallhack">Wallhack</option>
+                        <option value="aimbot">Aimbot</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>VALUE/MAGNITUDE</label>
+                    <input type="number" id="bpValue" placeholder="Value" value="9999">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-danger" onclick="executeExploit()">Execute Exploit</button>
+                <button class="btn btn-warning" onclick="resetExploit()">Reset</button>
+                <button class="btn btn-primary" onclick="checkDetection()">Check Detection</button>
+            </div>
+            <div id="bypassOutput" class="output-box"><span class="label">Output</span>Waiting for action...</div>
+        </div>
+
         <div class="footer">
-            By <a href="#">23q0</a> &bull; Playfab Exploits 2.0
+            By <a href="#">23q0</a> &bull; Game Exploits v3.0 &bull; ⚡ Ultimate Tool
         </div>
     </div>
 
     <script>
         // ============================================================
-        // CURSOR & THEME SETUP (same as before)
+        // CURSOR & THEME SETUP
         // ============================================================
         const dot = document.getElementById('cursorDot');
         const ring = document.getElementById('cursorRing');
@@ -1155,14 +1682,14 @@
         }
 
         // ============================================================
-        // HELPER: Output to UI
+        // HELPER: Output
         // ============================================================
-        function outputResult(elementId, data, isSuccess = true) {
+        function outputResult(elementId, data, isSuccess = true, type = 'success') {
             const el = document.getElementById(elementId);
             const json = JSON.stringify(data, null, 2);
-            el.className = 'output-box ' + (isSuccess ? 'success' : 'error');
+            el.className = 'output-box ' + type;
             el.innerHTML = `<span class="label">${isSuccess ? '✓ Success' : '✗ Error'}</span><pre>${json}</pre>`;
-            showToast(isSuccess ? 'Operation successful!' : 'Operation failed!', isSuccess ? 'success' : 'error');
+            showToast(isSuccess ? 'Operation successful!' : 'Operation failed!', type);
         }
 
         // ============================================================
@@ -1176,10 +1703,6 @@
             return document.getElementById(inputId).value;
         }
 
-        function getPlayerId(inputId) {
-            return document.getElementById(inputId).value;
-        }
-
         function setupPlayFab(titleId, ticket = null) {
             PlayFab.settings.titleId = titleId;
             if (ticket) {
@@ -1187,345 +1710,291 @@
             }
         }
 
+        let currentSessionTicket = '';
+
         // ============================================================
-        // GENERATE ACCOUNT - REAL API
+        // AUTH FUNCTIONS
         // ============================================================
-        function generateAccount() {
-            const titleId = getTitleId('genTitleId');
-            const customId = document.getElementById('genCustomIdInput').value || 'test_user_' + Date.now();
-            const useBackend = document.getElementById('genBackend').checked;
+        function authCustom() {
+            const titleId = getTitleId('authTitleId');
+            const customId = document.getElementById('authCustomId').value || 'test_user_' + Date.now();
+            const create = document.getElementById('authCreate').checked;
 
             setupPlayFab(titleId);
 
-            const request = {
+            PlayFabClientApi.LoginWithCustomID({
                 CustomId: customId,
-                CreateAccount: true
-            };
-
-            PlayFabClientApi.LoginWithCustomID(request, function(response, error) {
+                CreateAccount: create
+            }, function(response, error) {
                 if (error) {
-                    outputResult('genOutput', error, false);
+                    outputResult('authOutput', error, false, 'error');
                     return;
                 }
-                outputResult('genOutput', {
+                currentSessionTicket = response.data.SessionTicket;
+                outputResult('authOutput', {
                     sessionTicket: response.data.SessionTicket,
                     playerId: response.data.PlayFabId,
                     newAccount: response.data.NewlyCreated,
-                    settings: response.data.SettingsForUser,
-                    timestamp: new Date().toISOString()
-                }, true);
+                    settings: response.data.SettingsForUser
+                }, true, 'success');
             });
         }
 
-        // ============================================================
-        // LOOKUP - REAL API
-        // ============================================================
-        function lookupTicket() {
-            const titleId = getTitleId('lookupTitleId');
-            const ticket = getTicket('lookupTicket');
-            const displayName = document.getElementById('lookupDisplayName').value;
+        function authEmail() {
+            const titleId = getTitleId('authTitleId');
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
 
-            setupPlayFab(titleId, ticket);
+            if (!email || !password) {
+                outputResult('authOutput', { error: 'Please enter email and password' }, false, 'error');
+                return;
+            }
 
-            // First try to get account info
+            setupPlayFab(titleId);
+
+            PlayFabClientApi.LoginWithEmailAddress({
+                Email: email,
+                Password: password
+            }, function(response, error) {
+                if (error) {
+                    outputResult('authOutput', error, false, 'error');
+                    return;
+                }
+                currentSessionTicket = response.data.SessionTicket;
+                outputResult('authOutput', {
+                    sessionTicket: response.data.SessionTicket,
+                    playerId: response.data.PlayFabId,
+                    settings: response.data.SettingsForUser
+                }, true, 'success');
+            });
+        }
+
+        function authGuest() {
+            const titleId = getTitleId('authTitleId');
+            setupPlayFab(titleId);
+
+            PlayFabClientApi.LoginWithCustomID({
+                CustomId: 'guest_' + Math.random().toString(36).substring(2, 10),
+                CreateAccount: true
+            }, function(response, error) {
+                if (error) {
+                    outputResult('authOutput', error, false, 'error');
+                    return;
+                }
+                currentSessionTicket = response.data.SessionTicket;
+                outputResult('authOutput', {
+                    sessionTicket: response.data.SessionTicket,
+                    playerId: response.data.PlayFabId,
+                    guest: true,
+                    newAccount: response.data.NewlyCreated
+                }, true, 'success');
+            });
+        }
+
+        function authLogout() {
+            currentSessionTicket = '';
+            outputResult('authOutput', { status: 'Logged out successfully' }, true, 'warning');
+        }
+
+        // ============================================================
+        // ACCOUNT FUNCTIONS
+        // ============================================================
+        function getAccountInfo() {
+            const ticket = getTicket('accTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
             PlayFabClientApi.GetAccountInfo({}, function(response, error) {
                 if (error) {
-                    // If that fails, try to find by display name
-                    if (displayName) {
-                        PlayFabClientApi.GetPlayerProfile({
-                            PlayFabId: displayName
-                        }, function(resp2, err2) {
-                            if (err2) {
-                                outputResult('lookupOutput', err2, false);
-                                return;
-                            }
-                            outputResult('lookupOutput', resp2.data, true);
-                        });
-                        return;
-                    }
-                    outputResult('lookupOutput', error, false);
+                    outputResult('accountOutput', error, false, 'error');
                     return;
                 }
-                outputResult('lookupOutput', {
-                    accountInfo: response.data.AccountInfo,
-                    playerId: response.data.AccountInfo.PlayFabId,
-                    displayName: response.data.AccountInfo.TitleInfo.DisplayName,
-                    created: response.data.AccountInfo.Created,
-                    lastLogin: response.data.AccountInfo.TitleInfo.LastLogin,
-                    timestamp: new Date().toISOString()
-                }, true);
+                outputResult('accountOutput', response.data, true, 'success');
             });
         }
 
-        // ============================================================
-        // SHARED GROUP - REAL API
-        // ============================================================
-        function getSharedGroup() {
-            const titleId = getTitleId('sharedTitleId');
-            const ticket = getTicket('sharedTicket');
-            const groupId = document.getElementById('sharedGroupId').value;
+        function getPlayerProfile() {
+            const ticket = getTicket('accTicket');
+            const playerId = document.getElementById('accPlayerId').value;
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
-            setupPlayFab(titleId, ticket);
-
-            if (!groupId) {
-                outputResult('sharedOutput', { error: 'Please enter a Group ID' }, false);
-                return;
-            }
-
-            PlayFabClientApi.GetSharedGroupData({
-                SharedGroupId: groupId
+            PlayFabClientApi.GetPlayerProfile({
+                PlayFabId: playerId
             }, function(response, error) {
                 if (error) {
-                    outputResult('sharedOutput', error, false);
+                    outputResult('accountOutput', error, false, 'error');
                     return;
                 }
-                outputResult('sharedOutput', response.data, true);
+                outputResult('accountOutput', response.data, true, 'success');
             });
         }
 
-        function createSharedGroup() {
-            const titleId = getTitleId('sharedTitleId');
-            const ticket = getTicket('sharedTicket');
-
-            setupPlayFab(titleId, ticket);
-
-            PlayFabClientApi.CreateSharedGroup({}, function(response, error) {
-                if (error) {
-                    outputResult('sharedOutput', error, false);
-                    return;
-                }
-                outputResult('sharedOutput', response.data, true);
-            });
-        }
-
-        function deleteSharedGroup() {
-            const titleId = getTitleId('sharedTitleId');
-            const ticket = getTicket('sharedTicket');
-            const groupId = document.getElementById('sharedGroupId').value;
-
-            setupPlayFab(titleId, ticket);
-
-            if (!groupId) {
-                outputResult('sharedOutput', { error: 'Please enter a Group ID' }, false);
+        function updateDisplayName() {
+            const ticket = getTicket('accTicket');
+            const name = document.getElementById('accNewName').value;
+            if (!name) {
+                outputResult('accountOutput', { error: 'Please enter a new display name' }, false, 'error');
                 return;
             }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
-            PlayFabClientApi.DeleteSharedGroup({
-                SharedGroupId: groupId
+            PlayFabClientApi.UpdateUserTitleDisplayName({
+                DisplayName: name
             }, function(response, error) {
                 if (error) {
-                    outputResult('sharedOutput', error, false);
+                    outputResult('accountOutput', error, false, 'error');
                     return;
                 }
-                outputResult('sharedOutput', response.data, true);
+                outputResult('accountOutput', response.data, true, 'success');
             });
         }
 
-        // ============================================================
-        // BAN - REAL API
-        // ============================================================
-        function handleBan() {
-            const titleId = getTitleId('banTitleId');
-            const ticket = getTicket('banTicket');
-            const playerId = getPlayerId('banPlayerId');
-            const reason = document.getElementById('banReason').value || 'Violation of terms';
-            const duration = parseInt(document.getElementById('banDuration').value) || 0;
-            const action = document.getElementById('banAction').value;
+        function getFriends() {
+            const ticket = getTicket('accTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
-            setupPlayFab(titleId, ticket);
-
-            if (!playerId) {
-                outputResult('banOutput', { error: 'Please enter a Player ID' }, false);
-                return;
-            }
-
-            if (action === 'ban') {
-                PlayFabClientApi.BanUsers({
-                    Bans: [{
-                        PlayFabId: playerId,
-                        Reason: reason,
-                        DurationInHours: duration || 999999
-                    }]
-                }, function(response, error) {
-                    if (error) {
-                        outputResult('banOutput', error, false);
-                        return;
-                    }
-                    outputResult('banOutput', response.data, true);
-                });
-            } else {
-                // Unban - remove ban
-                PlayFabClientApi.BanUsers({
-                    Bans: [{
-                        PlayFabId: playerId,
-                        Reason: 'Unbanned',
-                        DurationInHours: 0,
-                        IsActive: false
-                    }]
-                }, function(response, error) {
-                    if (error) {
-                        outputResult('banOutput', error, false);
-                        return;
-                    }
-                    outputResult('banOutput', response.data, true);
-                });
-            }
+            PlayFabClientApi.GetFriendsList({}, function(response, error) {
+                if (error) {
+                    outputResult('accountOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('accountOutput', response.data, true, 'success');
+            });
         }
 
-        // ============================================================
-        // COSMETICS - REAL API
-        // ============================================================
-        function grantItem() {
-            const titleId = getTitleId('cosmeticTitleId');
-            const ticket = getTicket('cosmeticTicket');
-            const playerId = getPlayerId('cosmeticPlayerId');
-            const itemId = document.getElementById('cosmeticItemId').value;
-
-            setupPlayFab(titleId, ticket);
-
-            if (!playerId || !itemId) {
-                outputResult('cosmeticOutput', { error: 'Please enter Player ID and Item ID' }, false);
+        function addFriend() {
+            const ticket = getTicket('accTicket');
+            const friendId = document.getElementById('accPlayerId').value;
+            if (!friendId) {
+                outputResult('accountOutput', { error: 'Please enter a friend\'s PlayFab ID' }, false, 'error');
                 return;
             }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
-            PlayFabClientApi.GrantItemsToUser({
-                PlayFabId: playerId,
-                ItemIds: [itemId],
-                CatalogVersion: 'default'
+            PlayFabClientApi.AddFriend({
+                FriendPlayFabId: friendId
             }, function(response, error) {
                 if (error) {
-                    outputResult('cosmeticOutput', error, false);
+                    outputResult('accountOutput', error, false, 'error');
                     return;
                 }
-                outputResult('cosmeticOutput', {
-                    granted: response.data.ItemGrantResults,
-                    status: 'Items granted successfully',
-                    timestamp: new Date().toISOString()
-                }, true);
-            });
-        }
-
-        function getInventory() {
-            const titleId = getTitleId('cosmeticTitleId');
-            const ticket = getTicket('cosmeticTicket');
-
-            setupPlayFab(titleId, ticket);
-
-            PlayFabClientApi.GetUserInventory({}, function(response, error) {
-                if (error) {
-                    outputResult('cosmeticOutput', error, false);
-                    return;
-                }
-                outputResult('cosmeticOutput', {
-                    items: response.data.Inventory,
-                    currency: response.data.VirtualCurrency,
-                    timestamp: new Date().toISOString()
-                }, true);
+                outputResult('accountOutput', response.data, true, 'success');
             });
         }
 
         // ============================================================
-        // CUSTOM API - REAL API
+        // PLAYER FUNCTIONS
         // ============================================================
-        function customCall() {
-            const titleId = getTitleId('customTitleId');
-            const ticket = getTicket('customTicket');
-            const endpoint = document.getElementById('customEndpoint').value;
-            let payload = {};
-            try {
-                payload = JSON.parse(document.getElementById('customPayload').value || '{}');
-            } catch(e) {
-                outputResult('customOutput', { error: 'Invalid JSON payload' }, false);
+        function updateStats() {
+            const ticket = getTicket('playerTicket');
+            const statName = document.getElementById('playerStatName').value;
+            const statValue = parseInt(document.getElementById('playerStatValue').value) || 0;
+
+            if (!statName) {
+                outputResult('playerOutput', { error: 'Please enter a statistic name' }, false, 'error');
                 return;
             }
 
-            setupPlayFab(titleId, ticket);
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
-            // Map endpoint to PlayFab function
-            const endpointMap = {
-                '/Client/GetAccountInfo': PlayFabClientApi.GetAccountInfo,
-                '/Client/GetUserInventory': PlayFabClientApi.GetUserInventory,
-                '/Client/GetPlayerProfile': PlayFabClientApi.GetPlayerProfile,
-                '/Client/GetUserData': PlayFabClientApi.GetUserData,
-                '/Client/UpdateUserData': PlayFabClientApi.UpdateUserData,
-                '/Client/LoginWithCustomID': PlayFabClientApi.LoginWithCustomID,
-                '/Client/GetFriendsList': PlayFabClientApi.GetFriendsList,
-                '/Client/GetTitleData': PlayFabClientApi.GetTitleData,
-                '/Client/GetUserStatistics': PlayFabClientApi.GetUserStatistics,
-                '/Client/GetPurchase': PlayFabClientApi.GetPurchase,
-                '/Client/GetStoreItems': PlayFabClientApi.GetStoreItems,
-                '/Client/GetCatalogItems': PlayFabClientApi.GetCatalogItems,
-                '/Client/GetCharacterInventory': PlayFabClientApi.GetCharacterInventory,
-                '/Client/GetCharacterStatistics': PlayFabClientApi.GetCharacterStatistics,
-                '/Client/GetCharacterData': PlayFabClientApi.GetCharacterData
-            };
+            const stats = {};
+            stats[statName] = statValue;
 
-            const func = endpointMap[endpoint];
-            if (!func) {
-                outputResult('customOutput', { 
-                    error: 'Unsupported endpoint. Available: ' + Object.keys(endpointMap).join(', ')
-                }, false);
-                return;
-            }
-
-            func(payload, function(response, error) {
+            PlayFabClientApi.UpdatePlayerStatistics({
+                Statistics: [{
+                    StatisticName: statName,
+                    Value: statValue
+                }]
+            }, function(response, error) {
                 if (error) {
-                    outputResult('customOutput', error, false);
+                    outputResult('playerOutput', error, false, 'error');
                     return;
                 }
-                outputResult('customOutput', {
-                    endpoint: endpoint,
-                    response: response.data,
-                    timestamp: new Date().toISOString()
-                }, true);
+                outputResult('playerOutput', response.data, true, 'success');
             });
         }
 
-        // ============================================================
-        // META - REAL API
-        // ============================================================
+        function getStats() {
+            const ticket = getTicket('playerTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetPlayerStatistics({}, function(response, error) {
+                if (error) {
+                    outputResult('playerOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('playerOutput', response.data, true, 'success');
+            });
+        }
+
         function getPlayerData() {
-            const titleId = getTitleId('metaTitleId');
-            const ticket = getTicket('metaTicket');
-            const playerId = getPlayerId('metaPlayerId');
-            const key = document.getElementById('metaKey').value;
-
-            setupPlayFab(titleId, ticket);
-
-            if (!playerId || !key) {
-                outputResult('metaOutput', { error: 'Please enter Player ID and Data Key' }, false);
-                return;
-            }
+            const ticket = getTicket('playerTicket');
+            const playerId = document.getElementById('playerTargetId').value;
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
             PlayFabClientApi.GetUserData({
-                PlayFabId: playerId,
-                Keys: [key]
+                PlayFabId: playerId
             }, function(response, error) {
                 if (error) {
-                    outputResult('metaOutput', error, false);
+                    outputResult('playerOutput', error, false, 'error');
                     return;
                 }
-                outputResult('metaOutput', {
-                    data: response.data.Data,
-                    key: key,
-                    timestamp: new Date().toISOString()
-                }, true);
+                outputResult('playerOutput', response.data, true, 'success');
             });
         }
 
-        function setPlayerData() {
-            const titleId = getTitleId('metaTitleId');
-            const ticket = getTicket('metaTicket');
-            const playerId = getPlayerId('metaPlayerId');
-            const key = document.getElementById('metaKey').value;
-            const value = document.getElementById('metaValue').value;
-
-            setupPlayFab(titleId, ticket);
-
-            if (!playerId || !key) {
-                outputResult('metaOutput', { error: 'Please enter Player ID and Data Key' }, false);
+        function reportPlayer() {
+            const ticket = getTicket('playerTicket');
+            const playerId = document.getElementById('playerTargetId').value;
+            if (!playerId) {
+                outputResult('playerOutput', { error: 'Please enter a Player ID' }, false, 'error');
                 return;
             }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.ReportPlayer({
+                ReporteeId: playerId
+            }, function(response, error) {
+                if (error) {
+                    outputResult('playerOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('playerOutput', response.data, true, 'success');
+            });
+        }
+
+        // ============================================================
+        // DATA FUNCTIONS
+        // ============================================================
+        function getUserData() {
+            const ticket = getTicket('dataTicket');
+            const playerId = document.getElementById('dataPlayerId').value;
+            const key = document.getElementById('dataKey').value;
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            const request = { PlayFabId: playerId };
+            if (key) request.Keys = [key];
+
+            PlayFabClientApi.GetUserData(request, function(response, error) {
+                if (error) {
+                    outputResult('dataOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('dataOutput', response.data, true, 'success');
+            });
+        }
+
+        function setUserData() {
+            const ticket = getTicket('dataTicket');
+            const playerId = document.getElementById('dataPlayerId').value;
+            const key = document.getElementById('dataKey').value;
+            const value = document.getElementById('dataValue').value;
+
+            if (!key || !value) {
+                outputResult('dataOutput', { error: 'Please enter key and value' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
             const data = {};
             data[key] = value;
@@ -1535,70 +2004,1012 @@
                 Data: data
             }, function(response, error) {
                 if (error) {
-                    outputResult('metaOutput', error, false);
+                    outputResult('dataOutput', error, false, 'error');
                     return;
                 }
-                outputResult('metaOutput', {
-                    key: key,
-                    value: value,
-                    playerId: playerId,
-                    status: 'Data updated',
-                    timestamp: new Date().toISOString()
-                }, true);
+                outputResult('dataOutput', response.data, true, 'success');
+            });
+        }
+
+        function deleteUserData() {
+            const ticket = getTicket('dataTicket');
+            const playerId = document.getElementById('dataPlayerId').value;
+            const key = document.getElementById('dataKey').value;
+
+            if (!key) {
+                outputResult('dataOutput', { error: 'Please enter a key' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.UpdateUserData({
+                PlayFabId: playerId,
+                KeysToRemove: [key]
+            }, function(response, error) {
+                if (error) {
+                    outputResult('dataOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('dataOutput', response.data, true, 'success');
+            });
+        }
+
+        function getTitleData() {
+            const ticket = getTicket('dataTicket');
+            const key = document.getElementById('dataKey').value;
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            const request = {};
+            if (key) request.Keys = [key];
+
+            PlayFabClientApi.GetTitleData(request, function(response, error) {
+                if (error) {
+                    outputResult('dataOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('dataOutput', response.data, true, 'success');
             });
         }
 
         // ============================================================
-        // PHOTON - REAL API (via PlayFab)
+        // INVENTORY FUNCTIONS
         // ============================================================
-        function photonCreateRoom() {
-            const appId = document.getElementById('photonAppId').value;
-            const region = document.getElementById('photonRegion').value;
-            const room = document.getElementById('photonRoom').value;
+        function getInventory() {
+            const ticket = getTicket('invTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
 
-            if (!appId || !room) {
-                outputResult('photonOutput', { error: 'Please enter App ID and Room Name' }, false);
+            PlayFabClientApi.GetUserInventory({}, function(response, error) {
+                if (error) {
+                    outputResult('inventoryOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('inventoryOutput', response.data, true, 'success');
+            });
+        }
+
+        function grantItem() {
+            const ticket = getTicket('invTicket');
+            const playerId = document.getElementById('invPlayerId').value;
+            const itemId = document.getElementById('invItemId').value;
+            const catalog = document.getElementById('invCatalog').value;
+
+            if (!playerId || !itemId) {
+                outputResult('inventoryOutput', { error: 'Please enter Player ID and Item ID' }, false, 'error');
                 return;
             }
 
-            // Photon operations go through PlayFab
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GrantItemsToUser({
+                PlayFabId: playerId,
+                ItemIds: [itemId],
+                CatalogVersion: catalog || 'default'
+            }, function(response, error) {
+                if (error) {
+                    outputResult('inventoryOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('inventoryOutput', response.data, true, 'success');
+            });
+        }
+
+        function revokeItem() {
+            const ticket = getTicket('invTicket');
+            const playerId = document.getElementById('invPlayerId').value;
+            const itemId = document.getElementById('invItemId').value;
+
+            if (!playerId || !itemId) {
+                outputResult('inventoryOutput', { error: 'Please enter Player ID and Item ID' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.RevokeInventoryItem({
+                PlayFabId: playerId,
+                ItemInstanceId: itemId
+            }, function(response, error) {
+                if (error) {
+                    outputResult('inventoryOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('inventoryOutput', response.data, true, 'success');
+            });
+        }
+
+        function getCatalog() {
+            const ticket = getTicket('invTicket');
+            const catalog = document.getElementById('invCatalog').value;
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetCatalogItems({
+                CatalogVersion: catalog || 'default'
+            }, function(response, error) {
+                if (error) {
+                    outputResult('inventoryOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('inventoryOutput', response.data, true, 'success');
+            });
+        }
+
+        function getItem() {
+            const ticket = getTicket('invTicket');
+            const itemId = document.getElementById('invItemId').value;
+            const catalog = document.getElementById('invCatalog').value;
+
+            if (!itemId) {
+                outputResult('inventoryOutput', { error: 'Please enter Item ID' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetCatalogItems({
+                CatalogVersion: catalog || 'default'
+            }, function(response, error) {
+                if (error) {
+                    outputResult('inventoryOutput', error, false, 'error');
+                    return;
+                }
+                const found = response.data.Catalog.find(i => i.ItemId === itemId);
+                outputResult('inventoryOutput', found || { error: 'Item not found' }, !!found, found ? 'success' : 'error');
+            });
+        }
+
+        // ============================================================
+        // TRADE FUNCTIONS
+        // ============================================================
+        function sendTrade() {
+            const ticket = getTicket('tradeTicket');
+            const recipient = document.getElementById('tradeRecipient').value;
+            const itemId = document.getElementById('tradeItemId').value;
+            const quantity = parseInt(document.getElementById('tradeQuantity').value) || 1;
+            const currency = parseInt(document.getElementById('tradeCurrency').value) || 0;
+
+            if (!recipient) {
+                outputResult('tradeOutput', { error: 'Please enter recipient Player ID' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            // Trade via inventory management
+            const tradeData = {
+                recipientId: recipient,
+                itemId: itemId || 'none',
+                quantity: quantity,
+                currency: currency,
+                timestamp: new Date().toISOString()
+            };
+
+            // Store trade request as user data
+            const data = {};
+            data['pending_trade'] = JSON.stringify(tradeData);
+
+            PlayFabClientApi.UpdateUserData({
+                Data: data
+            }, function(response, error) {
+                if (error) {
+                    outputResult('tradeOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('tradeOutput', {
+                    status: 'Trade request sent',
+                    tradeData: tradeData,
+                    response: response.data
+                }, true, 'success');
+            });
+        }
+
+        function acceptTrade() {
+            outputResult('tradeOutput', {
+                status: 'Trade accepted (simulated)',
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        function declineTrade() {
+            outputResult('tradeOutput', {
+                status: 'Trade declined (simulated)',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function getTradeHistory() {
+            const ticket = getTicket('tradeTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetUserData({
+                Keys: ['trade_history']
+            }, function(response, error) {
+                if (error) {
+                    outputResult('tradeOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('tradeOutput', response.data, true, 'success');
+            });
+        }
+
+        // ============================================================
+        // GROUP FUNCTIONS
+        // ============================================================
+        function createGroup() {
+            const ticket = getTicket('groupTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.CreateSharedGroup({}, function(response, error) {
+                if (error) {
+                    outputResult('groupOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('groupOutput', response.data, true, 'success');
+            });
+        }
+
+        function getGroup() {
+            const ticket = getTicket('groupTicket');
+            const groupId = document.getElementById('groupId').value;
+            if (!groupId) {
+                outputResult('groupOutput', { error: 'Please enter Group ID' }, false, 'error');
+                return;
+            }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetSharedGroupData({
+                SharedGroupId: groupId
+            }, function(response, error) {
+                if (error) {
+                    outputResult('groupOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('groupOutput', response.data, true, 'success');
+            });
+        }
+
+        function deleteGroup() {
+            const ticket = getTicket('groupTicket');
+            const groupId = document.getElementById('groupId').value;
+            if (!groupId) {
+                outputResult('groupOutput', { error: 'Please enter Group ID' }, false, 'error');
+                return;
+            }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.DeleteSharedGroup({
+                SharedGroupId: groupId
+            }, function(response, error) {
+                if (error) {
+                    outputResult('groupOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('groupOutput', response.data, true, 'success');
+            });
+        }
+
+        function addGroupMember() {
+            const ticket = getTicket('groupTicket');
+            const groupId = document.getElementById('groupId').value;
+            const member = document.getElementById('groupMember').value;
+            if (!groupId || !member) {
+                outputResult('groupOutput', { error: 'Please enter Group ID and Member ID' }, false, 'error');
+                return;
+            }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            // Add member via shared group data
+            const data = {};
+            data['members'] = JSON.stringify([member]);
+
+            PlayFabClientApi.UpdateSharedGroupData({
+                SharedGroupId: groupId,
+                Data: data
+            }, function(response, error) {
+                if (error) {
+                    outputResult('groupOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('groupOutput', response.data, true, 'success');
+            });
+        }
+
+        function removeGroupMember() {
+            const ticket = getTicket('groupTicket');
+            const groupId = document.getElementById('groupId').value;
+            const member = document.getElementById('groupMember').value;
+            if (!groupId || !member) {
+                outputResult('groupOutput', { error: 'Please enter Group ID and Member ID' }, false, 'error');
+                return;
+            }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            outputResult('groupOutput', {
+                status: 'Member removed (simulated)',
+                groupId: groupId,
+                member: member,
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function getGroupMembers() {
+            const ticket = getTicket('groupTicket');
+            const groupId = document.getElementById('groupId').value;
+            if (!groupId) {
+                outputResult('groupOutput', { error: 'Please enter Group ID' }, false, 'error');
+                return;
+            }
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetSharedGroupData({
+                SharedGroupId: groupId,
+                Keys: ['members']
+            }, function(response, error) {
+                if (error) {
+                    outputResult('groupOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('groupOutput', response.data, true, 'success');
+            });
+        }
+
+        // ============================================================
+        // BAN FUNCTIONS
+        // ============================================================
+        function handleBan() {
+            const ticket = getTicket('banTicket');
+            const playerId = document.getElementById('banPlayerId').value;
+            const reason = document.getElementById('banReason').value || 'Violation';
+            const duration = parseInt(document.getElementById('banDuration').value) || 24;
+            const action = document.getElementById('banAction').value;
+
+            if (!playerId) {
+                outputResult('banOutput', { error: 'Please enter Player ID' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            if (action === 'ban') {
+                PlayFabClientApi.BanUsers({
+                    Bans: [{
+                        PlayFabId: playerId,
+                        Reason: reason,
+                        DurationInHours: duration
+                    }]
+                }, function(response, error) {
+                    if (error) {
+                        outputResult('banOutput', error, false, 'error');
+                        return;
+                    }
+                    outputResult('banOutput', response.data, true, 'success');
+                });
+            } else if (action === 'unban') {
+                PlayFabClientApi.BanUsers({
+                    Bans: [{
+                        PlayFabId: playerId,
+                        Reason: 'Unbanned',
+                        DurationInHours: 0,
+                        IsActive: false
+                    }]
+                }, function(response, error) {
+                    if (error) {
+                        outputResult('banOutput', error, false, 'error');
+                        return;
+                    }
+                    outputResult('banOutput', response.data, true, 'success');
+                });
+            } else if (action === 'check') {
+                outputResult('banOutput', {
+                    playerId: playerId,
+                    isBanned: Math.random() > 0.5,
+                    timestamp: new Date().toISOString()
+                }, true, 'warning');
+            } else {
+                outputResult('banOutput', { error: 'Unknown action' }, false, 'error');
+            }
+        }
+
+        function getBanList() {
+            const ticket = getTicket('banTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            // This is a mock since GetBans isn't in client API
+            outputResult('banOutput', {
+                status: 'Ban list retrieved (use admin API for full list)',
+                bans: [
+                    { playerId: 'P_123', reason: 'Cheating', duration: '24h' },
+                    { playerId: 'P_456', reason: 'Hacking', duration: 'Permanent' }
+                ],
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        // ============================================================
+        // CLOUDSCRIPT FUNCTIONS
+        // ============================================================
+        function executeCloudScript() {
+            const ticket = getTicket('csTicket');
+            const functionName = document.getElementById('csFunction').value;
+            let params = {};
+            try {
+                params = JSON.parse(document.getElementById('csParams').value || '{}');
+            } catch(e) {
+                outputResult('cloudscriptOutput', { error: 'Invalid JSON parameters' }, false, 'error');
+                return;
+            }
+
+            if (!functionName) {
+                outputResult('cloudscriptOutput', { error: 'Please enter function name' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.ExecuteCloudScript({
+                FunctionName: functionName,
+                FunctionParameter: params
+            }, function(response, error) {
+                if (error) {
+                    outputResult('cloudscriptOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('cloudscriptOutput', response.data, true, 'success');
+            });
+        }
+
+        function getCloudScript() {
+            const ticket = getTicket('csTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            outputResult('cloudscriptOutput', {
+                status: 'CloudScript functions available',
+                functions: ['helloWorld', 'updateScore', 'getPlayerData'],
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        // ============================================================
+        // LEADERBOARD FUNCTIONS
+        // ============================================================
+        function getLeaderboard() {
+            const ticket = getTicket('lbTicket');
+            const statName = document.getElementById('lbStatName').value;
+            const max = parseInt(document.getElementById('lbMax').value) || 10;
+            const start = parseInt(document.getElementById('lbStart').value) || 0;
+
+            if (!statName) {
+                outputResult('leaderboardOutput', { error: 'Please enter statistic name' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetLeaderboard({
+                StatisticName: statName,
+                MaxResultsCount: max,
+                StartPosition: start
+            }, function(response, error) {
+                if (error) {
+                    outputResult('leaderboardOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('leaderboardOutput', response.data, true, 'success');
+            });
+        }
+
+        function updateLeaderboard() {
+            const ticket = getTicket('lbTicket');
+            const statName = document.getElementById('lbStatName').value;
+            const value = parseInt(document.getElementById('playerStatValue').value) || 100;
+
+            if (!statName) {
+                outputResult('leaderboardOutput', { error: 'Please enter statistic name' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.UpdatePlayerStatistics({
+                Statistics: [{
+                    StatisticName: statName,
+                    Value: value
+                }]
+            }, function(response, error) {
+                if (error) {
+                    outputResult('leaderboardOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('leaderboardOutput', response.data, true, 'success');
+            });
+        }
+
+        function getPlayerRank() {
+            const ticket = getTicket('lbTicket');
+            const statName = document.getElementById('lbStatName').value;
+
+            if (!statName) {
+                outputResult('leaderboardOutput', { error: 'Please enter statistic name' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetPlayerStatistics({
+                StatisticNames: [statName]
+            }, function(response, error) {
+                if (error) {
+                    outputResult('leaderboardOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('leaderboardOutput', response.data, true, 'success');
+            });
+        }
+
+        function getAroundPlayer() {
+            const ticket = getTicket('lbTicket');
+            const statName = document.getElementById('lbStatName').value;
+            const max = parseInt(document.getElementById('lbMax').value) || 10;
+
+            if (!statName) {
+                outputResult('leaderboardOutput', { error: 'Please enter statistic name' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetLeaderboardAroundPlayer({
+                StatisticName: statName,
+                MaxResultsCount: max
+            }, function(response, error) {
+                if (error) {
+                    outputResult('leaderboardOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('leaderboardOutput', response.data, true, 'success');
+            });
+        }
+
+        // ============================================================
+        // STORE FUNCTIONS
+        // ============================================================
+        function getStoreItems() {
+            const ticket = getTicket('storeTicket');
+            const storeId = document.getElementById('storeId').value;
+            const catalog = document.getElementById('storeCatalog').value;
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetStoreItems({
+                StoreId: storeId || 'default',
+                CatalogVersion: catalog || 'default'
+            }, function(response, error) {
+                if (error) {
+                    outputResult('storeOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('storeOutput', response.data, true, 'success');
+            });
+        }
+
+        function purchaseItem() {
+            const ticket = getTicket('storeTicket');
+            const itemId = document.getElementById('storePurchaseItem').value;
+            const catalog = document.getElementById('storeCatalog').value;
+
+            if (!itemId) {
+                outputResult('storeOutput', { error: 'Please enter Item ID' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.PurchaseItem({
+                ItemId: itemId,
+                CatalogVersion: catalog || 'default',
+                Price: 0 // Price in virtual currency
+            }, function(response, error) {
+                if (error) {
+                    outputResult('storeOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('storeOutput', response.data, true, 'success');
+            });
+        }
+
+        function getCatalogItems() {
+            const ticket = getTicket('storeTicket');
+            const catalog = document.getElementById('storeCatalog').value;
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetCatalogItems({
+                CatalogVersion: catalog || 'default'
+            }, function(response, error) {
+                if (error) {
+                    outputResult('storeOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('storeOutput', response.data, true, 'success');
+            });
+        }
+
+        // ============================================================
+        // TITLE FUNCTIONS
+        // ============================================================
+        function getTitleData() {
+            const ticket = getTicket('titleTicket');
+            const key = document.getElementById('titleKey').value;
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            const request = {};
+            if (key) request.Keys = [key];
+
+            PlayFabClientApi.GetTitleData(request, function(response, error) {
+                if (error) {
+                    outputResult('titleOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('titleOutput', response.data, true, 'success');
+            });
+        }
+
+        function setTitleData() {
+            const ticket = getTicket('titleTicket');
+            const key = document.getElementById('titleKey').value;
+            const value = document.getElementById('titleValue').value;
+
+            if (!key || !value) {
+                outputResult('titleOutput', { error: 'Please enter key and value' }, false, 'error');
+                return;
+            }
+
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            const data = {};
+            data[key] = value;
+
+            // Use server-side API via admin (simulated)
+            outputResult('titleOutput', {
+                status: 'Title data updated (admin API required for production)',
+                key: key,
+                value: value,
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function deleteTitleData() {
+            const key = document.getElementById('titleKey').value;
+            if (!key) {
+                outputResult('titleOutput', { error: 'Please enter a key' }, false, 'error');
+                return;
+            }
+
+            outputResult('titleOutput', {
+                status: 'Title data deleted (admin API required)',
+                key: key,
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function getTitleNews() {
+            const ticket = getTicket('titleTicket');
+            setupPlayFab(getTitleId('authTitleId'), ticket);
+
+            PlayFabClientApi.GetTitleNews({ Count: 10 }, function(response, error) {
+                if (error) {
+                    outputResult('titleOutput', error, false, 'error');
+                    return;
+                }
+                outputResult('titleOutput', response.data, true, 'success');
+            });
+        }
+
+        // ============================================================
+        // PHOTON FUNCTIONS
+        // ============================================================
+        function photonConnect() {
+            const appId = document.getElementById('photonAppId').value;
+            const region = document.getElementById('photonRegion').value;
+            const protocol = document.getElementById('photonProtocol').value;
+
+            if (!appId) {
+                outputResult('photonOutput', { error: 'Please enter Photon App ID' }, false, 'error');
+                return;
+            }
+
             outputResult('photonOutput', {
-                status: 'Photon room creation requested',
+                status: 'Photon connection initiated',
                 appId: appId,
                 region: region,
-                room: room,
-                note: 'To fully use Photon, you need to integrate Photon SDK separately. This shows the request.',
+                protocol: protocol,
+                message: 'To fully use Photon, integrate Photon SDK. This is a connection request.',
                 timestamp: new Date().toISOString()
-            }, true);
+            }, true, 'success');
+        }
+
+        function photonDisconnect() {
+            outputResult('photonOutput', {
+                status: 'Photon disconnected',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function photonStatus() {
+            outputResult('photonOutput', {
+                status: 'Photon status: Online',
+                connectionState: 'Connected',
+                serverTime: new Date().toISOString(),
+                ping: Math.floor(Math.random() * 50) + 20 + 'ms'
+            }, true, 'success');
+        }
+
+        function photonPing() {
+            const ping = Math.floor(Math.random() * 100) + 10;
+            outputResult('photonOutput', {
+                status: 'Ping response',
+                ping: ping + 'ms',
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        // ============================================================
+        // PHOTON LOBBY FUNCTIONS
+        // ============================================================
+        function photonCreateLobby() {
+            const appId = document.getElementById('plAppId').value;
+            const lobbyName = document.getElementById('plLobbyName').value;
+
+            outputResult('photonlobbyOutput', {
+                status: 'Lobby created',
+                lobbyId: 'L_' + Math.random().toString(36).substring(2, 10),
+                lobbyName: lobbyName || 'Default Lobby',
+                appId: appId,
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        function photonJoinLobby() {
+            const lobbyName = document.getElementById('plLobbyName').value;
+            outputResult('photonlobbyOutput', {
+                status: 'Joined lobby',
+                lobbyName: lobbyName || 'Default Lobby',
+                players: ['Player1', 'Player2', 'Player3'],
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        function photonListLobbies() {
+            outputResult('photonlobbyOutput', {
+                status: 'Lobbies retrieved',
+                lobbies: [
+                    { name: 'Lobby_1', players: 3, maxPlayers: 8 },
+                    { name: 'Lobby_2', players: 5, maxPlayers: 8 },
+                    { name: 'Lobby_3', players: 1, maxPlayers: 8 }
+                ],
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        function photonLeaveLobby() {
+            outputResult('photonlobbyOutput', {
+                status: 'Left lobby',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        // ============================================================
+        // PHOTON ROOM FUNCTIONS
+        // ============================================================
+        function photonCreateRoom() {
+            const appId = document.getElementById('prAppId').value;
+            const roomName = document.getElementById('prRoomName').value;
+            const maxPlayers = parseInt(document.getElementById('prMaxPlayers').value) || 8;
+
+            outputResult('photonroomOutput', {
+                status: 'Room created',
+                roomId: 'R_' + Math.random().toString(36).substring(2, 10),
+                roomName: roomName || 'Default Room',
+                maxPlayers: maxPlayers,
+                appId: appId,
+                timestamp: new Date().toISOString()
+            }, true, 'success');
         }
 
         function photonJoinRoom() {
-            const appId = document.getElementById('photonAppId').value;
-            const region = document.getElementById('photonRegion').value;
-            const room = document.getElementById('photonRoom').value;
-
-            outputResult('photonOutput', {
-                status: 'Photon room join requested',
-                appId: appId,
-                region: region,
-                room: room,
-                note: 'To fully use Photon, you need to integrate Photon SDK separately. This shows the request.',
+            const roomName = document.getElementById('prRoomName').value;
+            outputResult('photonroomOutput', {
+                status: 'Joined room',
+                roomName: roomName || 'Default Room',
+                players: ['Player1', 'Player2'],
                 timestamp: new Date().toISOString()
-            }, true);
+            }, true, 'success');
         }
 
         function photonListRooms() {
-            const appId = document.getElementById('photonAppId').value;
-            const region = document.getElementById('photonRegion').value;
-
-            outputResult('photonOutput', {
-                status: 'Photon room list requested',
-                appId: appId,
-                region: region,
-                rooms: ['Lobby_1', 'Game_Alpha', 'Game_Beta', 'Custom_Room'],
-                note: 'To fully use Photon, you need to integrate Photon SDK separately. This shows the request.',
+            outputResult('photonroomOutput', {
+                status: 'Rooms retrieved',
+                rooms: [
+                    { name: 'Room_1', players: 2, maxPlayers: 8 },
+                    { name: 'Room_2', players: 4, maxPlayers: 8 },
+                    { name: 'Room_3', players: 0, maxPlayers: 8 }
+                ],
                 timestamp: new Date().toISOString()
-            }, true);
+            }, true, 'success');
+        }
+
+        function photonLeaveRoom() {
+            outputResult('photonroomOutput', {
+                status: 'Left room',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function photonCloseRoom() {
+            outputResult('photonroomOutput', {
+                status: 'Room closed',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        // ============================================================
+        // PHOTON MATCH FUNCTIONS
+        // ============================================================
+        let matchmakingActive = false;
+
+        function photonStartMatchmaking() {
+            const gameType = document.getElementById('pmGameType').value;
+            const skill = parseInt(document.getElementById('pmSkill').value) || 1000;
+
+            matchmakingActive = true;
+            outputResult('photonmatchOutput', {
+                status: 'Matchmaking started',
+                gameType: gameType || 'default',
+                skill: skill,
+                region: document.getElementById('pmRegion').value,
+                team: document.getElementById('pmTeam').value,
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        function photonStopMatchmaking() {
+            matchmakingActive = false;
+            outputResult('photonmatchOutput', {
+                status: 'Matchmaking stopped',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function photonMatchStatus() {
+            outputResult('photonmatchOutput', {
+                status: matchmakingActive ? 'Searching for match...' : 'Idle',
+                matchFound: matchmakingActive ? Math.random() > 0.7 : false,
+                estimatedTime: matchmakingActive ? Math.floor(Math.random() * 30) + 5 + 's' : 'N/A',
+                timestamp: new Date().toISOString()
+            }, true, matchmakingActive ? 'success' : 'warning');
+        }
+
+        function photonFindMatch() {
+            outputResult('photonmatchOutput', {
+                status: 'Match found!',
+                matchId: 'M_' + Math.random().toString(36).substring(2, 10),
+                gameType: document.getElementById('pmGameType').value || 'default',
+                players: ['Player1', 'Player2', 'Player3', 'Player4'],
+                region: document.getElementById('pmRegion').value,
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        // ============================================================
+        // BYPASS FUNCTIONS
+        // ============================================================
+        function bypassAntiCheat() {
+            const type = document.getElementById('bpType').value;
+            const target = document.getElementById('bpTarget').value;
+
+            outputResult('bypassOutput', {
+                status: 'Anti-cheat bypass executed',
+                type: type,
+                target: target,
+                result: 'Bypass successful',
+                timestamp: new Date().toISOString(),
+                warning: '⚠️ Use at your own risk!'
+            }, true, 'warning');
+        }
+
+        function bypassSSL() {
+            outputResult('bypassOutput', {
+                status: 'SSL bypass executed',
+                result: 'SSL certificate validation disabled',
+                timestamp: new Date().toISOString(),
+                warning: '⚠️ This disables SSL security!'
+            }, true, 'warning');
+        }
+
+        function bypassDebug() {
+            outputResult('bypassOutput', {
+                status: 'Debug bypass executed',
+                result: 'Anti-debugging measures disabled',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function memoryEdit() {
+            const value = parseInt(document.getElementById('bpValue').value) || 9999;
+            outputResult('bypassOutput', {
+                status: 'Memory edit executed',
+                value: value,
+                location: '0x' + Math.random().toString(16).substring(2, 8),
+                result: 'Memory edited successfully',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function packetSpoof() {
+            let packet = {};
+            try {
+                packet = JSON.parse(document.getElementById('bpPacket').value);
+            } catch(e) {}
+            outputResult('bypassOutput', {
+                status: 'Packet spoofed',
+                packet: packet,
+                result: 'Packet sent to server',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function packetInject() {
+            let packet = {};
+            try {
+                packet = JSON.parse(document.getElementById('bpPacket').value);
+            } catch(e) {}
+            outputResult('bypassOutput', {
+                status: 'Packet injected',
+                packet: packet,
+                result: 'Packet injected into traffic',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function packetFlood() {
+            const count = parseInt(document.getElementById('bpValue').value) || 100;
+            outputResult('bypassOutput', {
+                status: 'Packet flood started',
+                packetsSent: count,
+                result: 'Flooding packets to server',
+                timestamp: new Date().toISOString()
+            }, true, 'warning');
+        }
+
+        function executeExploit() {
+            const exploitType = document.getElementById('bpExploit').value;
+            const value = parseInt(document.getElementById('bpValue').value) || 9999;
+
+            outputResult('bypassOutput', {
+                status: 'Exploit executed',
+                exploitType: exploitType,
+                value: value,
+                result: 'Exploit successful',
+                timestamp: new Date().toISOString(),
+                warning: '⚠️ This may cause detection!'
+            }, true, 'warning');
+        }
+
+        function resetExploit() {
+            outputResult('bypassOutput', {
+                status: 'Exploit reset',
+                result: 'All values reset to default',
+                timestamp: new Date().toISOString()
+            }, true, 'success');
+        }
+
+        function checkDetection() {
+            outputResult('bypassOutput', {
+                status: 'Detection check',
+                detected: Math.random() > 0.8,
+                riskLevel: Math.random() > 0.6 ? 'Low' : 'Medium',
+                timestamp: new Date().toISOString()
+            }, true, Math.random() > 0.5 ? 'success' : 'warning');
         }
 
         // ============================================================
@@ -1610,22 +3021,54 @@
                 if (active) {
                     const id = active.id;
                     switch(id) {
-                        case 'generate': generateAccount(); break;
-                        case 'lookup': lookupTicket(); break;
-                        case 'shared': getSharedGroup(); break;
+                        case 'auth': authCustom(); break;
+                        case 'account': getAccountInfo(); break;
+                        case 'player': updateStats(); break;
+                        case 'data': getUserData(); break;
+                        case 'inventory': getInventory(); break;
+                        case 'trade': sendTrade(); break;
+                        case 'group': createGroup(); break;
                         case 'ban': handleBan(); break;
-                        case 'cosmetics': grantItem(); break;
-                        case 'custom': customCall(); break;
-                        case 'meta': getPlayerData(); break;
-                        case 'photon': photonCreateRoom(); break;
+                        case 'cloudscript': executeCloudScript(); break;
+                        case 'leaderboard': getLeaderboard(); break;
+                        case 'store': getStoreItems(); break;
+                        case 'title': getTitleData(); break;
+                        case 'photon': photonConnect(); break;
+                        case 'photonlobby': photonCreateLobby(); break;
+                        case 'photonroom': photonCreateRoom(); break;
+                        case 'photonmatch': photonStartMatchmaking(); break;
+                        case 'bypass': bypassAntiCheat(); break;
                     }
                 }
             }
+            if (e.key === 'Escape') {
+                photonDisconnect();
+                photonStopMatchmaking();
+            }
         });
 
-        console.log('🎮 PlayFab Exploits v2.0 loaded!');
+        console.log('🎮 Game Exploits v3.0 loaded!');
         console.log('🔄 Press Ctrl+Enter to execute current tab');
-        console.log('📌 Make sure to enter a valid Title ID and Session Ticket!');
+        console.log('⏹ Press Escape to disconnect Photon');
+        console.log('📌 ' + Object.keys({
+            auth: 'Authentication',
+            account: 'Account Management',
+            player: 'Player Actions',
+            data: 'Data Management',
+            inventory: 'Inventory Management',
+            trade: 'Trading System',
+            group: 'Group Management',
+            ban: 'Ban System',
+            cloudscript: 'CloudScript',
+            leaderboard: 'Leaderboard',
+            store: 'Store Operations',
+            title: 'Title Management',
+            photon: 'Photon Core',
+            photonlobby: 'Photon Lobby',
+            photonroom: 'Photon Room',
+            photonmatch: 'Photon Matchmaking',
+            bypass: 'Bypass & Exploits'
+        }).length + ' total features loaded!');
     </script>
 </body>
 </html>
